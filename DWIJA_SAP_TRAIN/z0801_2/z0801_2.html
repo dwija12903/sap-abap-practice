@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>Z0801_2</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: Z0801_2</h2>
+<h3> Description: Selection Screens - INPUT</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;Z0801_2<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT Z0801_2 NO STANDARD PAGE HEADING MESSAGE-ID ZDWIJA_MSG<br />
+LINE-COUNT 25(3).<br />
+<br />
+include <a href ="z0801_2_incl.html">Z0801_2_INCL</a>.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Created&nbsp;block&nbsp;1&nbsp;screen&nbsp;on&nbsp;input&nbsp;screen<br />
+*&nbsp;text&nbsp;heading&nbsp;can&nbsp;be&nbsp;given&nbsp;from&nbsp;Selection&nbsp;text<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN : BEGIN OF BLOCK B1 WITH FRAME TITLE TEXT-001.<br />
+PARAMETERS P_ABC(20) TYPE C NO-DISPLAY. "no display means it will not be shown on the screen.<br />
+SELECTION-SCREEN : END OF BLOCK B1.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Block&nbsp;2&nbsp;Creation<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN : BEGIN OF BLOCK B2 WITH FRAME TITLE TEXT-002.<br />
+SELECT-OPTIONS s_matnr FOR lv_matnr DEFAULT '1' to '100'. "sets default value.<br />
+   </div>
+   <div class="codeComment">
+*SELECT-OPTIONS&nbsp;s_matnr&nbsp;FOR&nbsp;lv_matnr&nbsp;OBLIGATORY.&nbsp;"makes&nbsp;it&nbsp;mandatory&nbsp;to&nbsp;add&nbsp;input&nbsp;values<br />
+*SELECT-OPTIONS&nbsp;s_matnr&nbsp;FOR&nbsp;lv_matnr&nbsp;NO&nbsp;INTERVALS.&nbsp;"acts&nbsp;as&nbsp;parameter<br />
+*SELECT-OPTIONS&nbsp;s_matnr&nbsp;FOR&nbsp;lv_matnr&nbsp;NO-EXTENSION.&nbsp;"removes&nbsp;multiple&nbsp;selection&nbsp;box&nbsp;from&nbsp;side.<br />
+<br />
+   </div>
+   <div class="code">
+"all the actions on selection<br />
+SELECTION-SCREEN ULINE /1(30). "gives uline from 1 to 30 sise on input screen.<br />
+SELECTION-SCREEN COMMENT /10(5) COMM1. "to give comment<br />
+SELECTION-SCREEN SKIP 2.<br />
+SELECTION-SCREEN ULINE.<br />
+<br />
+SELECTION-SCREEN : END OF BLOCK B2.<br />
+<br />
+INITIALIZATION.<br />
+DATA COMM1 TYPE C.<br />
+COMM1 = 'Capgemini'.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*===================================================================================<br />
+*&nbsp;will&nbsp;be&nbsp;displayed&nbsp;after&nbsp;input&nbsp;screen&nbsp;selection<br />
+   </div>
+   <div class="code">
+START-OF-SELECTION.<br />
+LOOP AT S_MATNR.<br />
+&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;'Mat-low:',&nbsp;s_matnr-low,&nbsp;"lower&nbsp;limit<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Mat-High:',&nbsp;s_matnr-high,&nbsp;"upper&nbsp;limit<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Mat-Options:',&nbsp;s_matnr-option,&nbsp;"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'Mat-Sign:',&nbsp;s_matnr-sign.&nbsp;"I&nbsp;for&nbsp;inclusive&nbsp;and&nbsp;E&nbsp;for&nbsp;exclusive&nbsp;for&nbsp;limits<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+SELECT matnr mbrsh mtart meins brgew ntgew<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;TABLE&nbsp;LT_TAB<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;mara<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;matnr&nbsp;IN&nbsp;s_matnr.<br />
+END-of-SELECTION.<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;LT_tAB&nbsp;INTO&nbsp;wa_tab.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:/10&nbsp;WA_tab-matnr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;wa_tab-mbrsh,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;wa_tab-mtart,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;wa_tab-meins,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;wa_tab-brgew,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;wa_tab-ntgew.<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

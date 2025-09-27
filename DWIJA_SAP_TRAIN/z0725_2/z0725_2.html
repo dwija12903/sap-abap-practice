@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>Z0725_2</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: Z0725_2</h2>
+<h3> Description: Basic Controls Keywords</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;Z0725_2<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT Z0725_2.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*=====================================================<br />
+   </div>
+   <div class="code">
+write 'DO Loop'.<br />
+do 5 TIMES.<br />
+&nbsp;&nbsp;WRITE&nbsp;/&nbsp;'Dwija&nbsp;Panchal'.<br />
+ENDDO.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*=====================================================<br />
+   </div>
+   <div class="code">
+WRITE 'Exit Keyword'.<br />
+DO.<br />
+&nbsp;&nbsp;WRITE&nbsp;sy-index.<br />
+&nbsp;&nbsp;IF&nbsp;sy-index&nbsp;EQ&nbsp;10.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXIT.<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDDO.<br />
+WRITE / 'Dwija Panchal'.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*=====================================================<br />
+   </div>
+   <div class="code">
+write 'STOP Keyword'.<br />
+DO.<br />
+&nbsp;&nbsp;WRITE&nbsp;sy-index.<br />
+&nbsp;&nbsp;IF&nbsp;sy-index&nbsp;EQ&nbsp;10.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;stop.<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDDO.<br />
+<br />
+WRITE / 'Dwija - Capgemini'.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*=====================================================<br />
+   </div>
+   <div class="code">
+WRITE 'Continue Keyword'.<br />
+DO.<br />
+&nbsp;&nbsp;IF&nbsp;sy-index&nbsp;EQ&nbsp;2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CONTINUE.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;WRITE&nbsp;sy-index.<br />
+&nbsp;&nbsp;IF&nbsp;sy-index&nbsp;EQ&nbsp;10.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;exit.<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDDO.<br />
+WRITE / 'Dwija - Capgemini'.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*=====================================================<br />
+   </div>
+   <div class="code">
+Write 'CHECK Keyword'.<br />
+DO.<br />
+&nbsp;&nbsp;WRITE&nbsp;sy-index.<br />
+&nbsp;&nbsp;IF&nbsp;sy-index&nbsp;EQ&nbsp;10.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;exit.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;CHECK&nbsp;sy-index&nbsp;eq&nbsp;2.<br />
+&nbsp;&nbsp;WRITE&nbsp;sy-index.<br />
+ENDDO.<br />
+<br />
+WRITE / 'Dwija - Capgemini'.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*=====================================================<br />
+   </div>
+   <div class="code">
+Write 'CASE Keyword'.<br />
+   </div>
+   <div class="codeComment">
+********data&nbsp;lv_a&nbsp;TYPE&nbsp;i&nbsp;VALUE&nbsp;2.<br />
+   </div>
+   <div class="code">
+PARAMETERS p_a type i DEFAULT 2.<br />
+<br />
+CASE p_a.<br />
+&nbsp;&nbsp;WHEN&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;'first&nbsp;value&nbsp;',&nbsp;p_a.<br />
+&nbsp;&nbsp;WHEN&nbsp;2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;'second&nbsp;value&nbsp;',&nbsp;p_a.<br />
+&nbsp;&nbsp;WHEN&nbsp;OTHERS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;'default&nbsp;value&nbsp;',&nbsp;p_a.<br />
+ENDCASE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*=====================================================<br />
+   </div>
+   <div class="code">
+Write 'Write Keyword'.<br />
+DATA lv_a TYPE i VALUE 0.<br />
+<br />
+WHILE lv_a &lt; 10.<br />
+<br />
+&nbsp;&nbsp;WRITE&nbsp;lv_a.<br />
+<br />
+&nbsp;&nbsp;lv_a&nbsp;=&nbsp;lv_a&nbsp;+&nbsp;1.<br />
+<br />
+ENDWHILE.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

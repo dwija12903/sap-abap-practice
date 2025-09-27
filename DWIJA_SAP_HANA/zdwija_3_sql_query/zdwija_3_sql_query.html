@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>ZDWIJA_3_SQL_QUERY</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZDWIJA_3_SQL_QUERY</h2>
+<h3> Description: More SQL Queries</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;zdwija_3_sql_query<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZDWIJA_3_SQL_QUERY.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*************ABAP&nbsp;&nbsp;CONCTENATE*********************<br />
+*PARAMETERS:&nbsp;P_a(10)&nbsp;type&nbsp;c,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_b(10)&nbsp;type&nbsp;c.<br />
+*<br />
+*DATA&nbsp;LV_SRC(20)&nbsp;TYPE&nbsp;C.<br />
+*PARAMETERS&nbsp;P_DEL&nbsp;TYPE&nbsp;C.<br />
+*<br />
+**&nbsp;used&nbsp;to&nbsp;merger&nbsp;two&nbsp;variables/words.<br />
+**CONCATENATE&nbsp;P_A&nbsp;P_B&nbsp;INTO&nbsp;LV_SRC&nbsp;.<br />
+*<br />
+**symbol&nbsp;between&nbsp;the&nbsp;2&nbsp;words.<br />
+**CONCATENATE&nbsp;P_A&nbsp;P_B&nbsp;INTO&nbsp;LV_SRC&nbsp;&nbsp;SEPARATED&nbsp;BY&nbsp;'*'.<br />
+*CONCATENATE&nbsp;P_A&nbsp;P_B&nbsp;INTO&nbsp;LV_SRC&nbsp;&nbsp;SEPARATED&nbsp;BY&nbsp;P_DEL.<br />
+*WRITE&nbsp;LV_SRC.<br />
+*<br />
+**&nbsp;NEW&nbsp;SYNTAX<br />
+**data&nbsp;lv_text(10)&nbsp;type&nbsp;c&nbsp;VALUE&nbsp;'SAP&nbsp;HANA'<br />
+*data(lv_text)&nbsp;&nbsp;=&nbsp;'Working&nbsp;on&nbsp;SAP&nbsp;-&nbsp;DWIJA'.<br />
+*WRITE&nbsp;/&nbsp;LV_TEXT.<br />
+*<br />
+**using&nbsp;pipe&nbsp;line&nbsp;symbol.<br />
+*data(lv_text_2)&nbsp;&nbsp;=&nbsp;|ABAP|&nbsp;&nbsp;&&nbsp;|&nbsp;&nbsp;|&nbsp;&&nbsp;&nbsp;|ON|&nbsp;&&nbsp;|&nbsp;HANA&nbsp;PN&nbsp;INLINE&nbsp;CODE|.<br />
+*WRITE&nbsp;/&nbsp;LV_TEXT.<br />
+<br />
+<br />
+***********************USING&nbsp;SWITCH&nbsp;Keyword*******************<br />
+*********************1.&nbsp;using&nbsp;Char&nbsp;defines&nbsp;the&nbsp;string&nbsp;Length.<br />
+*PARAMETERS&nbsp;P_DAY&nbsp;TYPE&nbsp;I&nbsp;.<br />
+*DATA(LV_DAY)&nbsp;=&nbsp;SWITCH&nbsp;&nbsp;CHAR10(&nbsp;P_DAY<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;1&nbsp;THEN&nbsp;'Monday'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;2&nbsp;THEN&nbsp;'Tuesday'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;3&nbsp;THEN&nbsp;'wednesday'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;4&nbsp;THEN&nbsp;'Thursday'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;5&nbsp;THEN&nbsp;'Friday'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;6&nbsp;THEN&nbsp;'saturday'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;7&nbsp;THEN&nbsp;'sundday'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE&nbsp;'Invalid'&nbsp;).<br />
+*<br />
+*WRITE&nbsp;:&nbsp;/&nbsp;P_DAY,LV_DAY&nbsp;COLOR&nbsp;6.<br />
+*<br />
+**********************2.&nbsp;Using&nbsp;#,&nbsp;no&nbsp;fixed&nbsp;Length<br />
+*PARAMETERS&nbsp;P_DAY1&nbsp;TYPE&nbsp;I&nbsp;.<br />
+*<br />
+*DATA(LV_DAY1)&nbsp;=&nbsp;SWITCH&nbsp;#(&nbsp;P_DAY1<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;1&nbsp;THEN&nbsp;'Monday&nbsp;&nbsp;&nbsp;&nbsp;'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;2&nbsp;THEN&nbsp;'Tuesday'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;3&nbsp;THEN&nbsp;'wednesday'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;4&nbsp;THEN&nbsp;'Thursday'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;5&nbsp;THEN&nbsp;'Friday'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;6&nbsp;THEN&nbsp;'saturday'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;7&nbsp;THEN&nbsp;'sundday'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE&nbsp;'Invalid'&nbsp;).<br />
+*<br />
+*WRITE&nbsp;:&nbsp;/&nbsp;P_DAY,LV_DAY&nbsp;COLOR&nbsp;4.<br />
+<br />
+***********************TO&nbsp;REMOVE/ADD&nbsp;TRAILING&nbsp;ZEROS******************<br />
+*PARAMETERS&nbsp;P_MATNR(10)&nbsp;TYPE&nbsp;C.<br />
+*DATA&nbsp;LV_MATNR(15)&nbsp;TYPE&nbsp;C.<br />
+*DATA&nbsp;LV_MATNR1(15)&nbsp;TYPE&nbsp;C.<br />
+*<br />
+**&nbsp;INPUT&nbsp;-&nbsp;ADD&nbsp;TRAILING&nbsp;ZEROS<br />
+*CALL&nbsp;FUNCTION&nbsp;'CONVERSION_EXIT_ALPHA_INPUT'<br />
+*&nbsp;&nbsp;EXPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;INPUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;P_MATNR<br />
+*&nbsp;IMPORTING<br />
+*&nbsp;&nbsp;&nbsp;OUTPUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;LV_MATNR.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*WRITE&nbsp;LV_MATNR.<br />
+*<br />
+**OUTPUT&nbsp;-&nbsp;REMOVES&nbsp;TRAILING&nbsp;ZEROES<br />
+*CALL&nbsp;FUNCTION&nbsp;'CONVERSION_EXIT_ALPHA_OUTPUT'<br />
+*&nbsp;&nbsp;EXPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;INPUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;P_MATNR<br />
+*&nbsp;IMPORTING<br />
+*&nbsp;&nbsp;&nbsp;OUTPUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;LV_MATNR1<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*WRITE&nbsp;LV_MATNR1.<br />
+*<br />
+**NEW&nbsp;SYNTAX&nbsp;TO&nbsp;ADD/&nbsp;REMOVE&nbsp;TRAILING&nbsp;ZEROES.<br />
+*PARAMETERS&nbsp;P_MATNR1&nbsp;TYPE&nbsp;MATNR.<br />
+*START-OF-SELECTION.<br />
+*DATA(LV_MATNR3)&nbsp;=&nbsp;|the&nbsp;material&nbsp;no&nbsp;is:&nbsp;{&nbsp;P_MATNR1&nbsp;ALPHA&nbsp;=&nbsp;IN&nbsp;}&nbsp;|.<br />
+*DATA(LV_MATNR4)&nbsp;=&nbsp;|the&nbsp;material&nbsp;no&nbsp;is&nbsp;:&nbsp;{&nbsp;P_MATNR1&nbsp;ALPHA&nbsp;=&nbsp;OUT&nbsp;}&nbsp;|.<br />
+*WRITE&nbsp;LV_MATNR3.<br />
+*WRITE&nbsp;LV_MATNR4.<br />
+<br />
+************USING&nbsp;OF&nbsp;*&nbsp;TO&nbsp;SELECT&nbsp;ALL&nbsp;FIELDS&nbsp;OF&nbsp;TABLE***************<br />
+   </div>
+   <div class="code">
+TABLES: VBAK, VBAP.<br />
+SELECT-OPTIONS S_VBELN FOR VBAK-VBELN.<br />
+<br />
+SELECT SO_H~*, "SELECTS ALL THE FIELDS OF VBAK<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SO_I~vbeln,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SO_I~posnr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SO_I~matnr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SO_I~NETWR,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SO_I~MATWA<br />
+&nbsp;&nbsp;INTO&nbsp;TABLE&nbsp;@DATA(IT_SALES)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;VBAK&nbsp;AS&nbsp;SO_H<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INNER&nbsp;JOIN&nbsp;VBAP&nbsp;AS&nbsp;SO_I<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;SO_h~VBELN&nbsp;=&nbsp;SO_I~VBELN<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;SO_h~VBELN&nbsp;IN&nbsp;@S_VBELN.<br />
+<br />
+   </div>
+   <div class="codeComment">
+****cl_demo_output=&gt;display_data(<br />
+****&nbsp;&nbsp;exporting<br />
+****&nbsp;&nbsp;&nbsp;&nbsp;value&nbsp;&nbsp;=&nbsp;it_SALES<br />
+****&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;&nbsp;&nbsp;=&nbsp;'Sales&nbsp;order&nbsp;info'&nbsp;).<br />
+<br />
+*NOTE:&nbsp;TO&nbsp;USE&nbsp;THE&nbsp;VBAK(TABLES&nbsp;WHOSE&nbsp;*&nbsp;FIELDS&nbsp;ARE&nbsp;SELECTED)<br />
+*&nbsp;ALIASES&nbsp;NAME&nbsp;WHILE&nbsp;USING&nbsp;LOOPS<br />
+   </div>
+   <div class="code">
+LOOP AT IT_SALES INTO DATA(WA_SALES).<br />
+&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;WA_SALES-SO_H-VBELN,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WA_SALES-SO_H-ERDAT,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WA_SALES-SO_H-ERZET,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_sales-SO_H-ERNAM,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WA_SALES-SO_H-AUDAT,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WA_SALES-POSNR,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WA_SALES-MATNR,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WA_SALES-NETWR,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WA_SALES-MATWA.<br />
+&nbsp;ENDLOOP.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;P_DAY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enter&nbsp;Number<br />
+*&nbsp;P_DAY1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enter&nbsp;2nd&nbsp;Number<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

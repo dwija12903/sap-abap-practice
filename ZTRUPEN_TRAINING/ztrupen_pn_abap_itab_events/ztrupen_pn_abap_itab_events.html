@@ -1,0 +1,306 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>ZTRUPEN_PN_ABAP_ITAB_EVENTS</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZTRUPEN_PN_ABAP_ITAB_EVENTS</h2>
+<h3> Description: ZTRUPEN_PN_ABAP_itab_events</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZTRUPEN_PN_ABAP_ITAB_EVENTS<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZTRUPEN_PN_ABAP_ITAB_EVENTS.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*****#&nbsp;1<br />
+*<br />
+*<br />
+*TYPES:&nbsp;BEGIN&nbsp;OF&nbsp;FLIGHTTYPE,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CARRID&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-CARRID,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNID&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-CONNID,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FLDATE&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-FLDATE,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PLANETYPE&nbsp;TYPE&nbsp;SFLIGHT-PLANETYPE,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSMAX&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-SEATSMAX,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSOCC&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-SEATSOCC,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;&nbsp;&nbsp;FLIGHTTYPE.<br />
+*DATA:&nbsp;ITSFLIGHT&nbsp;TYPE&nbsp;STANDARD&nbsp;TABLE&nbsp;OF&nbsp;FLIGHTTYPE&nbsp;INITIAL&nbsp;SIZE&nbsp;0,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;FLIGHTTYPE.<br />
+*<br />
+*SELECT&nbsp;CARRID&nbsp;CONNID&nbsp;FLDATE&nbsp;PLANETYPE&nbsp;SEATSMAX&nbsp;SEATSOCC&nbsp;UP&nbsp;TO&nbsp;4&nbsp;ROWS<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;SFLIGHT<br />
+*&nbsp;&nbsp;INTO&nbsp;TABLE&nbsp;ITSFLIGHT.<br />
+*<br />
+*LOOP&nbsp;AT&nbsp;ITSFLIGHT&nbsp;INTO&nbsp;WA.<br />
+*<br />
+*&nbsp;&nbsp;AT&nbsp;FIRST.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;FORMAT&nbsp;COLOR&nbsp;5.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;&nbsp;'Carrid',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12&nbsp;'Connid',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;25&nbsp;'Flightdate',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;45&nbsp;'Plane&nbsp;Type',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;65&nbsp;'Seats&nbsp;Maximum',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;85&nbsp;'Seats&nbsp;Occupied'.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;FORMAT&nbsp;COLOR&nbsp;OFF.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+*&nbsp;&nbsp;ENDAT.<br />
+*&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;WA-CARRID&nbsp;,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12&nbsp;WA-CONNID,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;25&nbsp;WA-FLDATE,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;45&nbsp;WA-PLANETYPE,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;65&nbsp;WA-SEATSMAX,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;85&nbsp;WA-SEATSOCC.<br />
+*&nbsp;&nbsp;AT&nbsp;LAST.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;&nbsp;'--------',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12&nbsp;'------',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;25&nbsp;'----------',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;45&nbsp;'---------',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;70&nbsp;'-----',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;90&nbsp;'-----'.<br />
+*&nbsp;&nbsp;ENDAT.<br />
+*<br />
+*ENDLOOP.<br />
+<br />
+<br />
+****#&nbsp;2<br />
+*<br />
+*TYPES:&nbsp;BEGIN&nbsp;OF&nbsp;FLIGHTTYPE,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CARRID&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-CARRID,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNID&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-CONNID,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FLDATE&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-FLDATE,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PLANETYPE&nbsp;TYPE&nbsp;SFLIGHT-PLANETYPE,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSMAX&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-SEATSMAX,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSOCC&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-SEATSOCC,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;&nbsp;&nbsp;FLIGHTTYPE.<br />
+*DATA:&nbsp;ITSFLIGHT&nbsp;TYPE&nbsp;STANDARD&nbsp;TABLE&nbsp;OF&nbsp;FLIGHTTYPE<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INITIAL&nbsp;SIZE&nbsp;0,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;FLIGHTTYPE.<br />
+*<br />
+*WA-CARRID&nbsp;=&nbsp;'AA'.&nbsp;WA-CONNID&nbsp;=&nbsp;'17'.&nbsp;WA-FLDATE&nbsp;=&nbsp;'20190731'.&nbsp;WA-PLANETYPE&nbsp;=&nbsp;'747-400'.&nbsp;WA-SEATSMAX&nbsp;=&nbsp;385.&nbsp;WA-SEATSOCC&nbsp;=&nbsp;375.<br />
+*APPEND&nbsp;WA&nbsp;TO&nbsp;ITSFLIGHT.<br />
+*<br />
+*WA-CARRID&nbsp;=&nbsp;'AZ'.&nbsp;WA-CONNID&nbsp;=&nbsp;'64'.&nbsp;WA-FLDATE&nbsp;=&nbsp;'20190827'.&nbsp;WA-PLANETYPE&nbsp;=&nbsp;'DC-10-10'.&nbsp;WA-SEATSMAX&nbsp;=&nbsp;380.&nbsp;WA-SEATSOCC&nbsp;=&nbsp;367.<br />
+*APPEND&nbsp;WA&nbsp;TO&nbsp;ITSFLIGHT.<br />
+*<br />
+*WA-CARRID&nbsp;=&nbsp;'DL'.&nbsp;WA-CONNID&nbsp;=&nbsp;'17'.&nbsp;WA-FLDATE&nbsp;=&nbsp;'20190923'.&nbsp;WA-PLANETYPE&nbsp;=&nbsp;'A310-300'.&nbsp;WA-SEATSMAX&nbsp;=&nbsp;280.&nbsp;WA-SEATSOCC&nbsp;=&nbsp;271.<br />
+*APPEND&nbsp;WA&nbsp;TO&nbsp;ITSFLIGHT.<br />
+*<br />
+*WA-CARRID&nbsp;=&nbsp;'AZ'.&nbsp;WA-CONNID&nbsp;=&nbsp;'64'.&nbsp;WA-FLDATE&nbsp;=&nbsp;'20190731'.&nbsp;WA-PLANETYPE&nbsp;=&nbsp;'A319'.&nbsp;WA-SEATSMAX&nbsp;=&nbsp;220.&nbsp;WA-SEATSOCC&nbsp;=&nbsp;211.<br />
+*APPEND&nbsp;WA&nbsp;TO&nbsp;ITSFLIGHT.<br />
+*<br />
+*WA-CARRID&nbsp;=&nbsp;'AA'.&nbsp;WA-CONNID&nbsp;=&nbsp;'17'.&nbsp;WA-FLDATE&nbsp;=&nbsp;'20190830'.&nbsp;WA-PLANETYPE&nbsp;=&nbsp;'A310-300'.&nbsp;WA-SEATSMAX&nbsp;=&nbsp;280.&nbsp;WA-SEATSOCC&nbsp;=&nbsp;261.<br />
+*APPEND&nbsp;WA&nbsp;TO&nbsp;ITSFLIGHT.<br />
+*<br />
+*WA-CARRID&nbsp;=&nbsp;'DL'.&nbsp;WA-CONNID&nbsp;=&nbsp;'64'.&nbsp;WA-FLDATE&nbsp;=&nbsp;'20190923'.&nbsp;WA-PLANETYPE&nbsp;=&nbsp;'A319'.&nbsp;WA-SEATSMAX&nbsp;=&nbsp;220.&nbsp;WA-SEATSOCC&nbsp;=&nbsp;213.<br />
+*APPEND&nbsp;WA&nbsp;TO&nbsp;ITSFLIGHT.<br />
+*<br />
+*WA-CARRID&nbsp;=&nbsp;'AA'.&nbsp;WA-CONNID&nbsp;=&nbsp;'64'.&nbsp;WA-FLDATE&nbsp;=&nbsp;'20190828'.&nbsp;WA-PLANETYPE&nbsp;=&nbsp;'747-400'.&nbsp;&nbsp;WA-SEATSMAX&nbsp;=&nbsp;385.&nbsp;WA-SEATSOCC&nbsp;=&nbsp;371.<br />
+*APPEND&nbsp;WA&nbsp;TO&nbsp;ITSFLIGHT.<br />
+*<br />
+*WA-CARRID&nbsp;=&nbsp;'AZ'.&nbsp;WA-CONNID&nbsp;=&nbsp;'17'.&nbsp;WA-FLDATE&nbsp;=&nbsp;'20190828'.&nbsp;WA-PLANETYPE&nbsp;=&nbsp;'A319'.&nbsp;WA-SEATSMAX&nbsp;=&nbsp;220.&nbsp;WA-SEATSOCC&nbsp;=&nbsp;205.<br />
+*APPEND&nbsp;WA&nbsp;TO&nbsp;ITSFLIGHT.<br />
+*<br />
+*WA-CARRID&nbsp;=&nbsp;'AA'.&nbsp;WA-CONNID&nbsp;=&nbsp;'64'.&nbsp;WA-FLDATE&nbsp;=&nbsp;'20190802'.&nbsp;WA-PLANETYPE&nbsp;=&nbsp;'A310-300'.&nbsp;WA-SEATSMAX&nbsp;=&nbsp;280.&nbsp;WA-SEATSOCC&nbsp;=&nbsp;271.<br />
+*APPEND&nbsp;WA&nbsp;TO&nbsp;ITSFLIGHT.<br />
+*<br />
+*WA-CARRID&nbsp;=&nbsp;'AZ'.&nbsp;WA-CONNID&nbsp;=&nbsp;'17'.&nbsp;WA-FLDATE&nbsp;=&nbsp;'20190924'.&nbsp;WA-PLANETYPE&nbsp;=&nbsp;'DC-10-10'.&nbsp;WA-SEATSMAX&nbsp;=&nbsp;380.&nbsp;WA-SEATSOCC&nbsp;=&nbsp;370.<br />
+*APPEND&nbsp;WA&nbsp;TO&nbsp;ITSFLIGHT.<br />
+*<br />
+*WA-CARRID&nbsp;=&nbsp;'DL'.&nbsp;WA-CONNID&nbsp;=&nbsp;'17'.&nbsp;WA-FLDATE&nbsp;=&nbsp;'20190826'.&nbsp;WA-PLANETYPE&nbsp;=&nbsp;'A310-300'.&nbsp;WA-SEATSMAX&nbsp;=&nbsp;280.&nbsp;WA-SEATSOCC&nbsp;=&nbsp;270.<br />
+*APPEND&nbsp;WA&nbsp;TO&nbsp;ITSFLIGHT.<br />
+*<br />
+*WA-CARRID&nbsp;=&nbsp;'AZ'.&nbsp;WA-CONNID&nbsp;=&nbsp;'64'.&nbsp;WA-FLDATE&nbsp;=&nbsp;'20190802'.&nbsp;WA-PLANETYPE&nbsp;=&nbsp;'DC-10-10'.&nbsp;WA-SEATSMAX&nbsp;=&nbsp;380.&nbsp;WA-SEATSOCC&nbsp;=&nbsp;361.<br />
+*APPEND&nbsp;WA&nbsp;TO&nbsp;ITSFLIGHT.<br />
+*<br />
+*WA-CARRID&nbsp;=&nbsp;'DL'.&nbsp;WA-CONNID&nbsp;=&nbsp;'64'.&nbsp;WA-FLDATE&nbsp;=&nbsp;'20190826'.&nbsp;WA-PLANETYPE&nbsp;=&nbsp;'A319'.&nbsp;WA-SEATSMAX&nbsp;=&nbsp;220.&nbsp;WA-SEATSOCC&nbsp;=&nbsp;213.<br />
+*APPEND&nbsp;WA&nbsp;TO&nbsp;ITSFLIGHT.<br />
+*<br />
+*WA-CARRID&nbsp;=&nbsp;'AZ'.&nbsp;WA-CONNID&nbsp;=&nbsp;'64'.&nbsp;WA-FLDATE&nbsp;=&nbsp;'20190828'.&nbsp;WA-PLANETYPE&nbsp;=&nbsp;'A310-300'.&nbsp;WA-SEATSMAX&nbsp;=&nbsp;380.&nbsp;WA-SEATSOCC&nbsp;=&nbsp;361.<br />
+*APPEND&nbsp;WA&nbsp;TO&nbsp;ITSFLIGHT.<br />
+*<br />
+*<br />
+*SORT&nbsp;ITSFLIGHT&nbsp;BY&nbsp;CARRID.<br />
+*LOOP&nbsp;AT&nbsp;&nbsp;ITSFLIGHT&nbsp;&nbsp;INTO&nbsp;WA.<br />
+*&nbsp;&nbsp;AT&nbsp;FIRST.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;DISPFIRST.<br />
+*&nbsp;&nbsp;ENDAT.<br />
+*&nbsp;&nbsp;PERFORM&nbsp;DISPALLFIELDS.<br />
+*&nbsp;&nbsp;AT&nbsp;LAST.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;DISPLAST.<br />
+*&nbsp;&nbsp;ENDAT.<br />
+*ENDLOOP.<br />
+*<br />
+*SKIP&nbsp;2.<br />
+*LOOP&nbsp;AT&nbsp;&nbsp;ITSFLIGHT&nbsp;&nbsp;INTO&nbsp;WA.<br />
+*&nbsp;&nbsp;AT&nbsp;NEW&nbsp;CARRID.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;DISPALLFIELDS.<br />
+*&nbsp;&nbsp;ENDAT.<br />
+*&nbsp;&nbsp;AT&nbsp;END&nbsp;OF&nbsp;CARRID.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;'End'&nbsp;,&nbsp;&nbsp;WA-CARRID.<br />
+*&nbsp;&nbsp;ENDAT.<br />
+*ENDLOOP.<br />
+*SKIP.<br />
+*<br />
+*FORM&nbsp;DISPALLFIELDS.<br />
+*&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;WA-CARRID&nbsp;,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12&nbsp;WA-CONNID,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;25&nbsp;WA-FLDATE,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;45&nbsp;WA-PLANETYPE,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;65&nbsp;WA-SEATSMAX,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;85&nbsp;WA-SEATSOCC.<br />
+*ENDFORM.<br />
+*<br />
+*FORM&nbsp;DISPFIRST.<br />
+*&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;&nbsp;'Carrid',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12&nbsp;'Connid',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;25&nbsp;'Flightdate',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;45&nbsp;'Plane&nbsp;Type',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;65&nbsp;'Seats&nbsp;Maximum',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;85&nbsp;'Seats&nbsp;Occupied'.<br />
+*&nbsp;&nbsp;ULINE.<br />
+*ENDFORM.<br />
+*<br />
+*<br />
+*FORM&nbsp;DISPLAST.<br />
+*&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;&nbsp;'--------',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12&nbsp;'------',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;25&nbsp;'----------',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;45&nbsp;'---------',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;65&nbsp;'---------',<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;85&nbsp;'---------'.<br />
+*ENDFORM.<br />
+<br />
+****#&nbsp;3<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+TYPES: BEGIN OF FLIGHTTYPE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CARRID&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-CARRID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNID&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-CONNID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FLDATE&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-FLDATE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PLANETYPE&nbsp;TYPE&nbsp;SFLIGHT-PLANETYPE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSMAX&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-SEATSMAX,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSOCC&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-SEATSOCC,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;&nbsp;&nbsp;FLIGHTTYPE.<br />
+DATA: ITSFLIGHT TYPE STANDARD TABLE OF FLIGHTTYPE INITIAL SIZE 0,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;FLIGHTTYPE.<br />
+<br />
+PERFORM SELECTFROMDB.<br />
+<br />
+SORT ITSFLIGHT BY CARRID.<br />
+LOOP AT  ITSFLIGHT  INTO WA.<br />
+&nbsp;&nbsp;AT&nbsp;FIRST.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;DISPFIRST.<br />
+&nbsp;&nbsp;ENDAT.<br />
+&nbsp;&nbsp;AT&nbsp;NEW&nbsp;CARRID.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;'Carrid:',&nbsp;WA-CARRID.<br />
+&nbsp;&nbsp;ENDAT.<br />
+<br />
+&nbsp;&nbsp;PERFORM&nbsp;DISPRESTFIELDS.<br />
+<br />
+&nbsp;&nbsp;AT&nbsp;END&nbsp;OF&nbsp;CARRID.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SUM.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;'Carrid'&nbsp;,&nbsp;&nbsp;WA-CARRID&nbsp;,&nbsp;65&nbsp;WA-SEATSMAX,&nbsp;85&nbsp;WA-SEATSOCC.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+&nbsp;&nbsp;ENDAT.<br />
+&nbsp;&nbsp;AT&nbsp;LAST.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;DISPLAST.<br />
+&nbsp;&nbsp;ENDAT.<br />
+ENDLOOP.<br />
+SKIP.<br />
+<br />
+FORM SELECTFROMDB.<br />
+&nbsp;&nbsp;SELECT&nbsp;CARRID&nbsp;CONNID&nbsp;FLDATE&nbsp;PLANETYPE&nbsp;SEATSMAX&nbsp;SEATSOCC&nbsp;UP&nbsp;TO&nbsp;160&nbsp;ROWS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;SFLIGHT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;TABLE&nbsp;ITSFLIGHT.<br />
+ENDFORM.<br />
+<br />
+FORM DISPRESTFIELDS.<br />
+&nbsp;&nbsp;WRITE:&nbsp;/12&nbsp;WA-CONNID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;25&nbsp;WA-FLDATE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;45&nbsp;WA-PLANETYPE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;65&nbsp;WA-SEATSMAX,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;85&nbsp;WA-SEATSOCC.<br />
+ENDFORM.<br />
+<br />
+FORM DISPFIRST.<br />
+&nbsp;&nbsp;WRITE:&nbsp;/'Carrid',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12&nbsp;'Connid',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;25&nbsp;'Flightdate',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;45&nbsp;'Plane&nbsp;Type',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;65&nbsp;'Seats&nbsp;Maximum',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;85&nbsp;'Seats&nbsp;Occupied'.<br />
+&nbsp;&nbsp;ULINE.<br />
+ENDFORM.<br />
+<br />
+FORM DISPLAST.<br />
+&nbsp;&nbsp;WRITE:&nbsp;/'--------',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12&nbsp;'------',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;25&nbsp;'----------',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;45&nbsp;'---------'.<br />
+ENDFORM.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

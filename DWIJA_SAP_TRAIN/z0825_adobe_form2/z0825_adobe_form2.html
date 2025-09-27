@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>Z0825_ADOBE_FORM2</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: Z0825_ADOBE_FORM2</h2>
+<h3> Description: Program Z0825_ADOBE_FORM2</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;Z0825_ADOBE_FORM2<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+report z0825_adobe_form2.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*TO&nbsp;TAKE&nbsp;INPUT&nbsp;THROUGH&nbsp;REPORTS&nbsp;INTO&nbsp;ADOBE&nbsp;FORMS.<br />
+<br />
+   </div>
+   <div class="code">
+data: lv_emplid	         type z0724_emplid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_empl_name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type&nbsp;z0724_empl_name,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_empl_age	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type&nbsp;z0724_empl_age,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_empl_address	&nbsp;&nbsp;&nbsp;type&nbsp;z0724_empl_address,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_empl_contact	&nbsp;&nbsp;&nbsp;type&nbsp;z0724_empl_contact,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_fm&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type&nbsp;rs38l_fnam,&nbsp;"FOR&nbsp;FUNCTION&nbsp;NAME<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_sfpoutputparams&nbsp;type&nbsp;sfpoutputparams,&nbsp;"CONTROLS&nbsp;OUTPUT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_sfpdocparams&nbsp;&nbsp;&nbsp;&nbsp;type&nbsp;sfpdocparams.&nbsp;"CONTROLS&nbsp;LANG&nbsp;AND&nbsp;COUNTRY.<br />
+<br />
+parameters: p_emplid type z0724_emplid.<br />
+<br />
+start-of-selection.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;DEFINING&nbsp;4&nbsp;MAIN&nbsp;OUTPUT&nbsp;PARAMETERS.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;wa_sfpoutputparams-dest&nbsp;=&nbsp;'LP01'.<br />
+&nbsp;&nbsp;wa_sfpoutputparams-device&nbsp;=&nbsp;'PRINTER'.<br />
+&nbsp;&nbsp;wa_sfpoutputparams-nodialog&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;wa_sfpoutputparams-preview&nbsp;=&nbsp;'X'.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*FUNCTION&nbsp;1&nbsp;:&nbsp;JOB&nbsp;OPEN<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;call&nbsp;function&nbsp;'FP_JOB_OPEN'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;changing<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ie_outputparams&nbsp;=&nbsp;wa_sfpoutputparams<br />
+&nbsp;&nbsp;&nbsp;&nbsp;exceptions<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cancel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;usage_error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;system_error&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;internal_error&nbsp;&nbsp;=&nbsp;4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;others&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;5.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*FUNCTION&nbsp;2:&nbsp;FORM&nbsp;NAME&nbsp;AND&nbsp;FUNCTION&nbsp;NAME<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;call&nbsp;function&nbsp;'FP_FUNCTION_MODULE_NAME'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;exporting<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'Z0825_AF_2'&nbsp;&nbsp;&nbsp;"ADOBE&nbsp;FORM&nbsp;NAME<br />
+&nbsp;&nbsp;&nbsp;&nbsp;importing<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e_funcname&nbsp;=&nbsp;lv_fm.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"INTERFACE&nbsp;NAME<br />
+   </div>
+   <div class="codeComment">
+*ASSIGNING&nbsp;2&nbsp;DOCS&nbsp;PARAMETERS<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;wa_sfpdocparams-langu&nbsp;=&nbsp;'E'.<br />
+&nbsp;&nbsp;wa_sfpdocparams-country&nbsp;=&nbsp;'IN'.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*QUERY&nbsp;EXECUTION&nbsp;TO&nbsp;PASS&nbsp;ONTO&nbsp;THE&nbsp;IMPORT&nbsp;PARAMTERS&nbsp;OF&nbsp;FORMS&nbsp;FUNCTION.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;select&nbsp;single&nbsp;emplid&nbsp;empl_name&nbsp;empl_age&nbsp;empl_address&nbsp;empl_contact<br />
+&nbsp;&nbsp;&nbsp;&nbsp;into&nbsp;(lv_emplid&nbsp;,lv_empl_name&nbsp;,lv_empl_age&nbsp;,lv_empl_address&nbsp;,lv_empl_contact)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;z0724_tb_1_empl<br />
+&nbsp;&nbsp;&nbsp;&nbsp;where&nbsp;emplid&nbsp;eq&nbsp;p_emplid.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*FUNCTION&nbsp;3:&nbsp;CALL&nbsp;OF&nbsp;FORM&nbsp;INTERFACE&nbsp;(FUNCTION)<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;call&nbsp;function&nbsp;lv_fm&nbsp;&nbsp;"'/1BCDWB/SM00002995'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;exporting<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/1bcdwb/docparams&nbsp;=&nbsp;wa_sfpdocparams<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;emplid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;lv_emplid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;empl_name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;lv_empl_name<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;empl_age&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;lv_empl_age<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;empl_address&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;lv_empl_address<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;empl_contact&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;lv_empl_contact<br />
+&nbsp;&nbsp;&nbsp;&nbsp;exceptions<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;usage_error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;system_error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;internal_error&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;others&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;4.<br />
+<br />
+&nbsp;&nbsp;call&nbsp;function&nbsp;'FP_JOB_CLOSE'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;exceptions<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;usage_error&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;system_error&nbsp;&nbsp;&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;internal_error&nbsp;=&nbsp;3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;others&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;4.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,379 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>ZTRUPEN_PN_ALV_GRID_REPORT</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZTRUPEN_PN_ALV_GRID_REPORT</h2>
+<h3> Description: ZTRUPEN_PN_ALV_LIST_REPORT</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZTRUPEN_PN_ALV_GRID_REPORT<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+report ztrupen_pn_alv_grid_report no standard page heading message-id ztrupen_pn_msg line-count 25(3).<br />
+<br />
+include <a href ="ztrupen_pn_alv_grid_top.html">ZTRUPEN_PN_ALV_GRID_TOP</a>.<br />
+<br />
+select-options s_matnr for lv_matnr. " DEFAULT '1' to '100'.<br />
+<br />
+initialization.<br />
+&nbsp;&nbsp;s_matnr-low&nbsp;&nbsp;=&nbsp;'1'.<br />
+&nbsp;&nbsp;s_matnr-high&nbsp;=&nbsp;'100'.<br />
+&nbsp;&nbsp;append&nbsp;s_matnr.<br />
+<br />
+<br />
+at selection-screen on s_matnr.<br />
+&nbsp;&nbsp;select&nbsp;single&nbsp;matnr&nbsp;into&nbsp;lv_matnr<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;mara<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;where&nbsp;matnr&nbsp;in&nbsp;s_matnr.<br />
+<br />
+&nbsp;&nbsp;if&nbsp;sy-subrc&nbsp;eq&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;message&nbsp;s000(ztrupen_pn_msg).&nbsp;&nbsp;&nbsp;"&nbsp;SE91<br />
+&nbsp;&nbsp;else.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;message&nbsp;e001(ztrupen_pn_msg).<br />
+&nbsp;&nbsp;endif.<br />
+<br />
+start-of-selection.<br />
+<br />
+   </div>
+   <div class="codeComment">
+**CLEAR&nbsp;LT_TAB.<br />
+**REFRESH&nbsp;LT_TAB.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;select&nbsp;matnr&nbsp;mbrsh&nbsp;mtart&nbsp;meins&nbsp;brgew&nbsp;ntgew<br />
+&nbsp;&nbsp;&nbsp;&nbsp;into&nbsp;table&nbsp;lt_tab<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;mara<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;where&nbsp;matnr&nbsp;in&nbsp;s_matnr.<br />
+   </div>
+   <div class="codeComment">
+***IF&nbsp;SUBRC&nbsp;EQ&nbsp;0.<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+perform insert_fieldcat using '4' TEXT-001 CS_MATNR CS_LT_TAB<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'X'&nbsp;'C111'&nbsp;'&nbsp;'.<br />
+perform insert_fieldcat using '2' TEXT-002 CS_MBRSH CS_LT_TAB<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'&nbsp;'&nbsp;'C500'&nbsp;'&nbsp;'.<br />
+perform insert_fieldcat using '3' TEXT-003 CS_MTART CS_LT_TAB<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'&nbsp;'&nbsp;'C5200'&nbsp;'&nbsp;'.<br />
+perform insert_fieldcat using '1' TEXT-004 'MEINS' CS_LT_TAB<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'&nbsp;'&nbsp;'C500'&nbsp;'&nbsp;'.<br />
+perform insert_fieldcat using '5' TEXT-005 'BRGEW' CS_LT_TAB<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'&nbsp;'&nbsp;'C500'&nbsp;'&nbsp;'.<br />
+perform insert_fieldcat using '6' TEXT-006 'NTGEW' CS_LT_TAB<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'&nbsp;'&nbsp;'C610'&nbsp;'X'.<br />
+<br />
+IF SY-SUBRC EQ 0.<br />
+<br />
+call function 'REUSE_ALV_GRID_DISPLAY'<br />
+&nbsp;EXPORTING<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;I_INTERFACE_CHECK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'&nbsp;'<br />
+*&nbsp;&nbsp;&nbsp;I_BYPASSING_BUFFER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'&nbsp;'<br />
+*&nbsp;&nbsp;&nbsp;I_BUFFER_ACTIVE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'&nbsp;'<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;I_CALLBACK_PROGRAM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;SY-REPID<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;I_CALLBACK_PF_STATUS_SET&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'&nbsp;'<br />
+*&nbsp;&nbsp;&nbsp;I_CALLBACK_USER_COMMAND&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'&nbsp;'<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;I_CALLBACK_TOP_OF_PAGE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'TOP_CG_LOGO'&nbsp;&nbsp;"&nbsp;SUBROUTINE&nbsp;,SFSDLGHSKGD<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;I_CALLBACK_HTML_TOP_OF_PAGE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'&nbsp;'<br />
+*&nbsp;&nbsp;&nbsp;I_CALLBACK_HTML_END_OF_LIST&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'&nbsp;'<br />
+*&nbsp;&nbsp;&nbsp;I_STRUCTURE_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;I_BACKGROUND_ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'&nbsp;'<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;I_GRID_TITLE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;TEXT-001&nbsp;"&nbsp;'Material&nbsp;Master&nbsp;info'<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;I_GRID_SE	TTINGS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;IS_LAYOUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;IT_FIELDCAT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;LT_FCAT<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;IT_EXCLUDING&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;IT_SPECIAL_GROUPS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;IT_SORT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;IT_FILTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;IS_SEL_HIDE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;I_DEFAULT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'X'<br />
+*&nbsp;&nbsp;&nbsp;I_SAVE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'&nbsp;'<br />
+*&nbsp;&nbsp;&nbsp;IS_VARIANT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;IT_EVENTS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;IT_EVENT_EXIT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;IS_PRINT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;IS_REPREP_ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;I_SCREEN_START_COLUMN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;0<br />
+*&nbsp;&nbsp;&nbsp;I_SCREEN_START_LINE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;0<br />
+*&nbsp;&nbsp;&nbsp;I_SCREEN_END_COLUMN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;0<br />
+*&nbsp;&nbsp;&nbsp;I_SCREEN_END_LINE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;0<br />
+*&nbsp;&nbsp;&nbsp;I_HTML_HEIGHT_TOP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;0<br />
+*&nbsp;&nbsp;&nbsp;I_HTML_HEIGHT_END&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;0<br />
+*&nbsp;&nbsp;&nbsp;IT_ALV_GRAPHICS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;IT_HYPERLINK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;IT_ADD_FIELDCAT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;IT_EXCEPT_QINFO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;IR_SALV_FULLSCREEN_ADAPTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;IMPORTING<br />
+*&nbsp;&nbsp;&nbsp;E_EXIT_CAUSED_BY_CALLER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;ES_EXIT_CAUSED_BY_USER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;tables<br />
+&nbsp;&nbsp;&nbsp;&nbsp;t_outtab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;LT_TAB<br />
+&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;PROGRAM_ERROR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+if sy-subrc &lt;&gt; 0.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Implement&nbsp;suitable&nbsp;error&nbsp;handling&nbsp;here<br />
+   </div>
+   <div class="code">
+endif.<br />
+<br />
+ENDIF.<br />
+<br />
+<br />
+FORM TOP_CG_LOGO.<br />
+<br />
+DATA: WA_HEADER TYPE SLIS_LISTHEADER,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LT_HEADER&nbsp;TYPE&nbsp;SLIS_T_LISTHEADER.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*WA_HEADER-TYP&nbsp;&nbsp;=&nbsp;'H'.<br />
+*WA_HEADER-TYP&nbsp;&nbsp;=&nbsp;'S'.<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+WA_HEADER-TYP  = 'A'.<br />
+WA_HEADER-KEY = 'Capgemini'.<br />
+WA_HEADER-INFO =  'PUNE,MH ,INDIA '.<br />
+<br />
+APPEND WA_HEADER to LT_HEADER.<br />
+CLEAR WA_HEADER.<br />
+<br />
+<br />
+WA_HEADER-TYP  = 'S'.<br />
+WA_HEADER-KEY = sy-datum.<br />
+WA_HEADER-INFO = sy-uzeit.<br />
+<br />
+APPEND WA_HEADER to LT_HEADER.<br />
+CLEAR WA_HEADER.<br />
+<br />
+<br />
+CALL FUNCTION 'REUSE_ALV_COMMENTARY_WRITE'<br />
+&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IT_LIST_COMMENTARY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;LT_HEADER<br />
+&nbsp;&nbsp;&nbsp;I_LOGO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'ZTRUPEN_PN_ALV_LOGO'&nbsp;&nbsp;"&nbsp;OAER&nbsp;KEY<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;I_END_OF_LIST_GRID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;I_ALV_FORM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+<br />
+<br />
+<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Form&nbsp;&nbsp;INSERT_FIELDCAT<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*----------------------------------------------------------------------*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;P_COL_POS&nbsp;&nbsp;text<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;P_SELTEXT&nbsp;&nbsp;text<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;P_FIELDNAME&nbsp;&nbsp;text<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;P_TABNAME&nbsp;&nbsp;text<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;P_NO_ZERO&nbsp;&nbsp;text<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;P_EMPHASIZE&nbsp;&nbsp;text<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;P_DO_SUM&nbsp;&nbsp;text<br />
+*----------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+form insert_fieldcat  using p_col_pos p_seltext p_fieldname p_tabname<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_no_zero&nbsp;p_emphasize&nbsp;p_do_sum.<br />
+<br />
+&nbsp;&nbsp;wa_fcat-col_pos&nbsp;=&nbsp;p_col_pos.<br />
+&nbsp;&nbsp;wa_fcat-seltext_L&nbsp;=&nbsp;p_seltext.<br />
+&nbsp;&nbsp;wa_fcat-fieldname&nbsp;=&nbsp;p_fieldname&nbsp;.<br />
+&nbsp;&nbsp;wa_fcat-tabname&nbsp;=&nbsp;p_tabname.<br />
+&nbsp;&nbsp;wa_fcat-no_zero&nbsp;=&nbsp;p_no_zero.<br />
+&nbsp;&nbsp;wa_fcat-emphasize&nbsp;&nbsp;=&nbsp;p_emphasize&nbsp;.<br />
+&nbsp;&nbsp;wa_fcat-do_sum&nbsp;=&nbsp;p_do_sum.<br />
+<br />
+&nbsp;&nbsp;append&nbsp;wa_fcat&nbsp;to&nbsp;lt_fcat.<br />
+&nbsp;&nbsp;clear&nbsp;wa_fcat.<br />
+<br />
+<br />
+endform.<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;MATNR<br />
+*<br />
+*&nbsp;&nbsp;wa_fcat-col_pos&nbsp;=&nbsp;'4'.<br />
+*&nbsp;&nbsp;wa_fcat-seltext_L&nbsp;=&nbsp;TEXT-001.&nbsp;"&nbsp;'Material&nbsp;Number'.<br />
+*&nbsp;&nbsp;wa_fcat-fieldname&nbsp;=&nbsp;CS_MATNR&nbsp;.&nbsp;"&nbsp;&nbsp;'MATNR'.<br />
+*&nbsp;&nbsp;wa_fcat-tabname&nbsp;=&nbsp;CS_LT_TAB."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;'LT_TAB'.<br />
+*&nbsp;&nbsp;WA_FCAT-NO_ZERO&nbsp;=&nbsp;'X'.<br />
+*&nbsp;&nbsp;wa_fcat-EMPHASIZE&nbsp;&nbsp;=&nbsp;'C111'&nbsp;.&nbsp;"&nbsp;CXYZ&nbsp;&nbsp;&nbsp;C-&nbsp;COLOR&nbsp;&nbsp;&nbsp;:&nbsp;X-&nbsp;1&nbsp;TO&nbsp;7&nbsp;Y/Z&nbsp;-&nbsp;0&nbsp;OR&nbsp;1<br />
+*<br />
+*&nbsp;&nbsp;append&nbsp;wa_fcat&nbsp;to&nbsp;lt_fcat.<br />
+*&nbsp;&nbsp;clear&nbsp;wa_fcat.<br />
+*<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;Mbrsh<br />
+*<br />
+*&nbsp;&nbsp;wa_fcat-col_pos&nbsp;=&nbsp;'2'.<br />
+*&nbsp;&nbsp;wa_fcat-seltext_l&nbsp;=&nbsp;TEXT-002.&nbsp;"&nbsp;&nbsp;'Material&nbsp;IND'.<br />
+*&nbsp;&nbsp;wa_fcat-fieldname&nbsp;=&nbsp;CS_MBRSH.&nbsp;"""""'MBRSH'.<br />
+*&nbsp;&nbsp;wa_fcat-tabname&nbsp;=&nbsp;CS_LT_TAB."&nbsp;'LT_TAB'.<br />
+*&nbsp;wa_fcat-EMPHASIZE&nbsp;&nbsp;=&nbsp;'C500'&nbsp;.<br />
+*&nbsp;&nbsp;append&nbsp;wa_fcat&nbsp;to&nbsp;lt_fcat.<br />
+*&nbsp;&nbsp;clear&nbsp;wa_fcat.<br />
+*<br />
+**&nbsp;&nbsp;#&nbsp;3&nbsp;MTART<br />
+*<br />
+*&nbsp;&nbsp;wa_fcat-col_pos&nbsp;=&nbsp;'3'.<br />
+*&nbsp;&nbsp;wa_fcat-seltext_l&nbsp;=&nbsp;TEXT-003.&nbsp;"&nbsp;'Material&nbsp;Type'.<br />
+*&nbsp;&nbsp;wa_fcat-fieldname&nbsp;=&nbsp;CS_MTART&nbsp;.&nbsp;"""""&nbsp;'MTART'.<br />
+*&nbsp;&nbsp;wa_fcat-tabname&nbsp;=&nbsp;CS_LT_TAB."&nbsp;'LT_TAB'.<br />
+*wa_fcat-EMPHASIZE&nbsp;&nbsp;=&nbsp;'C5200'&nbsp;.<br />
+*&nbsp;&nbsp;append&nbsp;wa_fcat&nbsp;to&nbsp;lt_fcat.<br />
+*&nbsp;&nbsp;clear&nbsp;wa_fcat.<br />
+*<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;MEINS<br />
+*<br />
+*&nbsp;&nbsp;wa_fcat-col_pos&nbsp;=&nbsp;'1'.<br />
+*&nbsp;&nbsp;wa_fcat-seltext_l&nbsp;=&nbsp;TEXT-004.&nbsp;"&nbsp;'Material&nbsp;uom'.<br />
+*&nbsp;&nbsp;wa_fcat-fieldname&nbsp;=&nbsp;'MEINS'.<br />
+*&nbsp;&nbsp;wa_fcat-tabname&nbsp;=&nbsp;CS_LT_TAB."&nbsp;'LT_TAB'.<br />
+*wa_fcat-EMPHASIZE&nbsp;&nbsp;=&nbsp;'C500'&nbsp;.<br />
+*&nbsp;&nbsp;append&nbsp;wa_fcat&nbsp;to&nbsp;lt_fcat.<br />
+*&nbsp;&nbsp;clear&nbsp;wa_fcat.<br />
+*<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;BRGEW<br />
+*<br />
+*&nbsp;&nbsp;wa_fcat-col_pos&nbsp;=&nbsp;'5'.<br />
+*&nbsp;&nbsp;wa_fcat-seltext_l&nbsp;=&nbsp;TEXT-005.&nbsp;"&nbsp;'Material&nbsp;gross&nbsp;WT'.<br />
+*&nbsp;&nbsp;wa_fcat-fieldname&nbsp;=&nbsp;'BRGEW'.<br />
+*&nbsp;&nbsp;wa_fcat-tabname&nbsp;=&nbsp;CS_LT_TAB."&nbsp;'LT_TAB'.<br />
+*wa_fcat-EMPHASIZE&nbsp;&nbsp;=&nbsp;'C500'&nbsp;.<br />
+*&nbsp;&nbsp;append&nbsp;&nbsp;wa_fcat&nbsp;to&nbsp;lt_fcat.<br />
+*&nbsp;&nbsp;clear&nbsp;wa_fcat.<br />
+*<br />
+*****&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;NTGEW<br />
+*<br />
+*&nbsp;&nbsp;wa_fcat-col_pos&nbsp;=&nbsp;'6'.<br />
+*&nbsp;&nbsp;wa_fcat-seltext_l&nbsp;=&nbsp;TEXT-006.&nbsp;"&nbsp;'Material&nbsp;net&nbsp;WT'.<br />
+*&nbsp;&nbsp;wa_fcat-fieldname&nbsp;=&nbsp;'NTGEW'.<br />
+*&nbsp;&nbsp;wa_fcat-tabname&nbsp;=&nbsp;CS_LT_TAB.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;&nbsp;'LT_TAB'.<br />
+*&nbsp;&nbsp;WA_FCAT-do_sum&nbsp;=&nbsp;'X'.<br />
+*wa_fcat-EMPHASIZE&nbsp;&nbsp;=&nbsp;'C610'&nbsp;.<br />
+*&nbsp;&nbsp;append&nbsp;&nbsp;wa_fcat&nbsp;to&nbsp;lt_fcat.<br />
+*&nbsp;&nbsp;clear&nbsp;wa_fcat.<br />
+<br />
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;001&nbsp;Material&nbsp;Master<br />
+*&nbsp;002&nbsp;Mat&nbsp;IND<br />
+*&nbsp;003&nbsp;Mat&nbsp;Type<br />
+*&nbsp;004&nbsp;Mat&nbsp;UOM<br />
+*&nbsp;005&nbsp;Mat&nbsp;grs&nbsp;wt<br />
+*&nbsp;006&nbsp;Mat&nbsp;net&nbsp;wt<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;S_MATNR&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;ZTRUPEN_PN_MSG<br />
+*000&nbsp;&nbsp;&nbsp;Material&nbsp;Records&nbsp;are&nbsp;found&nbsp;in&nbsp;mara&nbsp;table<br />
+*001&nbsp;&nbsp;&nbsp;Material&nbsp;Records&nbsp;are&nbsp;not&nbsp;found&nbsp;in&nbsp;mara&nbsp;table&nbsp;-&nbsp;error<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

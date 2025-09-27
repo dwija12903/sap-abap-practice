@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>ZDWIJA_2_PUSHDOWN_TECQ</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZDWIJA_2_PUSHDOWN_TECQ</h2>
+<h3> Description: Open SQL Queries PushDown Approach</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;zdwija_2_pushdown_tecq<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZDWIJA_2_PUSHDOWN_TECQ.<br />
+   </div>
+   <div class="codeComment">
+*inline&nbsp;SQL&nbsp;Queries<br />
+*===================================================================================<br />
+   </div>
+   <div class="code">
+TYPES: BEGIN OF ls_tab,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vbeln&nbsp;TYPE&nbsp;&nbsp;vbeln_va,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;posnr&nbsp;TYPE&nbsp;posnr_va,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matnr&nbsp;TYPE&nbsp;matnr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matwa&nbsp;TYPE&nbsp;matwa,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matkl&nbsp;TYPE&nbsp;matkl,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;netwr&nbsp;TYPE&nbsp;netwr_ap,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;ls_tab.<br />
+<br />
+DATA : wa_tab TYPE ls_tab,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lt_tab&nbsp;TYPE&nbsp;STANDARD&nbsp;TABLE&nbsp;OF&nbsp;ls_tab.<br />
+<br />
+SELECT-OPTIONS s_vbeln FOR wa_tab-vbeln.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;use&nbsp;of&nbsp;new&nbsp;style&nbsp;queries<br />
+*&nbsp;use&nbsp;of&nbsp;escape&nbsp;character:&nbsp;use&nbsp;for&nbsp;variables&nbsp;which&nbsp;are&nbsp;not&nbsp;in&nbsp;Database&nbsp;layer<br />
+*&nbsp;but&nbsp;created&nbsp;at&nbsp;Application&nbsp;Layer.<br />
+   </div>
+   <div class="code">
+START-OF-SELECTION.<br />
+&nbsp;&nbsp;SELECT&nbsp;vbeln,&nbsp;posnr,&nbsp;matnr,&nbsp;matwa,&nbsp;matkl,&nbsp;netwr<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;TABLE&nbsp;@lt_tab<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;vbap<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;vbeln&nbsp;IN&nbsp;@s_vbeln.<br />
+<br />
+&nbsp;&nbsp;SORT&nbsp;lt_tab&nbsp;BY&nbsp;vbeln.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;EQ&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;'sales&nbsp;order&nbsp;records&nbsp;are&nbsp;found&nbsp;in&nbsp;vbap'.<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;'sales&nbsp;order&nbsp;records&nbsp;are&nbsp;not&nbsp;found&nbsp;in&nbsp;vbap'.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;lt_tab&nbsp;INTO&nbsp;wa_tab.&nbsp;"no&nbsp;@&nbsp;at&nbsp;workArea&nbsp;as&nbsp;it&nbsp;created&nbsp;at&nbsp;runtime&nbsp;where&nbsp;execution&nbsp;is&nbsp;performed.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;wa_tab-vbeln,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;wa_tab-posnr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;wa_tab-matnr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;wa_tab-matkl,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;wa_tab-netwr.<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 754</td>
+   </tr>
+</table>
+</body>
+</html>

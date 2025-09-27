@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>Z0808_1</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: Z0808_1</h2>
+<h3> Description: ALV LIST</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;Z0808<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+report z0808_1 no standard page heading message-id zdwija_msg.<br />
+<br />
+include <a href ="z0808_1_incl.html">z0808_1_incl</a>.<br />
+<br />
+select-options s_emplid for lv_emplid.<br />
+<br />
+initialization.<br />
+&nbsp;&nbsp;s_emplid-low&nbsp;=&nbsp;'0000111'.<br />
+&nbsp;&nbsp;s_emplid-high&nbsp;=&nbsp;'0000115'.<br />
+&nbsp;&nbsp;append&nbsp;s_emplid.<br />
+<br />
+start-of-selection.<br />
+&nbsp;&nbsp;select&nbsp;single&nbsp;emplid&nbsp;into&nbsp;lv_emplid&nbsp;from&nbsp;z0724_tb_1_empl&nbsp;where&nbsp;emplid&nbsp;in&nbsp;s_emplid.<br />
+&nbsp;&nbsp;if&nbsp;sy-subrc&nbsp;eq&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;message&nbsp;s000.<br />
+&nbsp;&nbsp;else.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;message&nbsp;e001.<br />
+&nbsp;&nbsp;endif.<br />
+<br />
+start-of-selection.<br />
+&nbsp;&nbsp;select&nbsp;emplid&nbsp;empl_name&nbsp;empl_age&nbsp;empl_address&nbsp;empl_contact<br />
+&nbsp;&nbsp;&nbsp;&nbsp;into&nbsp;table&nbsp;lt_tab<br />
+&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;z0724_tb_1_empl<br />
+&nbsp;&nbsp;&nbsp;&nbsp;where&nbsp;emplid&nbsp;in&nbsp;s_emplid.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*===========start&nbsp;of&nbsp;main==================<br />
+*fcat&nbsp;is&nbsp;a&nbsp;table&nbsp;of&nbsp;type&nbsp;slis_fieldcat_alv(whose&nbsp;structure&nbsp;is&nbsp;defined&nbsp;in&nbsp;SLIS)<br />
+*&nbsp;so&nbsp;it&nbsp;contains&nbsp;its&nbsp;all&nbsp;column&nbsp;names&nbsp;after&nbsp;-.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;wa_fcat-col_pos&nbsp;=&nbsp;'1'.<br />
+&nbsp;&nbsp;wa_fcat-seltext_l&nbsp;=&nbsp;'EMPLID'.<br />
+&nbsp;&nbsp;wa_fcat-fieldname&nbsp;=&nbsp;'EMPLID'.<br />
+&nbsp;&nbsp;wa_fcat-tabname&nbsp;=&nbsp;'LT_TAB'.<br />
+<br />
+&nbsp;&nbsp;append&nbsp;wa_fcat&nbsp;to&nbsp;lt_fcat.<br />
+&nbsp;&nbsp;clear&nbsp;wa_fcat.<br />
+<br />
+&nbsp;&nbsp;wa_fcat-col_pos&nbsp;=&nbsp;'2'.<br />
+&nbsp;&nbsp;wa_fcat-seltext_l&nbsp;=&nbsp;'EMPL_NAME&nbsp;'.<br />
+&nbsp;&nbsp;wa_fcat-fieldname&nbsp;=&nbsp;'EMPL_NAME&nbsp;'.<br />
+&nbsp;&nbsp;wa_fcat-tabname&nbsp;=&nbsp;'LT_TAB'.<br />
+<br />
+&nbsp;&nbsp;append&nbsp;wa_fcat&nbsp;to&nbsp;lt_fcat.<br />
+&nbsp;&nbsp;clear&nbsp;wa_fcat.<br />
+<br />
+&nbsp;&nbsp;wa_fcat-col_pos&nbsp;=&nbsp;'3'.<br />
+&nbsp;&nbsp;wa_fcat-seltext_l&nbsp;=&nbsp;'EMPL_AGE&nbsp;'.<br />
+&nbsp;&nbsp;wa_fcat-fieldname&nbsp;=&nbsp;'EMPL_AGE&nbsp;'.<br />
+&nbsp;&nbsp;wa_fcat-tabname&nbsp;=&nbsp;'LT_TAB'.<br />
+<br />
+&nbsp;&nbsp;append&nbsp;wa_fcat&nbsp;to&nbsp;lt_fcat.<br />
+&nbsp;&nbsp;clear&nbsp;wa_fcat.<br />
+<br />
+&nbsp;&nbsp;wa_fcat-col_pos&nbsp;=&nbsp;'4'.<br />
+&nbsp;&nbsp;wa_fcat-seltext_l&nbsp;=&nbsp;'EMPL_ADDRESS&nbsp;'.<br />
+&nbsp;&nbsp;wa_fcat-fieldname&nbsp;=&nbsp;'EMPL_ADDRESS&nbsp;'.<br />
+&nbsp;&nbsp;wa_fcat-tabname&nbsp;=&nbsp;'LT_TAB'.<br />
+<br />
+&nbsp;&nbsp;append&nbsp;wa_fcat&nbsp;to&nbsp;lt_fcat.<br />
+&nbsp;&nbsp;clear&nbsp;wa_fcat.<br />
+<br />
+&nbsp;&nbsp;wa_fcat-col_pos&nbsp;=&nbsp;'5'.<br />
+&nbsp;&nbsp;wa_fcat-seltext_l&nbsp;=&nbsp;'EMPL_CONTACT'.<br />
+&nbsp;&nbsp;wa_fcat-fieldname&nbsp;=&nbsp;'EMPL_CONTACT'.<br />
+&nbsp;&nbsp;wa_fcat-tabname&nbsp;=&nbsp;'LT_TAB'.<br />
+<br />
+&nbsp;&nbsp;append&nbsp;wa_fcat&nbsp;to&nbsp;lt_fcat.<br />
+&nbsp;&nbsp;clear&nbsp;wa_fcat.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*call&nbsp;of&nbsp;function&nbsp;as&nbsp;this&nbsp;datatype&nbsp;slis_fieldcat_alv&nbsp;is&nbsp;used&nbsp;in&nbsp;it<br />
+*so&nbsp;basically&nbsp;lt_fcat&nbsp;conatins&nbsp;all&nbsp;the&nbsp;layout&nbsp;for&nbsp;the&nbsp;table&nbsp;design.<br />
+*lt_tab&nbsp;contains&nbsp;the&nbsp;contents&nbsp;of&nbsp;the&nbsp;tables.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;call&nbsp;function&nbsp;'REUSE_ALV_LIST_DISPLAY'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;exporting<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_INTERFACE_CHECK&nbsp;&nbsp;=&nbsp;'&nbsp;'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_BYPASSING_BUFFER&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_BUFFER_ACTIVE&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'&nbsp;'<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_callback_program&nbsp;=&nbsp;sy-repid<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_CALLBACK_PF_STATUS_SET&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'&nbsp;'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_CALLBACK_USER_COMMAND&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'&nbsp;'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_STRUCTURE_NAME&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IS_LAYOUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_fieldcat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;lt_fcat<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT_EXCLUDING&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT_SPECIAL_GROUPS&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT_SORT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT_FILTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IS_SEL_HIDE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_DEFAULT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'X'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_SAVE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'&nbsp;'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IS_VARIANT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT_EVENTS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT_EVENT_EXIT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IS_PRINT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IS_REPREP_ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_SCREEN_START_COLUMN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;0<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_SCREEN_START_LINE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;0<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_SCREEN_END_COLUMN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;0<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_SCREEN_END_LINE&nbsp;&nbsp;=&nbsp;0<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IR_SALV_LIST_ADAPTER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT_EXCEPT_QINFO&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_SUPPRESS_EMPTY_DATA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;ABAP_FALSE<br />
+*&nbsp;IMPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E_EXIT_CAUSED_BY_CALLER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ES_EXIT_CAUSED_BY_USER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;tables<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t_outtab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;lt_tab<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;EXCEPTIONS<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PROGRAM_ERROR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+&nbsp;&nbsp;if&nbsp;sy-subrc&nbsp;&lt;&gt;&nbsp;0.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Implement&nbsp;suitable&nbsp;error&nbsp;handling&nbsp;here<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;endif.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;S_EMPLID&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;ZDWIJA_MSG<br />
+*000&nbsp;&nbsp;&nbsp;"Records&nbsp;are&nbsp;accessed&nbsp;Successful"<br />
+*001&nbsp;&nbsp;&nbsp;"Error&nbsp;-&nbsp;Records&nbsp;are&nbsp;not&nbsp;accessible."<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

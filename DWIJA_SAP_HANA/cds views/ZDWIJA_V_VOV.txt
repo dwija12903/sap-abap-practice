@@ -1,0 +1,26 @@
+@AbapCatalog.sqlViewName: 'ZDWI_VOV'
+@AbapCatalog.compiler.compareFilter: true
+@AbapCatalog.preserveKey: true
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'VIEW ON VIEW'
+@Metadata.ignorePropagatedAnnotations: true
+define view ZDWIJA_V_VOV
+with parameters P_VBELNL : vbeln_va,        //LOWER VALUE
+                P_VBELNH : vbeln_va         //HIGHER VALUE
+
+as select from ZDWIJA_VIEW_1 as VOV         //VIEW NAME AND ITS ALIASES
+inner join vbep as SO_P
+on VOV.vbeln = SO_P.vbeln
+{
+    key VOV.vbeln as SO_ORD,
+    key VOV.posnr as SO_ITEMS,
+    VOV.matnr as MAT_NUMBER,
+    VOV.matkl,
+    VOV.matwa,
+    VOV.netpr,
+    VOV.netwr,
+    SO_P.abart,
+    SO_P.etenr,
+    SO_P.ettyp
+
+} where VOV.vbeln between :P_VBELNL and :P_VBELNH;

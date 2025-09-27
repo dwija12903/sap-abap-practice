@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>ZDWIII_DEMO_PROG</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZDWIII_DEMO_PROG</h2>
+<h3> Description: CASE STUDY DEMO PROGRAM</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZDWIII_DEMO_PROG<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+report zdwiii_demo_prog.<br />
+<br />
+data: lv_fm    type rs38l_fnam,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_tbnum&nbsp;type&nbsp;z30097978_tbnum.<br />
+<br />
+data: wa_header type z30097978_form_header_st,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_header&nbsp;type&nbsp;z30097978_form_header_tt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_final_header&nbsp;type&nbsp;z30097978_form_header_st.<br />
+<br />
+data: wa_table type z30097978_form_table_st,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_table&nbsp;type&nbsp;z30097978_form_table_tt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_final&nbsp;type&nbsp;z30097978_form_table_tt.<br />
+<br />
+data: wa_sfpoutputparams type sfpoutputparams,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_sfpdocparams&nbsp;&nbsp;&nbsp;&nbsp;type&nbsp;sfpdocparams.<br />
+<br />
+select-options: p_tbnum for lv_tbnum.<br />
+<br />
+start-of-selection.<br />
+&nbsp;&nbsp;wa_sfpoutputparams-dest&nbsp;=&nbsp;'LP01'.<br />
+&nbsp;&nbsp;wa_sfpoutputparams-device&nbsp;=&nbsp;'PRINTER'.<br />
+&nbsp;&nbsp;wa_sfpoutputparams-nodialog&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;wa_sfpoutputparams-preview&nbsp;=&nbsp;'X'.<br />
+<br />
+&nbsp;&nbsp;wa_sfpdocparams-langu&nbsp;=&nbsp;'E'.<br />
+&nbsp;&nbsp;wa_sfpdocparams-country&nbsp;=&nbsp;'IN'.<br />
+<br />
+&nbsp;&nbsp;call&nbsp;function&nbsp;'FP_JOB_OPEN'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;changing<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ie_outputparams&nbsp;=&nbsp;wa_sfpoutputparams<br />
+&nbsp;&nbsp;&nbsp;&nbsp;exceptions<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cancel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;usage_error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;system_error&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;internal_error&nbsp;&nbsp;=&nbsp;4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;others&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;5.<br />
+   </div>
+   <div class="codeComment">
+*===========================================================================================<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;select&nbsp;lgnum&nbsp;tbnum&nbsp;statu&nbsp;bdatu&nbsp;betyp&nbsp;benum&nbsp;bwart&nbsp;vltyp<br />
+&nbsp;&nbsp;&nbsp;&nbsp;into&nbsp;table&nbsp;it_header<br />
+&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;zd30097978_ltbk<br />
+&nbsp;&nbsp;&nbsp;&nbsp;where&nbsp;tbnum&nbsp;in&nbsp;p_tbnum.<br />
+<br />
+select tbnum tbpos elikz matnr werks menge meins menga<br />
+&nbsp;&nbsp;&nbsp;into&nbsp;table&nbsp;it_table<br />
+&nbsp;&nbsp;&nbsp;from&nbsp;zd30097978_ltbp<br />
+&nbsp;&nbsp;&nbsp;where&nbsp;tbnum&nbsp;in&nbsp;p_tbnum.<br />
+<br />
+&nbsp;&nbsp;loop&nbsp;at&nbsp;it_header&nbsp;into&nbsp;wa_header.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;loop&nbsp;at&nbsp;it_table&nbsp;into&nbsp;wa_table&nbsp;where&nbsp;tbnum&nbsp;=&nbsp;wa_header-tbnum.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;append&nbsp;wa_table&nbsp;to&nbsp;it_final.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;endloop.<br />
+<br />
+&nbsp;at&nbsp;end&nbsp;of&nbsp;tbnum.<br />
+&nbsp;&nbsp;&nbsp;select&nbsp;single&nbsp;lgnum&nbsp;tbnum&nbsp;statu&nbsp;bdatu&nbsp;betyp&nbsp;benum&nbsp;bwart&nbsp;vltyp<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;into&nbsp;it_final_header<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;zd30097978_ltbk<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;where&nbsp;tbnum&nbsp;=&nbsp;wa_header-tbnum.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*===========================================================================================<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;function&nbsp;'FP_FUNCTION_MODULE_NAME'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exporting<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'ZDWIII_DEMO_AF'&nbsp;&nbsp;&nbsp;"ADOBE&nbsp;FORM&nbsp;NAME<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;importing<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e_funcname&nbsp;=&nbsp;lv_fm.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"INTERFACE&nbsp;NAME<br />
+<br />
+   </div>
+   <div class="codeComment">
+*============================================================<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;function&nbsp;lv_fm&nbsp;&nbsp;&nbsp;&nbsp;"'/1BCDWB/SM00003565'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exporting<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/1bcdwb/docparams&nbsp;=&nbsp;wa_sfpdocparams<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tbnum_l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;p_tbnum-low<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tbnum_h&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;p_tbnum-high<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;header_tab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;it_final_header<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;table_tab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;it_final<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exceptions<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;usage_error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;system_error&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;internal_error&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;others&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;4.<br />
+&nbsp;&nbsp;clear&nbsp;it_final.<br />
+&nbsp;&nbsp;endat.<br />
+&nbsp;&nbsp;endloop.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+***===================================================*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;function&nbsp;'FP_JOB_CLOSE'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exceptions<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;usage_error&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;system_error&nbsp;&nbsp;&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;internal_error&nbsp;=&nbsp;3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;others&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;4.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

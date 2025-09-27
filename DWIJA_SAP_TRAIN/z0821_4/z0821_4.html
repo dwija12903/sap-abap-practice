@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>Z0821_4</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: Z0821_4</h2>
+<h3> Description: Events in OOPS</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;Z0821_4<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+report z0821_4.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*CLASS&nbsp;c1&nbsp;DEFINITION.<br />
+*&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;EVENTS&nbsp;:&nbsp;e1.<br />
+**&nbsp;(2)&nbsp;&nbsp;CREATING&nbsp;AN&nbsp;EVENT&nbsp;HANDLING&nbsp;METHOD.&nbsp;THIS&nbsp;METHOD&nbsp;CAN&nbsp;BELONG&nbsp;TO&nbsp;SAME&nbsp;OR&nbsp;DIFFEENT&nbsp;CLASS.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;:&nbsp;m1&nbsp;FOR&nbsp;EVENT&nbsp;e1&nbsp;OF&nbsp;c1.<br />
+**METHODS&nbsp;TO&nbsp;RAISE&nbsp;THE&nbsp;EVENT<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;:&nbsp;t1.&nbsp;"trigger&nbsp;method&nbsp;for&nbsp;event.<br />
+*ENDCLASS.<br />
+*<br />
+*CLASS&nbsp;c1&nbsp;IMPLEMENTATION.<br />
+**METHOD&nbsp;:&nbsp;M1&nbsp;WILL&nbsp;BE&nbsp;CALLED&nbsp;WHEN&nbsp;THE&nbsp;EVENT&nbsp;IS&nbsp;RAISED<br />
+*&nbsp;&nbsp;METHOD&nbsp;:&nbsp;m1.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/5&nbsp;'&nbsp;I&nbsp;AM&nbsp;THE&nbsp;EVENT&nbsp;HANDLER&nbsp;METHOD'.<br />
+*&nbsp;&nbsp;ENDMETHOD.<br />
+**METHOD&nbsp;:&nbsp;T1&nbsp;WILL&nbsp;RAISE&nbsp;THE&nbsp;EVENT<br />
+*&nbsp;&nbsp;METHOD&nbsp;:&nbsp;t1.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/5&nbsp;'I&nbsp;AM&nbsp;T1,&nbsp;GOING&nbsp;TO&nbsp;RAISE&nbsp;EVENT&nbsp;E1'.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;EVENT&nbsp;e1.<br />
+*&nbsp;&nbsp;ENDMETHOD.<br />
+*ENDCLASS.<br />
+*<br />
+*START-OF-SELECTION.<br />
+*&nbsp;&nbsp;DATA&nbsp;:&nbsp;oref&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;c1.<br />
+*&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;:&nbsp;oref.<br />
+**REGISTERING&nbsp;THE&nbsp;EVENT&nbsp;HANDLER&nbsp;METHOD<br />
+*&nbsp;&nbsp;SET&nbsp;HANDLER&nbsp;oref-&gt;m1&nbsp;FOR&nbsp;oref.&nbsp;&nbsp;&nbsp;"if&nbsp;we&nbsp;dont&nbsp;register&nbsp;it,&nbsp;event&nbsp;will&nbsp;not&nbsp;be&nbsp;called.<br />
+*&nbsp;&nbsp;&nbsp;oref-&gt;t1(&nbsp;).<br />
+<br />
+**#&nbsp;2:&nbsp;EVENT&nbsp;WITH&nbsp;EVENT&nbsp;HANDLER&nbsp;METHOD&nbsp;IN&nbsp;DIFFERENT&nbsp;CLASS.<br />
+*CLASS&nbsp;C1&nbsp;DEFINITION.<br />
+*&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+*&nbsp;&nbsp;EVENTS&nbsp;:&nbsp;E1.<br />
+*&nbsp;&nbsp;METHODS&nbsp;:&nbsp;T1.<br />
+*ENDCLASS.<br />
+*<br />
+*CLASS&nbsp;C2&nbsp;DEFINITION.<br />
+*&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+*&nbsp;&nbsp;"EVENT&nbsp;HANDLING&nbsp;METHOD.<br />
+*&nbsp;&nbsp;METHODS&nbsp;:&nbsp;M2&nbsp;FOR&nbsp;EVENT&nbsp;E1&nbsp;OF&nbsp;C1.<br />
+**&nbsp;&nbsp;basically&nbsp;event&nbsp;is&nbsp;linked&nbsp;to&nbsp;this&nbsp;method,&nbsp;so&nbsp;whenever&nbsp;event&nbsp;will&nbsp;be&nbsp;called,&nbsp;it&nbsp;will&nbsp;call&nbsp;this&nbsp;method.<br />
+*ENDCLASS.<br />
+*<br />
+*CLASS&nbsp;C1&nbsp;IMPLEMENTATION.<br />
+*&nbsp;&nbsp;METHOD&nbsp;:&nbsp;T1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"calling&nbsp;event&nbsp;E1<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;'I&nbsp;AM&nbsp;T1,&nbsp;GOING&nbsp;TO&nbsp;RAISE&nbsp;EVENT&nbsp;E1'.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;EVENT&nbsp;E1.<br />
+*&nbsp;&nbsp;ENDMETHOD.<br />
+*ENDCLASS.<br />
+*<br />
+*CLASS&nbsp;C2&nbsp;IMPLEMENTATION.<br />
+*&nbsp;&nbsp;METHOD&nbsp;:&nbsp;M2.&nbsp;"this&nbsp;is&nbsp;linked&nbsp;to&nbsp;the&nbsp;event.&nbsp;so&nbsp;called&nbsp;when&nbsp;event&nbsp;is&nbsp;raised.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;'&nbsp;I&nbsp;AM&nbsp;THE&nbsp;EVENT&nbsp;HANDLER&nbsp;METHOD&nbsp;IN&nbsp;C2'.<br />
+*&nbsp;&nbsp;ENDMETHOD.<br />
+*ENDCLASS.<br />
+*<br />
+*START-OF-SELECTION.<br />
+*DATA&nbsp;:&nbsp;OREF1&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;C1,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OREF2&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;C2.<br />
+*CREATE&nbsp;OBJECT&nbsp;:&nbsp;OREF1,&nbsp;OREF2.<br />
+*<br />
+*SET&nbsp;HANDLER&nbsp;OREF2-&gt;M2&nbsp;FOR&nbsp;OREF1.<br />
+*&nbsp;OREF1-&gt;T1(&nbsp;).<br />
+**&nbsp;t1&nbsp;raises&nbsp;the&nbsp;event&nbsp;and&nbsp;so&nbsp;it&nbsp;called&nbsp;M2&nbsp;from&nbsp;other&nbsp;class.<br />
+**&nbsp;so&nbsp;t1&nbsp;is&nbsp;runned&nbsp;and&nbsp;then&nbsp;M2&nbsp;is&nbsp;runned.<br />
+<br />
+*****======================<br />
+   </div>
+   <div class="code">
+class c1 definition.<br />
+&nbsp;&nbsp;public&nbsp;section.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;events&nbsp;:&nbsp;e1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;methods&nbsp;:&nbsp;m1&nbsp;for&nbsp;event&nbsp;e1&nbsp;of&nbsp;c1,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t1.<br />
+endclass.<br />
+<br />
+class c2 definition.<br />
+&nbsp;&nbsp;public&nbsp;section.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;methods&nbsp;:&nbsp;m2&nbsp;for&nbsp;event&nbsp;e1&nbsp;of&nbsp;c1.<br />
+endclass.<br />
+<br />
+class c1 implementation.<br />
+&nbsp;&nbsp;method&nbsp;:&nbsp;t1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;write:&nbsp;'I&nbsp;AM&nbsp;T1,&nbsp;GOING&nbsp;TO&nbsp;RAISE&nbsp;EVENT&nbsp;E1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;raise&nbsp;event&nbsp;e1.<br />
+&nbsp;&nbsp;endmethod.<br />
+&nbsp;&nbsp;method&nbsp;:&nbsp;m1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;write:'&nbsp;I&nbsp;AM&nbsp;THE&nbsp;EVENT&nbsp;HANDLER&nbsp;METHOD&nbsp;M1&nbsp;IN&nbsp;C1'.<br />
+&nbsp;&nbsp;endmethod.<br />
+endclass.<br />
+<br />
+class c2 implementation.<br />
+&nbsp;&nbsp;method&nbsp;:&nbsp;m2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;write:/5&nbsp;'I&nbsp;AM&nbsp;THE&nbsp;EVENT&nbsp;HANDLER&nbsp;METHOD&nbsp;M2&nbsp;IN&nbsp;C2'.<br />
+&nbsp;&nbsp;endmethod.<br />
+endclass.<br />
+<br />
+start-of-selection.<br />
+&nbsp;&nbsp;data&nbsp;:&nbsp;oref1&nbsp;type&nbsp;ref&nbsp;to&nbsp;c1,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oref2&nbsp;type&nbsp;ref&nbsp;to&nbsp;c2.<br />
+&nbsp;&nbsp;create&nbsp;object&nbsp;:&nbsp;oref1,&nbsp;oref2.<br />
+<br />
+&nbsp;&nbsp;set&nbsp;handler&nbsp;oref1-&gt;m1&nbsp;for&nbsp;oref1.<br />
+&nbsp;&nbsp;set&nbsp;handler&nbsp;oref1-&gt;m1&nbsp;for&nbsp;oref1&nbsp;activation&nbsp;space.&nbsp;"deregister&nbsp;the&nbsp;event.<br />
+&nbsp;&nbsp;set&nbsp;handler&nbsp;oref2-&gt;m2&nbsp;for&nbsp;oref1.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*here&nbsp;2&nbsp;methods&nbsp;of&nbsp;diffrent&nbsp;class&nbsp;is&nbsp;linked&nbsp;to&nbsp;the&nbsp;event<br />
+*whichever&nbsp;is&nbsp;activated&nbsp;it&nbsp;will&nbsp;be&nbsp;called<br />
+*if&nbsp;both&nbsp;are&nbsp;activated,&nbsp;then&nbsp;both&nbsp;the&nbsp;methods&nbsp;will&nbsp;be&nbsp;executed<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;oref1-&gt;t1(&nbsp;)&nbsp;.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

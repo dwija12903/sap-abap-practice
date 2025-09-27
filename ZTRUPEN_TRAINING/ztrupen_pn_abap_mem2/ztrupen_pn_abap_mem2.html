@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>ZTRUPEN_PN_ABAP_MEM2</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZTRUPEN_PN_ABAP_MEM2</h2>
+<h3> Description: ZTRUPEN_PN_ABAP_MEM2</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZTRUPEN_PN_ABAP_MEM2<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZTRUPEN_PN_ABAP_MEM2.<br />
+<br />
+<br />
+<br />
+TABLES : MARA.<br />
+<br />
+DATA P_MATNR TYPE MARA-MATNR.<br />
+   </div>
+   <div class="codeComment">
+*************************PARAMETERS&nbsp;p_matnr&nbsp;TYPE&nbsp;matnr.<br />
+   </div>
+   <div class="code">
+TYPES : BEGIN OF TY_TAB,    "  lOCAL STRS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matnr&nbsp;TYPE&nbsp;matnr&nbsp;,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mbrsh&nbsp;TYPE&nbsp;mbrsh&nbsp;&nbsp;,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mtart&nbsp;TYPE&nbsp;mtart,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meins&nbsp;TYPE&nbsp;meins,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matkl&nbsp;TYPE&nbsp;matkl,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;brgew&nbsp;TYPE&nbsp;brgew,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ntgew&nbsp;TYPE&nbsp;ntgew,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;end&nbsp;of&nbsp;TY_Tab.<br />
+<br />
+DATA :IT_TAB TYPE STANDARD TABLE OF TY_TAB,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WA_TAB&nbsp;TYPE&nbsp;TY_TAB.<br />
+<br />
+   </div>
+   <div class="codeComment">
+***********&nbsp;&nbsp;&nbsp;&nbsp;FREE&nbsp;MEMORY&nbsp;ID&nbsp;'ABAP_SAP'.<br />
+<br />
+******************PARAMETERS&nbsp;P_MATNR&nbsp;TYPE&nbsp;MARA-MATNR.<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+IMPORT P_MATNR FROM MEMORY ID 'ABAP_SAP'.<br />
+<br />
+START-OF-SELECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SElect&nbsp;&nbsp;matnr<br />
+&nbsp;&nbsp;&nbsp;&nbsp;mbrsh<br />
+&nbsp;&nbsp;&nbsp;&nbsp;mtart<br />
+&nbsp;&nbsp;&nbsp;&nbsp;meins<br />
+&nbsp;&nbsp;&nbsp;&nbsp;matkl<br />
+&nbsp;&nbsp;&nbsp;&nbsp;brgew<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ntgew<br />
+&nbsp;&nbsp;&nbsp;&nbsp;into&nbsp;TABLE&nbsp;it_TAB<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;MARA<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;MATNR&nbsp;EQ&nbsp;P_MATNR.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;IT_TAB&nbsp;INTO&nbsp;WA_tab.&nbsp;&nbsp;&nbsp;"&nbsp;b&nbsp;to&nbsp;WORK&nbsp;ARE<br />
+&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;&nbsp;sy-tabix,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WA_TAB-MATNR,&nbsp;&nbsp;&nbsp;"&nbsp;h-f<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20&nbsp;WA_TAB-MBRSH,&nbsp;&nbsp;&nbsp;"&nbsp;h-f<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;25&nbsp;WA_TAB-MTART,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;40&nbsp;WA_TAB-MEINS,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50&nbsp;WA_TAB-MATKL,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;60&nbsp;WA_tab-brgew,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;70&nbsp;WA_tab-ntgew.<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

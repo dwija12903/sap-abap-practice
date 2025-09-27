@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>ZTRUPEN_PN_FORALLENTRIES</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZTRUPEN_PN_FORALLENTRIES</h2>
+<h3> Description: ZTRUPEN_PN_FORALLENTRIES</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZTRUPEN_PN_FORALLENTRIES<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZTRUPEN_PN_FORALLENTRIES.<br />
+<br />
+<br />
+include <a href ="ztrupen_pn_fralent_top.html">ZTRUPEN_PN_FRALENT_TOP</a>.<br />
+<br />
+TABLES mara.<br />
+<br />
+SELECT-OPTIONS s_matnr FOR mara-matnr.<br />
+<br />
+START-OF-SELECTION.<br />
+   </div>
+   <div class="codeComment">
+*****&nbsp;#&nbsp;1&nbsp;mara<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SELECT&nbsp;&nbsp;matnr<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mbrsh<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mtart<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meins<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;brgew<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ntgew<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;TABLE&nbsp;it_tab1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;mara<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;matnr&nbsp;IN&nbsp;s_matnr&nbsp;.<br />
+<br />
+if not it_tab1[] is INITIAL.   " # 1 *****<br />
+   </div>
+   <div class="codeComment">
+*****&nbsp;#&nbsp;2&nbsp;&nbsp;marc<br />
+   </div>
+   <div class="code">
+SELECT  matnr<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;werks<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PSTAT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LVORM<br />
+<br />
+INTO TABLE it_tab2<br />
+FROM marc<br />
+<br />
+FOR ALL ENTRIES IN it_tab1   "  # 2 *****<br />
+WHERE matnr eq it_tab1-matnr.<br />
+<br />
+<br />
+IF NOT IT_TAB2[] IS INITIAL.<br />
+   </div>
+   <div class="codeComment">
+*****&nbsp;#&nbsp;3&nbsp;makt<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SELECT&nbsp;&nbsp;matnr<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MAKTX<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;TABLE&nbsp;it_tab3<br />
+&nbsp;&nbsp;FROM&nbsp;makt<br />
+&nbsp;&nbsp;FOR&nbsp;ALL&nbsp;ENTRIES&nbsp;IN&nbsp;it_tab2&nbsp;&nbsp;&nbsp;"&nbsp;&nbsp;#&nbsp;2&nbsp;*****<br />
+&nbsp;&nbsp;WHERE&nbsp;matnr&nbsp;EQ&nbsp;it_tab2-matnr&nbsp;and<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spras&nbsp;eq&nbsp;sy-langu.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*<br />
+   </div>
+   <div class="code">
+DELETE ADJACENT DUPLICATES FROM it_tab1 COMPARING MATNR.  " # 3 *****<br />
+   </div>
+   <div class="codeComment">
+*<br />
+   </div>
+   <div class="code">
+sort  it_tab2 by matnr .  " # 4 *****<br />
+<br />
+loop at it_tab1 into wa_tab1.<br />
+<br />
+READ TABLE it_tab2 INTO wa_tab2 WITH KEY matnr = wa_tab1-matnr BINARY SEARCH. " # 5 ****<br />
+<br />
+READ TABLE it_tab3 INTO wa_tab3 WITH KEY matnr = wa_tab1-matnr BINARY SEARCH. " # 5 ****<br />
+<br />
+IF sy-subrc  = 0.<br />
+<br />
+MOVE: wa_tab1-matnr to wa_final-matnr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_tab1-mbrsh&nbsp;to&nbsp;wa_final-mbrsh,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_tab1-mtart&nbsp;to&nbsp;wa_final-mtart,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_tab1-meins&nbsp;to&nbsp;wa_final-meins,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_tab1-brgew&nbsp;to&nbsp;wa_final-brgew,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_tab1-ntgew&nbsp;to&nbsp;wa_final-ntgew,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_tab2-werks&nbsp;to&nbsp;wa_final-werks,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_tab2-PSTAT&nbsp;to&nbsp;wa_final-PSTAT,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_tab2-LVORM&nbsp;to&nbsp;wa_final-LVORM,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_tab3-maktx&nbsp;to&nbsp;wa_final-maktx.<br />
+<br />
+APPEND wa_final to it_final.<br />
+<br />
+else.<br />
+&nbsp;&nbsp;CONTINUE.<br />
+endif.<br />
+ENDloop.<br />
+<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;it_final&nbsp;INTO&nbsp;wa_final.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;wa_final-matnr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_final-mbrsh,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_final-mtart,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_final-meins,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_final-brgew,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_final-ntgew,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_final-werks,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_final-PSTAT,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_final-LVORM,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_final-maktx.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+else.<br />
+<br />
+WRITE 'mat master first table records are not found'  .<br />
+<br />
+&nbsp;endif.<br />
+&nbsp;&nbsp;endif.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

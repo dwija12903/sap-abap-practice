@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>Z0731_1</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: Z0731_1</h2>
+<h3> Description: Interactive Reports</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;Z0731_1<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+report z0731_1 no standard page heading line-count 15(3) message-id zdwija_msg.<br />
+include <a href ="z0731_1_incl.html">z0731_1_incl</a>.<br />
+<br />
+select-options s_kunnr for lv_kunnr.<br />
+<br />
+initialization. "event 1 - to initialise<br />
+&nbsp;&nbsp;s_kunnr-low&nbsp;=&nbsp;'1'.<br />
+&nbsp;&nbsp;s_kunnr-high&nbsp;=&nbsp;'100'.<br />
+&nbsp;&nbsp;append&nbsp;s_kunnr.&nbsp;"sets&nbsp;the&nbsp;value.<br />
+&nbsp;&nbsp;"in&nbsp;this&nbsp;event&nbsp;we&nbsp;can&nbsp;also&nbsp;do&nbsp;calculations&nbsp;along&nbsp;with&nbsp;initalisation.<br />
+<br />
+at selection-screen on s_kunnr. "event 2 - input validation.<br />
+&nbsp;&nbsp;select&nbsp;single&nbsp;kunnr&nbsp;into&nbsp;lv_kunnr<br />
+&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;kna1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;where&nbsp;kunnr&nbsp;in&nbsp;s_kunnr.<br />
+<br />
+&nbsp;&nbsp;if&nbsp;sy-subrc&nbsp;eq&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;message&nbsp;s000.<br />
+&nbsp;&nbsp;else.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;message&nbsp;e001.<br />
+&nbsp;&nbsp;endif.<br />
+<br />
+start-of-selection. "event 3- main query execution.<br />
+&nbsp;&nbsp;select&nbsp;kunnr&nbsp;land1&nbsp;name1&nbsp;ort01&nbsp;sortl<br />
+&nbsp;&nbsp;&nbsp;&nbsp;into&nbsp;table&nbsp;it_tab<br />
+&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;kna1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;where&nbsp;kunnr&nbsp;in&nbsp;s_kunnr.<br />
+<br />
+&nbsp;&nbsp;if&nbsp;sy-subrc&nbsp;eq&nbsp;0&nbsp;and&nbsp;it_tab&nbsp;is&nbsp;not&nbsp;initial.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;sort&nbsp;it_tab&nbsp;by&nbsp;kunnr&nbsp;ascending.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;message&nbsp;s000.<br />
+&nbsp;&nbsp;else.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;message&nbsp;e001.<br />
+&nbsp;&nbsp;endif.<br />
+<br />
+end-of-selection."event 4 - after query execution, output.<br />
+&nbsp;&nbsp;loop&nbsp;at&nbsp;it_tab&nbsp;into&nbsp;wa_tab.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;uline.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;write:/1&nbsp;sy-vline,sy-tabix,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;sy-vline,wa_tab-kunnr&nbsp;hotspot,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15&nbsp;sy-vline,wa_tab-land1,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;25&nbsp;sy-vline,wa_tab-name1,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50&nbsp;sy-vline,wa_tab-ort01,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;65&nbsp;sy-vline,wa_tab-sortl.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;hide&nbsp;wa_tab-kunnr.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;uline.<br />
+&nbsp;&nbsp;endloop.<br />
+<br />
+<br />
+&nbsp;&nbsp;data&nbsp;lv_count&nbsp;type&nbsp;i.<br />
+&nbsp;&nbsp;lv_count&nbsp;&nbsp;=&nbsp;&nbsp;sy-linct&nbsp;-&nbsp;sy-linno.<br />
+&nbsp;&nbsp;skip&nbsp;lv_count.<br />
+<br />
+top-of-page. "event 5 - headers.<br />
+uline.<br />
+&nbsp;&nbsp;write:&nbsp;/1&nbsp;sy-vline,'Row&nbsp;No',&nbsp;"numbers&nbsp;help&nbsp;to&nbsp;add&nbsp;position.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;sy-vline,'kunnr',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15&nbsp;sy-vline,'Land',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;25&nbsp;sy-vline,'Name',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50&nbsp;sy-vline,'ORT01',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;65&nbsp;sy-vline,'SORTL'.<br />
+&nbsp;&nbsp;uline.<br />
+<br />
+end-of-page. "event 6 - Footer.<br />
+&nbsp;&nbsp;write&nbsp;:&nbsp;'Page&nbsp;no:'&nbsp;,&nbsp;sy-pagno,&nbsp;'Date:',&nbsp;sy-datum,&nbsp;'Time:'&nbsp;,&nbsp;sy-uzeit.<br />
+&nbsp;&nbsp;uline.<br />
+<br />
+at line-selection. "event 7 - when we double click on hotspot field. next screen is displayed.<br />
+&nbsp;&nbsp;case&nbsp;sy-lsind.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;when&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;select&nbsp;vkorg&nbsp;vtweg&nbsp;spart<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;into&nbsp;table&nbsp;it_tab2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;knvp<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;where&nbsp;kunnr&nbsp;eq&nbsp;wa_tab-kunnr.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;sy-subrc&nbsp;eq&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;message&nbsp;s000.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;message&nbsp;e001.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;endif.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;loop&nbsp;at&nbsp;it_tab2&nbsp;into&nbsp;wa_tab2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write&nbsp;:/1&nbsp;sy-vline,sy-tabix,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15&nbsp;sy-vline,wa_tab2-vkorg,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;30&nbsp;sy-vline,wa_tab2-vtweg,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;45&nbsp;sy-vline,wa_tab2-spart.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uline.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;endloop.<br />
+&nbsp;&nbsp;endcase.<br />
+<br />
+top-of-page during line-selection. "event 8 - header for new screen.<br />
+&nbsp;&nbsp;case&nbsp;sy-lsind.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;when&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write&nbsp;:'KVPN&nbsp;Table&nbsp;Details'&nbsp;,&nbsp;'The&nbsp;Current&nbsp;List&nbsp;no&nbsp;is',&nbsp;sy-lsind.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;skip.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uline.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;write&nbsp;:&nbsp;/1&nbsp;sy-vline,'Row&nbsp;No',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15&nbsp;sy-vline,'Sales&nbsp;Organization',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;30&nbsp;sy-vline,'Distribution&nbsp;Channel',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;45&nbsp;sy-vline,'Division'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uline.<br />
+<br />
+&nbsp;&nbsp;endcase.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;ZDWIJA_MSG<br />
+*000&nbsp;&nbsp;&nbsp;"Records&nbsp;are&nbsp;accessed&nbsp;Successful"<br />
+*001&nbsp;&nbsp;&nbsp;"Error&nbsp;-&nbsp;Records&nbsp;are&nbsp;not&nbsp;accessible."<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,26 @@
+@AbapCatalog.sqlViewName: 'ZDWIJA_CDS_4'
+@AbapCatalog.compiler.compareFilter: true
+@AbapCatalog.preserveKey: true
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'INNER JOIN'
+@Metadata.ignorePropagatedAnnotations: true
+define view ZDWIJA_VIEW_4
+with parameters P_VBELNL : vbeln_va,
+                P_VBELNH : vbeln_va
+
+as select from vbap as SO_I
+inner join vbep as SO_P
+on SO_I.vbeln = SO_P.vbeln
+{
+key SO_I.vbeln,
+key SO_I.posnr,
+    SO_I.matnr,
+    SO_I.matkl,
+    SO_I.matwa,
+    SO_I.netpr,
+    SO_I.netwr,
+    SO_P.abart,
+    SO_P.etenr,
+    SO_P.ettyp
+
+} where SO_I.vbeln between :P_VBELNL and :P_VBELNH;

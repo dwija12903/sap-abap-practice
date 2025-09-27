@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>Z30097978_OOALV_FIELD_CATALOG</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: Z30097978_OOALV_FIELD_CATALOG</h2>
+<h3> Description: FIELD-CATALOG: Z30097978_OOALV</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Z30097978_OOALV_FIELD_CATALOG<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+*insert&nbsp;data&nbsp;into&nbsp;field&nbsp;catalog<br />
+*column&nbsp;no,&nbsp;column&nbsp;description,&nbsp;column&nbsp;name,&nbsp;internal&nbsp;table&nbsp;name.<br />
+   </div>
+   <div class="code">
+perform insert_fieldcat using 1 text-001 text-002 text-000.<br />
+perform insert_fieldcat using 2 text-003 text-004 text-000.<br />
+perform insert_fieldcat using 3 text-005 text-006 text-000.<br />
+perform insert_fieldcat using 4 text-007 text-008 text-000.<br />
+perform insert_fieldcat using 5 text-009 text-010 text-000.<br />
+perform insert_fieldcat using 6 text-011 text-012 text-000.<br />
+perform insert_fieldcat using 7 text-013 text-014 text-000.<br />
+perform insert_fieldcat using 8 text-015 text-016 text-000.<br />
+perform insert_fieldcat using 9 text-017 text-018 text-000.<br />
+<br />
+call screen 0100.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*To&nbsp;display&nbsp;the&nbsp;records&nbsp;without&nbsp;OOALV.<br />
+*LOOP&nbsp;AT&nbsp;it_final&nbsp;INTO&nbsp;wa_final.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;wa_final-bdatu,<br />
+*wa_final-statu,<br />
+*wa_final-tbnum,<br />
+*wa_final-matnr,<br />
+*wa_final-meins,<br />
+*wa_final-menge,<br />
+*wa_final-tbpos,<br />
+*wa_final-werks.<br />
+*ENDLOOP.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

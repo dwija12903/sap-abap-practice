@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>ZTRUPEN_PN_FRALENT_TOP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZTRUPEN_PN_FRALENT_TOP</h2>
+<h3> Description: Include ZTRUPEN_PN_FRALENT_TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+******&nbsp;tables&nbsp;list&nbsp;&nbsp;&nbsp;emp,&nbsp;dept.<br />
+*******so-----&nbsp;vbak,&nbsp;vbap,&nbsp;vbep,&nbsp;vbuk...<br />
+*******&nbsp;po&nbsp;--&nbsp;ekko&nbsp;,&nbsp;ekpo,&nbsp;eket,&nbsp;ekkt.<br />
+<br />
+   </div>
+   <div class="code">
+TYPES : BEGIN OF ty_tab1,  " local strs<br />
+&nbsp;&nbsp;matnr&nbsp;TYPE&nbsp;matnr,&nbsp;&nbsp;&nbsp;"&nbsp;Material&nbsp;Number&nbsp;&nbsp;"&nbsp;mara<br />
+&nbsp;&nbsp;mbrsh&nbsp;TYPE&nbsp;mbrsh,<br />
+&nbsp;&nbsp;mtart&nbsp;TYPE&nbsp;mtart,<br />
+&nbsp;&nbsp;meins&nbsp;TYPE&nbsp;meins,<br />
+&nbsp;&nbsp;brgew&nbsp;TYPE&nbsp;brgew,<br />
+&nbsp;&nbsp;ntgew&nbsp;TYPE&nbsp;ntgew,<br />
+<br />
+END OF ty_tab1.<br />
+<br />
+DATA :it_tab1 TYPE STANDARD TABLE OF ty_tab1, " int table<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_tab1&nbsp;TYPE&nbsp;ty_tab1.&nbsp;&nbsp;&nbsp;"&nbsp;work&nbsp;area.<br />
+<br />
+<br />
+TYPES : BEGIN OF ty_tab2,  " local strs<br />
+&nbsp;&nbsp;matnr&nbsp;TYPE&nbsp;matnr,<br />
+&nbsp;&nbsp;werks&nbsp;TYPE&nbsp;werks_d,&nbsp;&nbsp;"&nbsp;marc<br />
+&nbsp;&nbsp;PSTAT&nbsp;TYPE&nbsp;PSTAT_D,<br />
+&nbsp;&nbsp;LVORM&nbsp;TYPE&nbsp;LVOWK,<br />
+<br />
+END OF ty_tab2.<br />
+<br />
+DATA :it_tab2 TYPE STANDARD TABLE OF ty_tab2, " int table<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_tab2&nbsp;TYPE&nbsp;ty_tab2.&nbsp;&nbsp;&nbsp;"&nbsp;work&nbsp;area.<br />
+<br />
+<br />
+<br />
+TYPES : BEGIN OF ty_tab3,  " local strs   table Makt<br />
+&nbsp;&nbsp;matnr&nbsp;TYPE&nbsp;matnr,<br />
+&nbsp;&nbsp;maktx&nbsp;type&nbsp;maktx,<br />
+<br />
+END OF ty_tab3.<br />
+<br />
+DATA :it_tab3 TYPE STANDARD TABLE OF ty_tab3, " int table<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_tab3&nbsp;TYPE&nbsp;ty_tab3.&nbsp;&nbsp;&nbsp;"&nbsp;work&nbsp;area.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*----------------------------------------------final------------------<br />
+<br />
+   </div>
+   <div class="code">
+TYPES : BEGIN OF ty_final,  " local strs<br />
+&nbsp;&nbsp;matnr&nbsp;TYPE&nbsp;matnr,&nbsp;&nbsp;&nbsp;"&nbsp;Material&nbsp;Number&nbsp;&nbsp;"&nbsp;mara<br />
+&nbsp;&nbsp;mbrsh&nbsp;TYPE&nbsp;mbrsh,<br />
+&nbsp;&nbsp;mtart&nbsp;TYPE&nbsp;mtart,<br />
+&nbsp;&nbsp;meins&nbsp;TYPE&nbsp;meins,<br />
+&nbsp;&nbsp;brgew&nbsp;TYPE&nbsp;brgew,<br />
+&nbsp;&nbsp;ntgew&nbsp;TYPE&nbsp;ntgew,<br />
+<br />
+&nbsp;&nbsp;werks&nbsp;TYPE&nbsp;werks_d,&nbsp;&nbsp;"&nbsp;marc<br />
+&nbsp;&nbsp;PSTAT&nbsp;TYPE&nbsp;PSTAT_D,<br />
+&nbsp;&nbsp;LVORM&nbsp;TYPE&nbsp;LVOWK,<br />
+<br />
+&nbsp;&nbsp;&nbsp;maktx&nbsp;TYPE&nbsp;maktx,&nbsp;&nbsp;&nbsp;"&nbsp;makt<br />
+<br />
+END OF ty_final.<br />
+<br />
+DATA :it_final TYPE STANDARD TABLE OF ty_final, " int table<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_final&nbsp;TYPE&nbsp;ty_final.&nbsp;&nbsp;&nbsp;"&nbsp;work&nbsp;area.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

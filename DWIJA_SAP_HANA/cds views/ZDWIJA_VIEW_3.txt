@@ -1,0 +1,20 @@
+@AbapCatalog.sqlViewName: 'ZDWIJA_CDS_3'
+@AbapCatalog.compiler.compareFilter: true
+@AbapCatalog.preserveKey: true
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'WITH PARAMETER RANGE'
+@Metadata.ignorePropagatedAnnotations: true
+define view ZDWIJA_VIEW_3
+with parameters P_VBELNL : vbeln_va,
+                P_VBELNH : vbeln_va
+
+as select from vbap as TAB
+{
+key TAB.vbeln as TAB_ORDER,     //USE OF ALIASES
+key TAB.posnr,
+    TAB.matnr as MATERIAL_NO,
+    TAB.matkl,
+    TAB.matwa,
+    TAB.netpr,
+    TAB.netwr
+} where TAB.vbeln between :P_VBELNL and :P_VBELNH;

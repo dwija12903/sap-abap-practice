@@ -1,0 +1,19 @@
+@AbapCatalog.sqlViewName: 'ZDWIJA_CDS_2'
+@AbapCatalog.compiler.compareFilter: true
+@AbapCatalog.preserveKey: true
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'WITH PARAMETERS'
+@Metadata.ignorePropagatedAnnotations: true
+define view ZDWIJA_VIEW_2
+with parameters P_VBELN : vbeln_va
+
+as select from vbap as TAB
+{
+    key TAB.vbeln,
+    key TAB.posnr,
+    TAB.matnr,
+    TAB.matkl,
+    TAB.matwa,
+    TAB.netpr,
+    TAB.netwr
+} where TAB.vbeln = $parameters.P_VBELN;

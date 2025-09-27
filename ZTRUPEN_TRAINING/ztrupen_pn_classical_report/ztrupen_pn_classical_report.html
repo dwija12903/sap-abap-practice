@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>ZTRUPEN_PN_CLASSICAL_REPORT</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZTRUPEN_PN_CLASSICAL_REPORT</h2>
+<h3> Description: classical reports</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZTRUPEN_PN_CLASSICAL_REPORT<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZTRUPEN_PN_CLASSICAL_REPORT<br />
+NO STANDARD PAGE HEADING MESSAGE-ID ZTRUPEN_PN_MSG LINE-COUNT 25(3).<br />
+<br />
+include <a href ="ztrupen_pn_cls_top.html">ztrupen_pn_cls_top</a>.<br />
+<br />
+<br />
+<br />
+SELECT-OPTIONS s_matnr FOR lv_matnr. " DEFAULT '1' to '100'.<br />
+<br />
+INITIALIZATION.<br />
+s_matnr-low  = '1'.<br />
+s_matnr-high = '100'.<br />
+append s_matnr.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*<br />
+*data&nbsp;lv_date&nbsp;type&nbsp;sy-datum.<br />
+*<br />
+*lv_date&nbsp;=&nbsp;sy-datum&nbsp;-&nbsp;7.<br />
+*<br />
+*s_matnr-low&nbsp;&nbsp;=&nbsp;lv_date&nbsp;.<br />
+*s_matnr-high&nbsp;=&nbsp;sy-datum&nbsp;.<br />
+*append&nbsp;s_matnr.<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+at SELECTION-SCREEN on s_matnr.<br />
+&nbsp;&nbsp;select&nbsp;SINGLE&nbsp;matnr&nbsp;into&nbsp;lv_matnr<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;mara<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;matnr&nbsp;in&nbsp;s_matnr.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;sy-subrc&nbsp;EQ&nbsp;0.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;I002(ZTRUPEN_PN_MSG).&nbsp;&nbsp;&nbsp;"&nbsp;SE91<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;S000(ZTRUPEN_PN_MSG).&nbsp;&nbsp;&nbsp;"&nbsp;SE91<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;X005(ZTRUPEN_PN_MSG).<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;A003(ZTRUPEN_PN_MSG).<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;E001(ZTRUPEN_PN_MSG).<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;W002(ZTRUPEN_PN_MSG).<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+<br />
+<br />
+START-OF-SELECTION.<br />
+&nbsp;&nbsp;SELECT&nbsp;matnr&nbsp;mbrsh&nbsp;mtart&nbsp;meins&nbsp;brgew&nbsp;ntgew<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;TABLE&nbsp;LT_TAB<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;mara<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;matnr&nbsp;IN&nbsp;s_matnr.<br />
+<br />
+END-of-SELECTION.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;LT_tAB&nbsp;INTO&nbsp;wa_tab.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:/10&nbsp;WA_tab-matnr&nbsp;COLOR&nbsp;COL_GROUP,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;wa_tab-mbrsh&nbsp;COLOR&nbsp;1,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;wa_tab-mtart&nbsp;COLOR&nbsp;COL_POSITIVE,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;wa_tab-meins&nbsp;COLOR&nbsp;COL_NEGATIVE,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;wa_tab-brgew&nbsp;COLOR&nbsp;COL_GROUP,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;wa_tab-ntgew.<br />
+*<br />
+*<br />
+*&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+<br />
+****CL_DEMO_OUTPUT=&gt;DISPLAY_DATA(&nbsp;LT_TAB&nbsp;).<br />
+<br />
+   </div>
+   <div class="code">
+CL_DEMO_OUTPUT=&gt;DISPLAY_DATA(<br />
+&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;VALUE&nbsp;=&nbsp;&nbsp;LT_TAB<br />
+&nbsp;&nbsp;&nbsp;NAME&nbsp;&nbsp;=&nbsp;&nbsp;'Material&nbsp;Master&nbsp;info'<br />
+).<br />
+<br />
+<br />
+<br />
+data lv_count TYPE i.<br />
+<br />
+lv_count  =  sy-linct - sy-linno.<br />
+   </div>
+   <div class="codeComment">
+*******&nbsp;&nbsp;&nbsp;&nbsp;13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;25&nbsp;&nbsp;-&nbsp;12.<br />
+   </div>
+   <div class="code">
+skip lv_count.<br />
+<br />
+<br />
+&nbsp;&nbsp;TOP-OF-PAGE.<br />
+&nbsp;&nbsp;WRITE&nbsp;/&nbsp;&nbsp;'Material&nbsp;Master&nbsp;info'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;WRITE&nbsp;:&nbsp;/3'material&nbsp;Number',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;25&nbsp;'IND&nbsp;Sector',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;40&nbsp;'Material&nbsp;Type',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50&nbsp;'Material&nbsp;UOM',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;80&nbsp;'Material&nbsp;Gross&nbsp;wt',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;100&nbsp;'Material&nbsp;Net&nbsp;wt'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;ULINE.<br />
+<br />
+<br />
+&nbsp;&nbsp;end-of-PAGE.<br />
+<br />
+&nbsp;&nbsp;WRITE&nbsp;:&nbsp;'Page&nbsp;no:'&nbsp;,&nbsp;sy-pagno,&nbsp;'Date:',&nbsp;sy-datum,&nbsp;'Time:'&nbsp;,&nbsp;sy-uzeit.<br />
+<br />
+&nbsp;&nbsp;uline&nbsp;.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;ZTRUPEN_PN_MSG<br />
+*000&nbsp;&nbsp;&nbsp;Material&nbsp;Records&nbsp;are&nbsp;found&nbsp;in&nbsp;mara&nbsp;table<br />
+*005&nbsp;&nbsp;&nbsp;Material&nbsp;Records&nbsp;are&nbsp;not&nbsp;found&nbsp;in&nbsp;mara&nbsp;table<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

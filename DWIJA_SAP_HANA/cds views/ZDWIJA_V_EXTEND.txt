@@ -1,0 +1,10 @@
+@AbapCatalog.sqlViewAppendName: 'ZDWI_EXTEND_VIEW'
+@EndUserText.label: 'EXTEND VIEW'
+
+// IT EXTENDS THE PROPERTY OF THE BASE VIEW
+// BY ADDING MORE COLUMNS INTO IT.
+extend view ZDWIJA_VIEW_1 with ZDWIJA_V_EXTEND
+{
+    TAB.meins,
+    TAB.spart
+}

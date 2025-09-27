@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>ZCL_0812_1_CLASS2</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZCL_0812_1_CLASS2</h2>
+<h3> Description: Include ZCL_0812_1_CLASS2</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZCL_0812_1_CLASS2<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+class cl2 DEFINITION.<br />
+&nbsp;&nbsp;public&nbsp;section.<br />
+&nbsp;&nbsp;data&nbsp;v1&nbsp;type&nbsp;I&nbsp;value&nbsp;12.<br />
+&nbsp;&nbsp;methods:&nbsp;meth1&nbsp;IMPORTING&nbsp;inp&nbsp;type&nbsp;I.&nbsp;"to&nbsp;give&nbsp;parameters&nbsp;in&nbsp;methods<br />
+endclass.<br />
+<br />
+class cl2 IMPLEMENTATION.<br />
+&nbsp;&nbsp;method&nbsp;meth1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;v1&nbsp;=&nbsp;v1&nbsp;*&nbsp;inp.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;write&nbsp;v1.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;v1&nbsp;=&nbsp;12.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;endmethod.<br />
+endclass.<br />
+<br />
+START-OF-SELECTION.<br />
+&nbsp;data:&nbsp;obj1&nbsp;type&nbsp;REF&nbsp;TO&nbsp;cl2,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;obj2&nbsp;type&nbsp;REF&nbsp;TO&nbsp;cl2.<br />
+&nbsp;create&nbsp;object:&nbsp;obj1,&nbsp;obj2.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*cALL&nbsp;METHOD&nbsp;obj1-&gt;METH1&nbsp;EXPORTING&nbsp;inp&nbsp;=&nbsp;6.&nbsp;&nbsp;&nbsp;"&nbsp;way&nbsp;1<br />
+*CALL&nbsp;METHOD&nbsp;obj1-&gt;METH1(&nbsp;iNP&nbsp;=&nbsp;6&nbsp;).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;way&nbsp;2<br />
+*CALL&nbsp;METHOD&nbsp;obj1-&gt;METH1(&nbsp;6&nbsp;).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;way&nbsp;3<br />
+   </div>
+   <div class="code">
+obj1-&gt;METH1( 6 ).<br />
+obj2-&gt;meth1( 5 ).<br />
+<br />
+   </div>
+   <div class="codeComment">
+*as&nbsp;v1&nbsp;is&nbsp;instance&nbsp;its&nbsp;value&nbsp;remains&nbsp;different&nbsp;for&nbsp;each&nbsp;object.&nbsp;o/p:&nbsp;72&nbsp;60<br />
+*if&nbsp;v1&nbsp;would&nbsp;be&nbsp;static&nbsp;then&nbsp;the&nbsp;value&nbsp;in&nbsp;obj1&nbsp;wpuld&nbsp;make&nbsp;it&nbsp;72&nbsp;and&nbsp;in&nbsp;next&nbsp;obj2&nbsp;call&nbsp;v1&nbsp;=&nbsp;360.&nbsp;o/p:&nbsp;72&nbsp;360.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,27 @@
+@AbapCatalog.sqlViewName: 'ZDWI_CURR_CONV'
+@AbapCatalog.compiler.compareFilter: true
+@AbapCatalog.preserveKey: true
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'CURRENCY CONVERSION'
+@Metadata.ignorePropagatedAnnotations: true
+define view ZDWIJA_V_CURRENCY
+
+with parameters P_currency:abap.cuky( 5 ),  //INPUT FOR CURRENCY
+                P_exc_date:abap.dats        //DATE FOR EXECUTION
+    as select from snwd_so as so
+    // SNWD_SO IS A DEFAULT TABLE STRUCTURE.
+{
+    so.so_id,
+    so.gross_amount as BEFORE_CONV_GROSS_AMT,
+
+   // IT IS A DEFAULT FUNCTION
+   currency_conversion( amount => so.gross_amount,
+          source_currency => so.currency_code,
+          round => 'X',
+          target_currency => :P_currency,
+          exchange_rate_date => :P_exc_date,
+          error_handling => 'SET_TO_NULL' )
+          as AFT_CONV_GRSAMT,
+
+   :P_currency as input_curr_by_user  //USER INPUT
+}

@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>Z30097978_OOALV_TOP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: Z30097978_OOALV_TOP</h2>
+<h3> Description: DECALARATION: Z30097978_OOALV_TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Z30097978_OOALV_TOP<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+types:<br />
+&nbsp;&nbsp;begin&nbsp;of&nbsp;ls_ltbk,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;lgnum&nbsp;type&nbsp;zd30097978_lgnum,&nbsp;"Warehouse&nbsp;Number<br />
+&nbsp;&nbsp;&nbsp;&nbsp;tbnum	type&nbsp;zd30097978_tbnum,&nbsp;"Transfer&nbsp;Requirement&nbsp;Number<br />
+&nbsp;&nbsp;&nbsp;&nbsp;statu	type&nbsp;zd30097978_statu,&nbsp;"Header&nbsp;Status&nbsp;of&nbsp;Transfer&nbsp;Requirement<br />
+&nbsp;&nbsp;&nbsp;&nbsp;bdatu	type&nbsp;zd30097978_bdatu,&nbsp;"Creation&nbsp;Date&nbsp;of&nbsp;Transfer&nbsp;Request<br />
+&nbsp;&nbsp;end&nbsp;of&nbsp;ls_ltbk,<br />
+<br />
+&nbsp;&nbsp;begin&nbsp;of&nbsp;ls_ltbp,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;tbnum	type&nbsp;zd30097978_tbnum,&nbsp;"Transfer&nbsp;Requirement&nbsp;Number<br />
+&nbsp;&nbsp;&nbsp;&nbsp;tbpos	type&nbsp;zd30097978_tbpos,&nbsp;"Transfer&nbsp;Requirement&nbsp;Item<br />
+&nbsp;&nbsp;&nbsp;&nbsp;matnr	type&nbsp;matnr,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Material&nbsp;Number<br />
+&nbsp;&nbsp;&nbsp;&nbsp;werks	type&nbsp;werks_d,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Plant<br />
+&nbsp;&nbsp;&nbsp;&nbsp;menge	type&nbsp;zd30097978_menge,&nbsp;"Transfer&nbsp;requirement&nbsp;quantity&nbsp;in&nbsp;stockkeeping&nbsp;unit<br />
+&nbsp;&nbsp;&nbsp;&nbsp;meins	type&nbsp;meins,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Base&nbsp;Unit&nbsp;of&nbsp;Measure<br />
+&nbsp;&nbsp;end&nbsp;of&nbsp;ls_ltbp,<br />
+<br />
+&nbsp;&nbsp;begin&nbsp;of&nbsp;ls_final,<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;TABLE:&nbsp;LTBK<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;lgnum	type&nbsp;zd30097978_lgnum,&nbsp;"Warehouse&nbsp;Number<br />
+&nbsp;&nbsp;&nbsp;&nbsp;tbnum	type&nbsp;zd30097978_tbnum,&nbsp;"Transfer&nbsp;Requirement&nbsp;Number<br />
+&nbsp;&nbsp;&nbsp;&nbsp;statu	type&nbsp;zd30097978_statu,&nbsp;"Header&nbsp;Status&nbsp;of&nbsp;Transfer&nbsp;Requirement<br />
+&nbsp;&nbsp;&nbsp;&nbsp;bdatu	type&nbsp;zd30097978_bdatu,&nbsp;"Creation&nbsp;Date&nbsp;of&nbsp;Transfer&nbsp;Request<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;TABLE:&nbsp;LTBP<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;tbpos	type&nbsp;zd30097978_tbpos,&nbsp;"Transfer&nbsp;Requirement&nbsp;Item<br />
+&nbsp;&nbsp;&nbsp;&nbsp;matnr	type&nbsp;matnr,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Material&nbsp;Number<br />
+&nbsp;&nbsp;&nbsp;&nbsp;werks	type&nbsp;werks_d,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Plant<br />
+&nbsp;&nbsp;&nbsp;&nbsp;menge	type&nbsp;zd30097978_menge,&nbsp;"Transfer&nbsp;requirement&nbsp;quantity&nbsp;in&nbsp;stockkeeping&nbsp;unit<br />
+&nbsp;&nbsp;&nbsp;&nbsp;meins	type&nbsp;meins,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Base&nbsp;Unit&nbsp;of&nbsp;Measure<br />
+&nbsp;&nbsp;end&nbsp;of&nbsp;ls_final.<br />
+<br />
+data: it_ltbk     type standard table of ls_ltbk, "internal table of required LTBK fields<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_ltbk&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type&nbsp;ls_ltbk,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"work&nbsp;area&nbsp;for&nbsp;required&nbsp;LTBK&nbsp;fields<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_ltbp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type&nbsp;standard&nbsp;table&nbsp;of&nbsp;ls_ltbp,&nbsp;"internal&nbsp;table&nbsp;of&nbsp;required&nbsp;LTBP&nbsp;fields<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_ltbp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type&nbsp;ls_ltbp,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"work&nbsp;area&nbsp;for&nbsp;required&nbsp;LTBP&nbsp;fields<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_final&nbsp;&nbsp;&nbsp;&nbsp;type&nbsp;standard&nbsp;table&nbsp;of&nbsp;ls_final,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_final&nbsp;&nbsp;&nbsp;&nbsp;type&nbsp;ls_final,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_tbnum&nbsp;&nbsp;&nbsp;&nbsp;type&nbsp;zd30097978_tbnum,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_container&nbsp;type&nbsp;ref&nbsp;to&nbsp;cl_gui_custom_container,&nbsp;"object&nbsp;of&nbsp;custom&nbsp;container&nbsp;class.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_alvgrid&nbsp;&nbsp;&nbsp;type&nbsp;ref&nbsp;to&nbsp;cl_gui_alv_grid,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"object&nbsp;of&nbsp;alv&nbsp;grid&nbsp;class<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_fieldcat&nbsp;type&nbsp;lvc_s_fcat,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lt_fieldcat&nbsp;type&nbsp;lvc_t_fcat,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_layout&nbsp;&nbsp;&nbsp;type&nbsp;lvc_s_layo.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*tables:&nbsp;ZD30097978_LTBK.<br />
+*&nbsp;select-options&nbsp;s_tbnum&nbsp;for&nbsp;ZD30097978_LTBK-tbnum.<br />
+*import&nbsp;s_tbnum&nbsp;from&nbsp;memory&nbsp;id&nbsp;'tbnum_range'.<br />
+<br />
+   </div>
+   <div class="code">
+select-options s_tbnum for lv_tbnum.<br />
+import s_tbnum from memory id 'tbnum_range'.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

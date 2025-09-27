@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>ZTRUPEN_PN_AT_SELECTION_OUTPUT</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZTRUPEN_PN_AT_SELECTION_OUTPUT</h2>
+<h3> Description: ZTRUPEN_PN_AT_SELECTION_OUTPUT</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZTRUPEN_PN_AT_SELECTION_OUTPUT<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZTRUPEN_PN_AT_SELECTION_OUTPUT.<br />
+<br />
+<br />
+include <a href ="ztrupen_pn_at_select_out_top.html">ZTRUPEN_PN_AT_SELECT_OUT_TOP</a>.<br />
+<br />
+<br />
+select-options s_matnr for lv_matnr default '1' to '100'.<br />
+<br />
+selection-screen begin of block b1 with frame title text-t01.<br />
+<br />
+&nbsp;&nbsp;parameter:rad1&nbsp;radiobutton&nbsp;group&nbsp;rad&nbsp;user-command&nbsp;flag&nbsp;&nbsp;default&nbsp;'X',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rad2&nbsp;radiobutton&nbsp;group&nbsp;rad&nbsp;."DEFAULT&nbsp;'X'.<br />
+<br />
+selection-screen end of block b1.<br />
+<br />
+selection-screen begin of block b2 with frame title text-t02 .<br />
+&nbsp;&nbsp;parameter&nbsp;:&nbsp;p_mbrsh&nbsp;type&nbsp;mbrsh&nbsp;modif&nbsp;id&nbsp;m1,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_mtart&nbsp;type&nbsp;mtart&nbsp;modif&nbsp;id&nbsp;m2.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*****&nbsp;&nbsp;PARAMETER&nbsp;:&nbsp;c1&nbsp;AS&nbsp;CHECKBOX&nbsp;,<br />
+*****&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c2&nbsp;AS&nbsp;CHECKBOX&nbsp;DEFAULT&nbsp;'X'&nbsp;.<br />
+<br />
+   </div>
+   <div class="code">
+selection-screen end of block b2.<br />
+   </div>
+   <div class="codeComment">
+*<br />
+   </div>
+   <div class="code">
+at selection-screen output.<br />
+   </div>
+   <div class="codeComment">
+*<br />
+   </div>
+   <div class="code">
+loop at screen.<br />
+&nbsp;&nbsp;if&nbsp;rad1&nbsp;=&nbsp;'X'&nbsp;and<br />
+&nbsp;&nbsp;screen-group1&nbsp;=&nbsp;'M2'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;screen-active&nbsp;=&nbsp;'0'.<br />
+<br />
+elseif rad2 = 'X' and<br />
+&nbsp;&nbsp;screen-group1&nbsp;=&nbsp;'M1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;screen-active&nbsp;=&nbsp;'0'.<br />
+&nbsp;&nbsp;endif.<br />
+&nbsp;&nbsp;modify&nbsp;screen.<br />
+endloop.<br />
+<br />
+start-of-selection.<br />
+if rad1 = 'X'.<br />
+&nbsp;&nbsp;perform&nbsp;get_mbrsh.<br />
+else.<br />
+&nbsp;&nbsp;perform&nbsp;get_mtart.<br />
+endif.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Form&nbsp;&nbsp;GET_MBRSH<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+form get_mbrsh .<br />
+&nbsp;&nbsp;select&nbsp;matnr<br />
+&nbsp;&nbsp;mbrsh<br />
+&nbsp;&nbsp;mtart<br />
+&nbsp;&nbsp;meins<br />
+&nbsp;&nbsp;into&nbsp;table&nbsp;it_tab<br />
+&nbsp;&nbsp;from&nbsp;mara<br />
+&nbsp;&nbsp;where&nbsp;matnr&nbsp;in&nbsp;s_matnr<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;mbrsh&nbsp;eq&nbsp;p_mbrsh&nbsp;.<br />
+<br />
+&nbsp;&nbsp;loop&nbsp;at&nbsp;it_tab&nbsp;into&nbsp;wa_tab.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;write&nbsp;:&nbsp;/&nbsp;wa_tab-matnr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;wa_tab-mbrsh,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;wa_tab-mtart,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;wa_tab-meins.<br />
+<br />
+&nbsp;&nbsp;endloop.<br />
+<br />
+endform.                    " GET_MBRSH<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Form&nbsp;&nbsp;GET_MTART<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+form get_mtart .<br />
+&nbsp;&nbsp;select&nbsp;matnr<br />
+&nbsp;&nbsp;mbrsh<br />
+&nbsp;&nbsp;mtart<br />
+&nbsp;&nbsp;meins<br />
+&nbsp;&nbsp;into&nbsp;table&nbsp;it_tab<br />
+&nbsp;&nbsp;from&nbsp;mara<br />
+&nbsp;&nbsp;where&nbsp;matnr&nbsp;in&nbsp;s_matnr&nbsp;and<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mtart&nbsp;eq&nbsp;p_mtart.<br />
+<br />
+&nbsp;&nbsp;loop&nbsp;at&nbsp;it_tab&nbsp;into&nbsp;wa_tab.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;write&nbsp;:&nbsp;/&nbsp;wa_tab-matnr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;wa_tab-mbrsh,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;wa_tab-mtart,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;wa_tab-meins.<br />
+&nbsp;&nbsp;endloop.<br />
+<br />
+endform.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;T01&nbsp;Material&nbsp;Master&nbsp;info<br />
+*&nbsp;T02&nbsp;Mat&nbsp;type&nbsp;slection<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;P_MBRSH&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;P_MTART&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;RAD1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Material&nbsp;with&nbsp;IND&nbsp;sector<br />
+*&nbsp;RAD2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Material&nbsp;with&nbsp;Type<br />
+*&nbsp;S_MATNR&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

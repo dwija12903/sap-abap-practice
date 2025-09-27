@@ -1,0 +1,285 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>ZTRUPEN_PN_EVENTS</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZTRUPEN_PN_EVENTS</h2>
+<h3> Description: ZTRUPEN_PN_EVENTS</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZTRUPEN_PN_EVENTS<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZTRUPEN_PN_EVENTS.<br />
+   </div>
+   <div class="codeComment">
+**#&nbsp;1<br />
+*<br />
+   </div>
+   <div class="code">
+CLASS c1 DEFINITION.<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;(1)&nbsp;CREATING&nbsp;EVENT&nbsp;:&nbsp;E1<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;EVENTS&nbsp;:&nbsp;e1.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;(2)&nbsp;&nbsp;CREATING&nbsp;AN&nbsp;EVENT&nbsp;HANDLING&nbsp;METHOD.&nbsp;THIS&nbsp;METHOD&nbsp;CAN&nbsp;BELONG&nbsp;TO&nbsp;SAME&nbsp;OR&nbsp;DIFFEENT&nbsp;CLASS.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;:&nbsp;m1&nbsp;FOR&nbsp;EVENT&nbsp;e1&nbsp;OF&nbsp;c1.<br />
+   </div>
+   <div class="codeComment">
+*METHODS&nbsp;TO&nbsp;RAISE&nbsp;THE&nbsp;EVENT<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;:&nbsp;t1.<br />
+ENDCLASS.<br />
+<br />
+CLASS c1 IMPLEMENTATION.<br />
+   </div>
+   <div class="codeComment">
+*METHOD&nbsp;:&nbsp;M1&nbsp;WILL&nbsp;BE&nbsp;CALLED&nbsp;WHEN&nbsp;THE&nbsp;EVENT&nbsp;IS&nbsp;RAISED<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;METHOD&nbsp;:&nbsp;m1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/5&nbsp;'&nbsp;I&nbsp;AM&nbsp;THE&nbsp;EVENT&nbsp;HANDLER&nbsp;METHOD'.<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+   </div>
+   <div class="codeComment">
+*METHOD&nbsp;:&nbsp;T1&nbsp;WILL&nbsp;RAISE&nbsp;THE&nbsp;EVENT<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;METHOD&nbsp;:&nbsp;t1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/5&nbsp;'I&nbsp;AM&nbsp;T1,&nbsp;GOING&nbsp;TO&nbsp;RAISE&nbsp;EVENT&nbsp;E1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;EVENT&nbsp;e1.<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+ENDCLASS.<br />
+<br />
+START-OF-SELECTION.<br />
+&nbsp;&nbsp;DATA&nbsp;:&nbsp;oref&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;c1.<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;:&nbsp;oref.<br />
+   </div>
+   <div class="codeComment">
+*REGISTERING&nbsp;THE&nbsp;EVENT&nbsp;HANDLER&nbsp;METHOD<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SET&nbsp;HANDLER&nbsp;oref-&gt;m1&nbsp;FOR&nbsp;oref.<br />
+   </div>
+   <div class="codeComment">
+*CALLING&nbsp;THE&nbsp;EVENT&nbsp;WHICH&nbsp;WILL&nbsp;RAISE&nbsp;THE&nbsp;EVENT.<br />
+**&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;oref-&gt;t1.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;oref-&gt;t1(&nbsp;).<br />
+   </div>
+   <div class="codeComment">
+*<br />
+<br />
+<br />
+*#&nbsp;2<br />
+<br />
+*****EVENT&nbsp;WITH&nbsp;EVENT&nbsp;HANDLER&nbsp;METHOD&nbsp;IN&nbsp;DIFFERENT&nbsp;CLASS.<br />
+*<br />
+*CLASS&nbsp;C1&nbsp;DEFINITION.<br />
+*&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+*&nbsp;&nbsp;"CREATING&nbsp;EVENT&nbsp;:&nbsp;E1<br />
+*&nbsp;&nbsp;EVENTS&nbsp;:&nbsp;E1.<br />
+*&nbsp;&nbsp;"TRIGGERING&nbsp;METHOD&nbsp;:&nbsp;T1<br />
+*&nbsp;&nbsp;METHODS&nbsp;:&nbsp;T1.<br />
+*ENDCLASS.<br />
+*<br />
+*CLASS&nbsp;C2&nbsp;DEFINITION.<br />
+*&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+*&nbsp;&nbsp;"CREATING&nbsp;AN&nbsp;EVENT&nbsp;HANDLING&nbsp;METHOD.<br />
+*&nbsp;&nbsp;METHODS&nbsp;:&nbsp;M2&nbsp;FOR&nbsp;EVENT&nbsp;E1&nbsp;OF&nbsp;C1.<br />
+*ENDCLASS.<br />
+*<br />
+*CLASS&nbsp;C1&nbsp;IMPLEMENTATION.<br />
+*&nbsp;&nbsp;"METHOD&nbsp;:&nbsp;T1&nbsp;WILL&nbsp;RAISE&nbsp;THE&nbsp;EVENT.<br />
+*&nbsp;&nbsp;METHOD&nbsp;:&nbsp;T1.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/5&nbsp;'I&nbsp;AM&nbsp;T1,&nbsp;GOING&nbsp;TO&nbsp;RAISE&nbsp;EVENT&nbsp;E1'.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;EVENT&nbsp;E1.<br />
+*&nbsp;&nbsp;ENDMETHOD.<br />
+*ENDCLASS.<br />
+*<br />
+*CLASS&nbsp;C2&nbsp;IMPLEMENTATION.<br />
+*&nbsp;&nbsp;"METHOD&nbsp;:&nbsp;M1&nbsp;WILL&nbsp;BE&nbsp;CALLED&nbsp;WHEN&nbsp;THE&nbsp;EVENT&nbsp;IS&nbsp;RAISED<br />
+*&nbsp;&nbsp;METHOD&nbsp;:&nbsp;M2.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/5&nbsp;'&nbsp;I&nbsp;AM&nbsp;THE&nbsp;EVENT&nbsp;HANDLER&nbsp;METHOD&nbsp;IN&nbsp;C2'.<br />
+*&nbsp;&nbsp;ENDMETHOD.<br />
+*ENDCLASS.<br />
+*<br />
+*START-OF-SELECTION.<br />
+*DATA&nbsp;:&nbsp;OREF1&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;C1,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OREF2&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;C2.<br />
+*CREATE&nbsp;OBJECT&nbsp;:&nbsp;OREF1,&nbsp;OREF2.<br />
+*"REGISTERING&nbsp;THE&nbsp;EVENT&nbsp;HANDLER&nbsp;METHOD.<br />
+*<br />
+**SET&nbsp;HANDLER&nbsp;OREF2-&gt;M2&nbsp;FOR&nbsp;OREF1.<br />
+*SET&nbsp;HANDLER&nbsp;OREF2-&gt;M2&nbsp;FOR&nbsp;OREF1.<br />
+**********<br />
+**********CALLING&nbsp;THE&nbsp;EVENT&nbsp;WHICH&nbsp;WILL&nbsp;RAISE&nbsp;THE&nbsp;EVENT.<br />
+*&nbsp;OREF1-&gt;T1(&nbsp;).<br />
+**<br />
+<br />
+*#&nbsp;3<br />
+<br />
+*CLASS&nbsp;lcl_main&nbsp;DEFINITION.<br />
+*&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+*&nbsp;&nbsp;DATA:&nbsp;v_num&nbsp;TYPE&nbsp;I.<br />
+*&nbsp;&nbsp;METHODS:&nbsp;process&nbsp;IMPORTING&nbsp;iv_num&nbsp;TYPE&nbsp;I.<br />
+*&nbsp;&nbsp;EVENTS:&nbsp;cutoff_reached.<br />
+*ENDCLASS.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"lcl_main&nbsp;DEFINITION<br />
+**<br />
+*CLASS&nbsp;lcl_event_handler&nbsp;DEFINITION.<br />
+*&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+*&nbsp;&nbsp;METHODS:&nbsp;handle_cutoff_reached&nbsp;&nbsp;FOR&nbsp;EVENT&nbsp;cutoff_reached&nbsp;OF&nbsp;lcl_main.<br />
+*ENDCLASS.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"lcl_event_handler&nbsp;DEFINITION<br />
+*<br />
+*CLASS&nbsp;lcl_main&nbsp;IMPLEMENTATION.<br />
+*&nbsp;&nbsp;METHOD&nbsp;process.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;v_num&nbsp;=&nbsp;iv_num.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;iv_num&nbsp;GE&nbsp;5.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;EVENT&nbsp;cutoff_reached.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+*&nbsp;&nbsp;ENDMETHOD.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"process<br />
+*ENDCLASS.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"lcl_main&nbsp;IMPLEMENTATION<br />
+*<br />
+*CLASS&nbsp;lcl_event_handler&nbsp;IMPLEMENTATION.<br />
+*&nbsp;&nbsp;METHOD&nbsp;handle_cutoff_reached.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;'Event&nbsp;Processed'.<br />
+*&nbsp;&nbsp;ENDMETHOD.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"handle_cutoff_reached<br />
+*ENDCLASS.<br />
+**<br />
+*START-OF-SELECTION.<br />
+*DATA:&nbsp;lo_main&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;lcl_main.&nbsp;"event&nbsp;is&nbsp;defined<br />
+*DATA:&nbsp;lo_event_handler&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;lcl_event_handler.&nbsp;"event&nbsp;handler&nbsp;method<br />
+**<br />
+*CREATE&nbsp;OBJECT&nbsp;lo_main.<br />
+*CREATE&nbsp;OBJECT&nbsp;lo_event_handler.<br />
+*SET&nbsp;HANDLER&nbsp;lo_event_handler-&gt;handle_cutoff_reached&nbsp;FOR&nbsp;lo_main.<br />
+**<br />
+*lo_main-&gt;process(&nbsp;9&nbsp;).<br />
+<br />
+*<br />
+<br />
+**#&nbsp;4<br />
+<br />
+*CLASS&nbsp;c1&nbsp;DEFINITION.<br />
+*&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+**&nbsp;&nbsp;PROTECTED&nbsp;SECTION.<br />
+*&nbsp;&nbsp;"CREATING&nbsp;EVENT&nbsp;:&nbsp;E1<br />
+*&nbsp;&nbsp;EVENTS&nbsp;:&nbsp;e1.<br />
+*&nbsp;&nbsp;"CREATING&nbsp;AN&nbsp;EVENT&nbsp;HANDLING&nbsp;METHOD.<br />
+*&nbsp;&nbsp;METHODS&nbsp;:&nbsp;m1&nbsp;FOR&nbsp;EVENT&nbsp;e1&nbsp;OF&nbsp;c1.<br />
+*&nbsp;&nbsp;"METHOD&nbsp;TO&nbsp;RAISE&nbsp;THE&nbsp;EVENT<br />
+*&nbsp;&nbsp;METHODS&nbsp;:&nbsp;t1.<br />
+*ENDCLASS.<br />
+*<br />
+*CLASS&nbsp;c2&nbsp;DEFINITION.<br />
+*&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+*&nbsp;&nbsp;"CREATING&nbsp;AN&nbsp;EVENT&nbsp;HANDLING&nbsp;METHOD.<br />
+*&nbsp;&nbsp;METHODS&nbsp;:&nbsp;m2&nbsp;FOR&nbsp;EVENT&nbsp;e1&nbsp;OF&nbsp;c1.<br />
+*ENDCLASS.<br />
+*<br />
+*CLASS&nbsp;c1&nbsp;IMPLEMENTATION.<br />
+*&nbsp;&nbsp;"METHOD&nbsp;:&nbsp;T1&nbsp;WILL&nbsp;RAISE&nbsp;THE&nbsp;EVENT<br />
+*&nbsp;&nbsp;METHOD&nbsp;:&nbsp;t1.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/5&nbsp;'I&nbsp;AM&nbsp;T1,&nbsp;GOING&nbsp;TO&nbsp;RAISE&nbsp;EVENT&nbsp;E1'.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;EVENT&nbsp;e1.<br />
+*&nbsp;&nbsp;ENDMETHOD.<br />
+*&nbsp;&nbsp;"METHOD&nbsp;:&nbsp;M1&nbsp;WILL&nbsp;BE&nbsp;CALLED&nbsp;WHEN&nbsp;THE&nbsp;VENT&nbsp;IS&nbsp;RAISE<br />
+*&nbsp;&nbsp;METHOD&nbsp;:&nbsp;m1.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/5&nbsp;'&nbsp;I&nbsp;AM&nbsp;THE&nbsp;EVENT&nbsp;HANDLER&nbsp;METHOD&nbsp;M1&nbsp;IN&nbsp;C1'.<br />
+*&nbsp;&nbsp;ENDMETHOD.<br />
+*ENDCLASS.<br />
+*<br />
+*CLASS&nbsp;c2&nbsp;IMPLEMENTATION.<br />
+*&nbsp;&nbsp;"METHOD&nbsp;:&nbsp;M2&nbsp;WILL&nbsp;BE&nbsp;CALLED&nbsp;WHEN&nbsp;THE&nbsp;EVENT&nbsp;IS&nbsp;RAISED<br />
+*&nbsp;&nbsp;METHOD&nbsp;:&nbsp;m2.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/5&nbsp;'I&nbsp;AM&nbsp;THE&nbsp;EVENT&nbsp;HANDLER&nbsp;METHOD&nbsp;M2&nbsp;IN&nbsp;C2'.<br />
+*&nbsp;&nbsp;ENDMETHOD.<br />
+*ENDCLASS.<br />
+*<br />
+*START-OF-SELECTION.<br />
+*DATA&nbsp;:&nbsp;oref1&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;c1,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;oref2&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;c2.<br />
+*CREATE&nbsp;OBJECT&nbsp;:&nbsp;oref1,&nbsp;oref2.<br />
+*"REGISTERING&nbsp;THE&nbsp;EVENT&nbsp;HANDLER&nbsp;METHOD<br />
+*SET&nbsp;HANDLER&nbsp;oref1-&gt;m1&nbsp;FOR&nbsp;oref1.<br />
+*****CALL&nbsp;METHOD&nbsp;oref1-&gt;t1.<br />
+*"CALLING&nbsp;THE&nbsp;VENT&nbsp;WHICH&nbsp;WILL&nbsp;RAISE&nbsp;THE&nbsp;EVENT.<br />
+**DE-REGISTERING&nbsp;THE&nbsp;EARLIER&nbsp;EVENT&nbsp;HANDLER&nbsp;METHOD<br />
+*SET&nbsp;HANDLER&nbsp;oref1-&gt;m1&nbsp;FOR&nbsp;oref1&nbsp;ACTIVATION&nbsp;space.<br />
+*<br />
+*******SET&nbsp;HANDLER&nbsp;oref1-&gt;m1&nbsp;FOR&nbsp;oref1.<br />
+*"REGISTERING&nbsp;THE&nbsp;NEW&nbsp;EVENT&nbsp;HANDLER&nbsp;METHOD<br />
+*SET&nbsp;HANDLER&nbsp;oref2-&gt;m2&nbsp;FOR&nbsp;oref1.<br />
+*"CALLING&nbsp;THE&nbsp;VENT&nbsp;WHICH&nbsp;WILL&nbsp;RAISE&nbsp;THE&nbsp;VENT.<br />
+*oref1-&gt;t1(&nbsp;)&nbsp;.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

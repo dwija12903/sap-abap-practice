@@ -1,0 +1,29 @@
+METHOD GET_TRANSFER_REQ_DETAILS             " Implementation of method.
+  BY DATABASE PROCEDURE
+  FOR HDB
+  LANGUAGE SQLSCRIPT
+  OPTIONS READ-ONLY
+  USING ZD30097978_LTBK ZD30097978_LTBP     " Table names
+  .
+
+*Query Execution
+  it_final = select tab1.LGNUM, tab1.TBNUM, tab1.STATU, tab1.TRART, tab1.BDATU, tab1.BETYP,
+                tab1.BENUM, upper(tab1.BNAME) as bname, tab2.TBPOS, tab2.ELIKZ, tab2.MATNR,
+                tab2.MENGE,
+*                Priority Column based on MENGE
+                    case
+                        when tab2.menge between 1 and 100 then 'LOW'
+                        when tab2.menge between 101 and 1000 then 'MEDIUM'
+                        when tab2.menge > 1000 then 'HIGH'
+                        else 'UNKNOWN'
+                    end as Priority
+
+            from ZD30097978_ltbk as tab1
+            inner join ZD30097978_ltbp as tab2
+            on tab1.lgnum = tab2.lgnum and tab1.tbnum = tab2.tbnum
+            WHERE tab1.MANDT = IM_MANDT;
+
+* based on the range(i.e. PO) it filters the rows to the it_final
+  IT_FINAL = APPLY_FILTER( :IT_FINAL, :PO );
+
+ENDMETHOD.

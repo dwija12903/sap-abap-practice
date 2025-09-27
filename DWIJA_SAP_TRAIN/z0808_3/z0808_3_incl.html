@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>Z0808_3_INCL</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: Z0808_3_INCL</h2>
+<h3> Description: Include Z0808_2_INCL</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Z0808_1_INCL<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+*&nbsp;Table&nbsp;structure<br />
+   </div>
+   <div class="code">
+types: begin of ls_tab,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;emplid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type&nbsp;z0724_emplid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;empl_name&nbsp;&nbsp;&nbsp;&nbsp;type&nbsp;z0724_empl_name,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;empl_age&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type&nbsp;z0724_empl_age,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;empl_address&nbsp;type&nbsp;z0724_empl_address,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;empl_contact&nbsp;type&nbsp;z0724_empl_contact,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end&nbsp;of&nbsp;ls_tab.<br />
+<br />
+data: lt_tab type STANDARD TABLE OF ls_tab, "internal table<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_tab&nbsp;type&nbsp;ls_tab,&nbsp;"work&nbsp;area<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lt_fcat&nbsp;type&nbsp;slis_t_fieldcat_alv,&nbsp;"internal&nbsp;table&nbsp;from&nbsp;slis&nbsp;table&nbsp;group&nbsp;type<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_fcat&nbsp;type&nbsp;slis_fieldcat_alv,&nbsp;"work&nbsp;area&nbsp;created&nbsp;from&nbsp;slis&nbsp;table&nbsp;group&nbsp;type.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_emplid&nbsp;type&nbsp;z0724_emplid.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*SLIS&nbsp;is&nbsp;a&nbsp;table&nbsp;form&nbsp;type&nbsp;which&nbsp;contains&nbsp;all&nbsp;the&nbsp;data&nbsp;type,&nbsp;structures&nbsp;declare&nbsp;here.<br />
+*&nbsp;all&nbsp;this&nbsp;types&nbsp;from&nbsp;slis&nbsp;is&nbsp;used&nbsp;in&nbsp;`reuse_avl*`&nbsp;function&nbsp;modules.<br />
+*&nbsp;this&nbsp;functions&nbsp;contains&nbsp;code&nbsp;for&nbsp;the&nbsp;design&nbsp;of&nbsp;table&nbsp;based&nbsp;on&nbsp;the&nbsp;import&nbsp;parameter&nbsp;we<br />
+*&nbsp;define&nbsp;in&nbsp;the&nbsp;function&nbsp;call&nbsp;of&nbsp;the&nbsp;report.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>Z0728_4</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: Z0728_4</h2>
+<h3> Description: Internal Tables with Joins</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;Z0728_4<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT Z0728_4 NO STANDARD PAGE HEADING.<br />
+<br />
+include <a href ="z0728_4_incl.html">Z0728_4_INCL</a>.<br />
+<br />
+select-options ss_id for s_id.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*selecting&nbsp;fields&nbsp;of&nbsp;both&nbsp;tables&nbsp;using&nbsp;~<br />
+   </div>
+   <div class="code">
+select tb1~emplid tb1~empl_name tb1~empl_age tb1~empl_address tb1~empl_contact<br />
+&nbsp;&nbsp;tb2~dept_no&nbsp;tb2~dept_name<br />
+<br />
+&nbsp;&nbsp;into&nbsp;table&nbsp;it_tab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"copying&nbsp;into&nbsp;Interal&nbsp;Table.<br />
+&nbsp;&nbsp;"joining&nbsp;2&nbsp;tables.<br />
+&nbsp;&nbsp;from&nbsp;Z0724_TB_1_EMPL&nbsp;as&nbsp;tb1<br />
+&nbsp;&nbsp;INNER&nbsp;JOIN&nbsp;Z0725_TB_1_DEPT&nbsp;as&nbsp;tb2<br />
+&nbsp;&nbsp;on&nbsp;tb1~emplid&nbsp;=&nbsp;tb2~empl_id<br />
+<br />
+&nbsp;&nbsp;where&nbsp;tb1~emplid&nbsp;in&nbsp;ss_id.<br />
+<br />
+sort it_tab by emplid ASCENDING.<br />
+<br />
+if sy-subrc eq 0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;write&nbsp;:/&nbsp;'records&nbsp;are&nbsp;found&nbsp;in&nbsp;mara&nbsp;table',&nbsp;sy-dbcnt.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;uline.<br />
+&nbsp;&nbsp;else.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;write&nbsp;:/&nbsp;'records&nbsp;are&nbsp;not&nbsp;found&nbsp;in&nbsp;mara&nbsp;table',&nbsp;sy-dbcnt.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;uline.<br />
+endif.<br />
+<br />
+skip 2.<br />
+<br />
+Write: /3 'Row Number',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;'Id',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15&nbsp;'Name',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;30&nbsp;'age',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;45&nbsp;'Address',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50&nbsp;'contact&nbsp;No.',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;60&nbsp;'Dept&nbsp;NO',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;70&nbsp;'Dept&nbsp;Name'.<br />
+<br />
+LOOP at it_tab into wa_tab.<br />
+&nbsp;&nbsp;write:/3&nbsp;sy-tabix,<br />
+&nbsp;&nbsp;5&nbsp;wa_tab-emplid,<br />
+&nbsp;&nbsp;15&nbsp;wa_tab-empl_name,<br />
+&nbsp;&nbsp;30&nbsp;wa_tab-empl_age,<br />
+&nbsp;&nbsp;45&nbsp;wa_tab-empl_address,<br />
+&nbsp;&nbsp;50&nbsp;wa_tab-empl_contact,<br />
+&nbsp;&nbsp;60&nbsp;wa_tab-dept_no,<br />
+&nbsp;&nbsp;70&nbsp;wa_tab-dept_name.<br />
+endloop.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

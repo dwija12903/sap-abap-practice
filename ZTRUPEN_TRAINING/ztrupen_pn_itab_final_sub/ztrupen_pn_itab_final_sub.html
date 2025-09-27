@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>ZTRUPEN_PN_ITAB_FINAL_SUB</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZTRUPEN_PN_ITAB_FINAL_SUB</h2>
+<h3> Description: ITAB FINAL</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZTRUPEN_PN_ITAB_FINAL_SUB<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+report ztrupen_pn_itab_final_sub NO STANDARD PAGE HEADING.<br />
+<br />
+include <a href ="ztrupen_pn_itab_final_sub_top.html">ZTRUPEN_PN_ITAB_FINAL_SUB_TOP</a>.<br />
+<br />
+select-options s_matnr for lv_matnr.<br />
+start-of-selection.<br />
+<br />
+PERFORM GET_MAT_DATA.<br />
+<br />
+PERFORM DISP_MAT_DATA.<br />
+<br />
+WRITE 'CAPGEMINI'.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Form&nbsp;&nbsp;GET_MAT_DATA<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM get_mat_data .<br />
+<br />
+<br />
+&nbsp;&nbsp;select&nbsp;matnr&nbsp;mbrsh&nbsp;mtart&nbsp;matkl&nbsp;meins&nbsp;brgew&nbsp;ntgew<br />
+&nbsp;&nbsp;&nbsp;&nbsp;into&nbsp;table&nbsp;lt_tab<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;mara<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;where&nbsp;matnr&nbsp;in&nbsp;s_matnr.<br />
+<br />
+&nbsp;&nbsp;sort&nbsp;lt_tab&nbsp;by&nbsp;matnr&nbsp;ascending.<br />
+<br />
+   </div>
+   <div class="codeComment">
+****IF&nbsp;LT_TAB[]&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;if&nbsp;sy-subrc&nbsp;eq&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;write&nbsp;:/&nbsp;'Materaial&nbsp;Master&nbsp;records&nbsp;are&nbsp;found&nbsp;in&nbsp;mara&nbsp;table',&nbsp;sy-dbcnt.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+&nbsp;&nbsp;else.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;write&nbsp;:/&nbsp;'Materaial&nbsp;Master&nbsp;records&nbsp;are&nbsp;not&nbsp;found&nbsp;in&nbsp;mara&nbsp;table',&nbsp;sy-dbcnt.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+&nbsp;&nbsp;endif.<br />
+<br />
+PERFORM GET_HEADER_INFO.<br />
+<br />
+<br />
+<br />
+ENDFORM.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Form&nbsp;&nbsp;GET_HEADER_INFO<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*----------------------------------------------------------------------*<br />
+*&nbsp;&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&nbsp;&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*----------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM get_header_info .<br />
+<br />
+skip 2.<br />
+<br />
+WRITE:/3 'Row Numb',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15&nbsp;'Mat&nbsp;Number',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;25&nbsp;'Mat&nbsp;Ind',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;40&nbsp;'Mat&nbsp;Type',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;56&nbsp;'Mat&nbsp;grp',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;64&nbsp;'Mat&nbsp;UOM',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;80&nbsp;'Mat&nbsp;Gross&nbsp;wt',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;100&nbsp;'Mat&nbsp;Net&nbsp;wt'.<br />
+ULINE.<br />
+<br />
+<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Form&nbsp;&nbsp;DISP_MAT_DATA<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*----------------------------------------------------------------------*<br />
+*&nbsp;&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&nbsp;&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*----------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM disp_mat_data .<br />
+<br />
+&nbsp;&nbsp;loop&nbsp;at&nbsp;lt_tab&nbsp;into&nbsp;wa_tab.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;write&nbsp;:/3&nbsp;sy-tabix,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;15&nbsp;wa_tab-matnr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;25&nbsp;wa_tab-mbrsh,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;40&nbsp;wa_tab-mtart,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;56&nbsp;wa_tab-matkl,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;64&nbsp;wa_tab-meins,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;80&nbsp;wa_tab-brgew,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;100&nbsp;wa_tab-ntgew.<br />
+<br />
+&nbsp;&nbsp;endloop.<br />
+ENDFORM.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;S_MATNR&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

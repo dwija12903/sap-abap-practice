@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>ZTRUPEN_PN_OOALV_FCAT</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZTRUPEN_PN_OOALV_FCAT</h2>
+<h3> Description: Include ZTRUPEN_PN_OOALV_FCAT</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZTRUPEN_PN_OOALV_FCAT<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+perform insert_fieldcat using '1' 'Material No' 'MATNR' 'LT_TAB'.<br />
+perform insert_fieldcat using '2' 'Material ind' 'MBRSH' 'LT_TAB'.<br />
+perform insert_fieldcat using '3' 'Material TYPE ' 'MTART' 'LT_TAB'.<br />
+perform insert_fieldcat using '4' 'Material uom' 'MEINS' 'LT_TAB'.<br />
+perform insert_fieldcat using '5' 'Material grs wt' 'BRGEW' 'LT_TAB'.<br />
+perform insert_fieldcat using '6' 'Material NT wt' 'NTGEW' 'LT_TAB'.<br />
+<br />
+CALL SCREEN 0100.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*<br />
+****#&nbsp;1&nbsp;MATNR<br />
+*<br />
+*WA_FIELDCAT-COL_POS&nbsp;=&nbsp;'1'.<br />
+*WA_FIELDCAT-COLTEXT&nbsp;=&nbsp;'Material&nbsp;No'.<br />
+*WA_FIELDCAT-FIELDNAME&nbsp;=&nbsp;'MATNR'.<br />
+*WA_FIELDCAT-TABNAME&nbsp;=&nbsp;'LT_TAB'.<br />
+*<br />
+*APPEND&nbsp;WA_FIELDCAT&nbsp;TO&nbsp;LT_FIELDCAT.<br />
+*CLEAR&nbsp;WA_FIELDCAT.<br />
+*<br />
+*<br />
+****#&nbsp;2&nbsp;MBRSH<br />
+*<br />
+*WA_FIELDCAT-COL_POS&nbsp;=&nbsp;'2'.<br />
+*WA_FIELDCAT-COLTEXT&nbsp;=&nbsp;'Material&nbsp;ind'.<br />
+*WA_FIELDCAT-FIELDNAME&nbsp;=&nbsp;'MBRSH'.<br />
+*WA_FIELDCAT-TABNAME&nbsp;=&nbsp;'LT_TAB'.<br />
+*<br />
+*APPEND&nbsp;WA_FIELDCAT&nbsp;TO&nbsp;LT_FIELDCAT.<br />
+*CLEAR&nbsp;WA_FIELDCAT.<br />
+*<br />
+*<br />
+****#&nbsp;1&nbsp;MTART<br />
+*<br />
+*WA_FIELDCAT-COL_POS&nbsp;=&nbsp;'3'.<br />
+*WA_FIELDCAT-COLTEXT&nbsp;=&nbsp;'Material&nbsp;TYPE&nbsp;'.<br />
+*WA_FIELDCAT-FIELDNAME&nbsp;=&nbsp;'MTART'.<br />
+*WA_FIELDCAT-TABNAME&nbsp;=&nbsp;'LT_TAB'.<br />
+*<br />
+*APPEND&nbsp;WA_FIELDCAT&nbsp;TO&nbsp;LT_FIELDCAT.<br />
+*CLEAR&nbsp;WA_FIELDCAT.<br />
+*<br />
+****#&nbsp;4&nbsp;MEINS<br />
+*<br />
+*WA_FIELDCAT-COL_POS&nbsp;=&nbsp;'4'.<br />
+*WA_FIELDCAT-COLTEXT&nbsp;=&nbsp;'Material&nbsp;uom'.<br />
+*WA_FIELDCAT-FIELDNAME&nbsp;=&nbsp;'MEINS'.<br />
+*WA_FIELDCAT-TABNAME&nbsp;=&nbsp;'LT_TAB'.<br />
+*<br />
+*APPEND&nbsp;WA_FIELDCAT&nbsp;TO&nbsp;LT_FIELDCAT.<br />
+*CLEAR&nbsp;WA_FIELDCAT.<br />
+*<br />
+****#&nbsp;5&nbsp;BRGEW<br />
+*<br />
+*WA_FIELDCAT-COL_POS&nbsp;=&nbsp;'5'.<br />
+*WA_FIELDCAT-COLTEXT&nbsp;=&nbsp;'Material&nbsp;grs&nbsp;wt'.<br />
+*WA_FIELDCAT-FIELDNAME&nbsp;=&nbsp;'BRGEW'.<br />
+*WA_FIELDCAT-TABNAME&nbsp;=&nbsp;'LT_TAB'.<br />
+*<br />
+*APPEND&nbsp;WA_FIELDCAT&nbsp;TO&nbsp;LT_FIELDCAT.<br />
+*CLEAR&nbsp;WA_FIELDCAT.<br />
+*<br />
+*<br />
+****#&nbsp;6&nbsp;NTGEW<br />
+*<br />
+*WA_FIELDCAT-COL_POS&nbsp;=&nbsp;'6'.<br />
+*WA_FIELDCAT-COLTEXT&nbsp;=&nbsp;'Material&nbsp;NT&nbsp;wt'.<br />
+*WA_FIELDCAT-FIELDNAME&nbsp;=&nbsp;'NTGEW'.<br />
+*WA_FIELDCAT-TABNAME&nbsp;=&nbsp;'LT_TAB'.<br />
+*<br />
+*APPEND&nbsp;WA_FIELDCAT&nbsp;TO&nbsp;LT_FIELDCAT.<br />
+*CLEAR&nbsp;WA_FIELDCAT.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

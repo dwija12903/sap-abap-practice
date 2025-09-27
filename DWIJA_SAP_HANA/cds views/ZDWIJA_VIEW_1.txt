@@ -1,0 +1,17 @@
+@AbapCatalog.sqlViewName: 'ZDWIJA_CDS_1'
+@AbapCatalog.compiler.compareFilter: true
+@AbapCatalog.preserveKey: true
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: '1ST CDS VIEW'
+@Metadata.ignorePropagatedAnnotations: true
+define view ZDWIJA_VIEW_1
+    as select from vbap as TAB
+{
+key TAB.vbeln,          //PRIMARY KEYS MUST BE DEFINED WITH KEY.
+key TAB.posnr,
+    TAB.matnr,
+    TAB.matkl,
+    TAB.matwa,
+    TAB.netpr,
+    TAB.netwr
+};

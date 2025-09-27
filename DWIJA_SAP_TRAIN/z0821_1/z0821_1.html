@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>Z0821_1</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: Z0821_1</h2>
+<h3> Description: AVL with At Selection Screen Output</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;Z0821_1<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT Z0821_1.<br />
+<br />
+types: begin of ls_tab,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;emplid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type&nbsp;z0724_emplid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;empl_name&nbsp;&nbsp;&nbsp;&nbsp;type&nbsp;z0724_empl_name,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;empl_age&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;type&nbsp;z0724_empl_age,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;empl_address&nbsp;type&nbsp;z0724_empl_address,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;empl_contact&nbsp;type&nbsp;z0724_empl_contact,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end&nbsp;of&nbsp;ls_tab.<br />
+<br />
+data: lt_tab type STANDARD TABLE OF ls_tab,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_tab&nbsp;type&nbsp;ls_tab,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_emplid&nbsp;type&nbsp;z0724_emplid.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*enter&nbsp;range<br />
+   </div>
+   <div class="code">
+select-options s_emplid for lv_emplid.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*choose&nbsp;radio&nbsp;button<br />
+*add&nbsp;radio&nbsp;button&nbsp;name&nbsp;from&nbsp;selection&nbsp;text<br />
+   </div>
+   <div class="code">
+selection-screen begin of block b1 with frame title text-t01 .<br />
+&nbsp;&nbsp;parameters:rad1&nbsp;radiobutton&nbsp;group&nbsp;rad&nbsp;user-command&nbsp;flag&nbsp;default&nbsp;'X',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rad2&nbsp;radiobutton&nbsp;group&nbsp;rad&nbsp;.<br />
+selection-screen end of block b1.<br />
+<br />
+selection-screen begin of block b2 with frame title text-t02 .<br />
+&nbsp;&nbsp;parameters:&nbsp;p_age&nbsp;type&nbsp;z0724_empl_age&nbsp;modif&nbsp;id&nbsp;m1,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p_name&nbsp;type&nbsp;z0724_empl_name&nbsp;modif&nbsp;id&nbsp;m2.<br />
+selection-screen end of block b2.<br />
+<br />
+at selection-screen output.<br />
+loop at screen.<br />
+&nbsp;&nbsp;if&nbsp;rad1&nbsp;=&nbsp;'X'&nbsp;and<br />
+&nbsp;&nbsp;screen-group1&nbsp;=&nbsp;'M2'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;screen-active&nbsp;=&nbsp;'0'.&nbsp;"M2&nbsp;will&nbsp;be&nbsp;deactivated.<br />
+<br />
+elseif rad2 = 'X' and<br />
+&nbsp;&nbsp;screen-group1&nbsp;=&nbsp;'M1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;screen-active&nbsp;=&nbsp;'0'.<br />
+&nbsp;&nbsp;endif.<br />
+&nbsp;&nbsp;modify&nbsp;screen.<br />
+endloop.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*execution<br />
+   </div>
+   <div class="code">
+start-of-selection.<br />
+if rad1 = 'X'.<br />
+&nbsp;&nbsp;perform&nbsp;get_age.<br />
+else.<br />
+&nbsp;&nbsp;perform&nbsp;get_name.<br />
+endif.<br />
+<br />
+form get_age .<br />
+<br />
+&nbsp;&nbsp;select&nbsp;emplid&nbsp;empl_name&nbsp;empl_age&nbsp;empl_address&nbsp;empl_contact<br />
+&nbsp;&nbsp;&nbsp;&nbsp;into&nbsp;table&nbsp;lt_tab<br />
+&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;z0724_tb_1_empl<br />
+&nbsp;&nbsp;&nbsp;&nbsp;where&nbsp;emplid&nbsp;in&nbsp;s_emplid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;empl_age&nbsp;eq&nbsp;p_age&nbsp;.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*output&nbsp;to&nbsp;display.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;loop&nbsp;at&nbsp;lt_tab&nbsp;into&nbsp;wa_tab.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;write&nbsp;:&nbsp;/&nbsp;wa_tab-emplid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;wa_tab-empl_name,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;wa_tab-empl_age,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;wa_tab-empl_address.<br />
+&nbsp;&nbsp;endloop.<br />
+<br />
+endform.<br />
+<br />
+form get_name .<br />
+&nbsp;&nbsp;&nbsp;select&nbsp;emplid&nbsp;empl_name&nbsp;empl_age&nbsp;empl_address&nbsp;empl_contact<br />
+&nbsp;&nbsp;&nbsp;&nbsp;into&nbsp;table&nbsp;lt_tab<br />
+&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;z0724_tb_1_empl<br />
+&nbsp;&nbsp;&nbsp;&nbsp;where&nbsp;emplid&nbsp;in&nbsp;s_emplid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;empl_age&nbsp;eq&nbsp;p_name&nbsp;.<br />
+<br />
+&nbsp;&nbsp;loop&nbsp;at&nbsp;lt_tab&nbsp;into&nbsp;wa_tab.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;write&nbsp;:&nbsp;/&nbsp;wa_tab-emplid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;wa_tab-empl_name,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;wa_tab-empl_age,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;wa_tab-empl_address.<br />
+&nbsp;&nbsp;endloop.<br />
+<br />
+endform.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;T01&nbsp;Choose&nbsp;your&nbsp;Option<br />
+*&nbsp;T02&nbsp;Enter&nbsp;Details:<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;P_AGE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enter&nbsp;Age<br />
+*&nbsp;P_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enter&nbsp;Name<br />
+*&nbsp;RAD1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Age<br />
+*&nbsp;RAD2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name<br />
+*&nbsp;S_EMPLID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enter&nbsp;Empl&nbsp;ID&nbsp;Range<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

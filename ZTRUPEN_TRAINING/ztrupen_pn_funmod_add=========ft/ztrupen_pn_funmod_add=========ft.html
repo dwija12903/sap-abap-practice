@@ -1,0 +1,713 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>ZTRUPEN_PN_FUNMOD_ADD=========FT</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZTRUPEN_PN_FUNMOD_ADD=========FT</h2>
+<h3> Description: </h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="code">
+REPORT ZTRUPEN_PN_FUNMOD_ADD=========FT.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;2.0<br />
+*<br />
+   </div>
+   <div class="code">
+DATA: TIME1 TYPE P, TIME2 TYPE P, RUNTIME(30), DEBUG, ATRA.<br />
+DATA: RC LIKE SY-SUBRC , V_RC LIKE SY-SUBRC.<br />
+DATA: DESTI LIKE RFCDES-RFCDEST.<br />
+DATA: FIELDNAME LIKE SY-REPID.<br />
+DATA: G_UPPER TYPE C.         "Gross/Kleinschreibung<br />
+   </div>
+   <div class="codeComment">
+*<br />
+   </div>
+   <div class="code">
+TABLES : EUFUNC.<br />
+DATA: BEGIN OF UNTERSCHIED,            " Unterschiede bei Testdur<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PARAMETER(30),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ALT(200),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NEU(200),&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;laufen<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;UNTERSCHIED.<br />
+   </div>
+   <div class="codeComment">
+*<br />
+   </div>
+   <div class="code">
+DATA : D102N_EXPORTKEY LIKE FUNCTDIR.<br />
+   </div>
+   <div class="codeComment">
+*<br />
+   </div>
+   <div class="code">
+DATA : BEGIN OF EXPORTKEY,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATAID&nbsp;LIKE&nbsp;EUFUNC-NUMMER,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEQID&nbsp;&nbsp;LIKE&nbsp;EUFUNC-SEQID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;EXPORTKEY.<br />
+DATA : BEGIN OF EXCEPTIONS OCCURS 10,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NAME(30),<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;EXCEPTIONS.<br />
+DATA : VEXCEPTION(30).<br />
+DATA : OEXCEPTION(30).<br />
+DATA : NR2(250) TYPE C.<br />
+DATA : TABLEN TYPE I.<br />
+DATA : EX TYPE REF TO CX_ROOT.<br />
+DATA : DESCR_REF TYPE REF TO CL_ABAP_TYPEDESCR.<br />
+DATA : RESULTAT(30) TYPE C.<br />
+DATA : REST(30)     TYPE C.<br />
+   </div>
+   <div class="codeComment">
+*<br />
+   </div>
+   <div class="code">
+DATA: %_II_A TYPE I.<br />
+DATA: %_II_B TYPE I.<br />
+DATA: %_OE_SUM TYPE I.<br />
+DATA: %_VE_SUM TYPE I.<br />
+FORM EXISTENCE_CHECK CHANGING VARIA.<br />
+&nbsp;&nbsp;VARIA&nbsp;=&nbsp;1.<br />
+ENDFORM.<br />
+FORM FUNCTION_CALL.<br />
+&nbsp;&nbsp;CLEAR&nbsp;%_OE_SUM.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;TRANSAKTION&nbsp;=&nbsp;'Repo',&nbsp;PROGRAM&nbsp;=&nbsp;REPORT<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;IF&nbsp;ATRA&nbsp;=&nbsp;'1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SET&nbsp;RUN&nbsp;TIME&nbsp;ANALYZER&nbsp;ON&nbsp;%_INTERNAL.<br />
+&nbsp;&nbsp;ENDIF.<br />
+IF DESTI IS INITIAL.<br />
+IF DEBUG = '1'. BREAK-POINT AT NEXT APPLICATION STATEMENT.<br />
+ENDIF.<br />
+DEBUG = SPACE.<br />
+GET RUN TIME FIELD TIME1.<br />
+CALL FUNCTION 'ZTRUPEN_PN_FUNMOD_ADD'<br />
+EXPORTING<br />
+I_A = %_II_A<br />
+I_B = %_II_B<br />
+IMPORTING<br />
+E_SUM = %_OE_SUM.<br />
+&nbsp;&nbsp;IF&nbsp;ATRA&nbsp;=&nbsp;'1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SET&nbsp;RUN&nbsp;TIME&nbsp;ANALYZER&nbsp;OFF&nbsp;%_INTERNAL.<br />
+&nbsp;&nbsp;ENDIF.<br />
+ELSE.<br />
+GET RUN TIME FIELD TIME1.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;TRANSAKTION&nbsp;=&nbsp;'Repo',&nbsp;PROGRAM&nbsp;=&nbsp;REPORT<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;IF&nbsp;ATRA&nbsp;=&nbsp;'1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SET&nbsp;RUN&nbsp;TIME&nbsp;ANALYZER&nbsp;ON&nbsp;%_INTERNAL.<br />
+&nbsp;&nbsp;ENDIF.<br />
+IF DESTI = 'SPACE'.<br />
+&nbsp;&nbsp;DESTI&nbsp;=&nbsp;'&nbsp;'.<br />
+ENDIF.<br />
+CALL FUNCTION 'ZTRUPEN_PN_FUNMOD_ADD' DESTINATION DESTI<br />
+EXPORTING<br />
+I_A = %_II_A<br />
+I_B = %_II_B<br />
+IMPORTING<br />
+E_SUM = %_OE_SUM.<br />
+&nbsp;&nbsp;IF&nbsp;ATRA&nbsp;=&nbsp;'1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SET&nbsp;RUN&nbsp;TIME&nbsp;ANALYZER&nbsp;OFF&nbsp;%_INTERNAL.<br />
+&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;GET&nbsp;RUN&nbsp;TIME&nbsp;FIELD&nbsp;TIME2.<br />
+&nbsp;&nbsp;RC&nbsp;=&nbsp;SY-SUBRC.<br />
+&nbsp;&nbsp;CLEAR&nbsp;EXCEPTIONS.<br />
+&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;EXCEPTIONS&nbsp;INDEX&nbsp;RC.<br />
+&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;OEXCEPTION&nbsp;=&nbsp;EXCEPTIONS-NAME.<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;OEXCEPTION&nbsp;=&nbsp;RESULTAT.<br />
+&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;TIME1&nbsp;=&nbsp;TIME2&nbsp;-&nbsp;TIME1.<br />
+&nbsp;&nbsp;WRITE&nbsp;TIME1&nbsp;TO&nbsp;RUNTIME.<br />
+&nbsp;&nbsp;CONDENSE&nbsp;RUNTIME.<br />
+ENDFORM.<br />
+<br />
+FORM CLEAR_DATA.<br />
+&nbsp;&nbsp;CLEAR&nbsp;%_II_A.<br />
+&nbsp;&nbsp;CLEAR&nbsp;%_II_B.<br />
+&nbsp;&nbsp;CLEAR&nbsp;%_VE_SUM.<br />
+&nbsp;&nbsp;CLEAR&nbsp;%_OE_SUM.<br />
+ENDFORM.<br />
+FORM CLEAR_TABLE.<br />
+ENDFORM.<br />
+FORM DELETE_LINE USING KEY INDEX.<br />
+CASE KEY.<br />
+ENDCASE.<br />
+ENDFORM.<br />
+FORM INIT_EXCEPTIONS USING NAME.<br />
+&nbsp;&nbsp;CLEAR&nbsp;EXCEPTIONS.<br />
+&nbsp;&nbsp;MOVE&nbsp;NAME&nbsp;TO&nbsp;EXCEPTIONS-NAME.<br />
+&nbsp;&nbsp;APPEND&nbsp;EXCEPTIONS.<br />
+ENDFORM.<br />
+FORM PARAM_ACCESS_TYPES USING KEY DEST P_MODE P_UPPER.<br />
+DATA : INTKEY(31).<br />
+&nbsp;&nbsp;P_UPPER&nbsp;=&nbsp;G_UPPER.<br />
+&nbsp;&nbsp;INTKEY&nbsp;=&nbsp;DEST.<br />
+&nbsp;&nbsp;INTKEY+1&nbsp;=&nbsp;KEY.<br />
+&nbsp;&nbsp;CONDENSE&nbsp;INTKEY.<br />
+&nbsp;&nbsp;CASE&nbsp;INTKEY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'II_A'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'RS_COMPLEX_OBJECT_EDIT'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+OBJECT_NAME = 'I_A'<br />
+MODE = P_MODE<br />
+INSERT_TAB = 'X'<br />
+UPPER_CASE = P_UPPER<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+OBJECT = %_II_A.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'II_B'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'RS_COMPLEX_OBJECT_EDIT'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+OBJECT_NAME = 'I_B'<br />
+MODE = P_MODE<br />
+INSERT_TAB = 'X'<br />
+UPPER_CASE = P_UPPER<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+OBJECT = %_II_B.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'OE_SUM'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'RS_COMPLEX_OBJECT_EDIT'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+OBJECT_NAME = 'E_SUM'<br />
+MODE = P_MODE<br />
+INSERT_TAB = 'X'<br />
+UPPER_CASE = P_UPPER<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+OBJECT = %_OE_SUM.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'VE_SUM'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'RS_COMPLEX_OBJECT_EDIT'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+OBJECT_NAME = 'E_SUM'<br />
+MODE = P_MODE<br />
+INSERT_TAB = 'X'<br />
+UPPER_CASE = P_UPPER<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+OBJECT = %_VE_SUM.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+ENDFORM.<br />
+FORM PARAMETER_SET USING NAME DIRECTION VALUE.<br />
+&nbsp;DATA:&nbsp;L_NAME(31).<br />
+&nbsp;CONCATENATE&nbsp;DIRECTION&nbsp;NAME&nbsp;INTO&nbsp;L_NAME.<br />
+CASE L_NAME.<br />
+WHEN 'II_A'.<br />
+&nbsp;&nbsp;PERFORM&nbsp;CB_CALLBACK_VALUE_SET(SAPLSEUJ)<br />
+&nbsp;&nbsp;&nbsp;USING&nbsp;VALUE<br />
+&nbsp;&nbsp;&nbsp;CHANGING&nbsp;%_II_A.<br />
+WHEN 'II_B'.<br />
+&nbsp;&nbsp;PERFORM&nbsp;CB_CALLBACK_VALUE_SET(SAPLSEUJ)<br />
+&nbsp;&nbsp;&nbsp;USING&nbsp;VALUE<br />
+&nbsp;&nbsp;&nbsp;CHANGING&nbsp;%_II_B.<br />
+WHEN 'OE_SUM'.<br />
+&nbsp;&nbsp;PERFORM&nbsp;CB_CALLBACK_VALUE_SET(SAPLSEUJ)<br />
+&nbsp;&nbsp;&nbsp;USING&nbsp;VALUE<br />
+&nbsp;&nbsp;&nbsp;CHANGING&nbsp;%_OE_SUM.<br />
+ENDCASE.<br />
+ENDFORM.<br />
+FORM PARAMETER_GET USING NAME DIRECTION<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;&nbsp;&nbsp;VALUE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OLD_VALUE.<br />
+&nbsp;DATA:&nbsp;L_NAME(31).<br />
+&nbsp;CONCATENATE&nbsp;DIRECTION&nbsp;NAME&nbsp;INTO&nbsp;L_NAME.<br />
+CASE L_NAME.<br />
+WHEN 'II_A'.<br />
+&nbsp;&nbsp;PERFORM&nbsp;CB_CALLBACK_VALUE_GET(SAPLSEUJ)<br />
+&nbsp;&nbsp;&nbsp;USING&nbsp;%_II_A<br />
+&nbsp;&nbsp;&nbsp;CHANGING&nbsp;VALUE.<br />
+&nbsp;&nbsp;PERFORM&nbsp;CB_CALLBACK_VALUE_GET(SAPLSEUJ)<br />
+&nbsp;&nbsp;&nbsp;USING&nbsp;%_II_A<br />
+&nbsp;&nbsp;&nbsp;CHANGING&nbsp;OLD_VALUE.<br />
+WHEN 'II_B'.<br />
+&nbsp;&nbsp;PERFORM&nbsp;CB_CALLBACK_VALUE_GET(SAPLSEUJ)<br />
+&nbsp;&nbsp;&nbsp;USING&nbsp;%_II_B<br />
+&nbsp;&nbsp;&nbsp;CHANGING&nbsp;VALUE.<br />
+&nbsp;&nbsp;PERFORM&nbsp;CB_CALLBACK_VALUE_GET(SAPLSEUJ)<br />
+&nbsp;&nbsp;&nbsp;USING&nbsp;%_II_B<br />
+&nbsp;&nbsp;&nbsp;CHANGING&nbsp;OLD_VALUE.<br />
+WHEN 'OE_SUM'.<br />
+&nbsp;&nbsp;PERFORM&nbsp;CB_CALLBACK_VALUE_GET(SAPLSEUJ)<br />
+&nbsp;&nbsp;&nbsp;USING&nbsp;%_OE_SUM<br />
+&nbsp;&nbsp;&nbsp;CHANGING&nbsp;VALUE.<br />
+&nbsp;&nbsp;PERFORM&nbsp;CB_CALLBACK_VALUE_GET(SAPLSEUJ)<br />
+&nbsp;&nbsp;&nbsp;USING&nbsp;%_OE_SUM<br />
+&nbsp;&nbsp;&nbsp;CHANGING&nbsp;OLD_VALUE.<br />
+ENDCASE.<br />
+ENDFORM.<br />
+FORM PARAMETER_TABLE_SET USING NAME VALUE.<br />
+CASE NAME.<br />
+ENDCASE.<br />
+ENDFORM.<br />
+FORM PARAMETER_TABLE_GET USING NAME<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;&nbsp;&nbsp;VALUE.<br />
+CASE NAME.<br />
+ENDCASE.<br />
+ENDFORM.<br />
+FORM PARAMETER_DESCRIBE USING CBPROG<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NAME.<br />
+CASE NAME.<br />
+WHEN 'I_A'.<br />
+&nbsp;&nbsp;PERFORM&nbsp;CB_CALLBACK_DESCRIBE&nbsp;IN&nbsp;PROGRAM&nbsp;(CBPROG)<br />
+&nbsp;&nbsp;&nbsp;USING&nbsp;%_II_A<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NAME.<br />
+WHEN 'I_B'.<br />
+&nbsp;&nbsp;PERFORM&nbsp;CB_CALLBACK_DESCRIBE&nbsp;IN&nbsp;PROGRAM&nbsp;(CBPROG)<br />
+&nbsp;&nbsp;&nbsp;USING&nbsp;%_II_B<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NAME.<br />
+WHEN 'E_SUM'.<br />
+&nbsp;&nbsp;PERFORM&nbsp;CB_CALLBACK_DESCRIBE&nbsp;IN&nbsp;PROGRAM&nbsp;(CBPROG)<br />
+&nbsp;&nbsp;&nbsp;USING&nbsp;%_OE_SUM<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NAME.<br />
+ENDCASE.<br />
+ENDFORM.<br />
+FORM PARAMETER_CONTAINER TABLES LCONT STRUCTURE SWCONT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USING&nbsp;NAME<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DIRECTION&nbsp;.<br />
+CASE NAME.<br />
+WHEN 'II_A'.<br />
+IF DIRECTION = 'O'.<br />
+&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'SWC_ELEMENT_SET'<br />
+EXPORTING<br />
+ELEMENT = NAME<br />
+FIELD   = %_II_A<br />
+TABLES<br />
+CONTAINER = LCONT.<br />
+ELSE.<br />
+&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'SWC_ELEMENT_GET'<br />
+EXPORTING<br />
+ELEMENT = NAME<br />
+IMPORTING<br />
+FIELD   = %_II_A<br />
+TABLES<br />
+CONTAINER = LCONT.<br />
+ENDIF.<br />
+WHEN 'II_B'.<br />
+IF DIRECTION = 'O'.<br />
+&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'SWC_ELEMENT_SET'<br />
+EXPORTING<br />
+ELEMENT = NAME<br />
+FIELD   = %_II_B<br />
+TABLES<br />
+CONTAINER = LCONT.<br />
+ELSE.<br />
+&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'SWC_ELEMENT_GET'<br />
+EXPORTING<br />
+ELEMENT = NAME<br />
+IMPORTING<br />
+FIELD   = %_II_B<br />
+TABLES<br />
+CONTAINER = LCONT.<br />
+ENDIF.<br />
+WHEN 'OE_SUM'.<br />
+IF DIRECTION = 'O'.<br />
+&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'SWC_ELEMENT_SET'<br />
+EXPORTING<br />
+ELEMENT = NAME<br />
+FIELD   = %_OE_SUM<br />
+TABLES<br />
+CONTAINER = LCONT.<br />
+ELSE.<br />
+&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'SWC_ELEMENT_GET'<br />
+EXPORTING<br />
+ELEMENT = NAME<br />
+IMPORTING<br />
+FIELD   = %_OE_SUM<br />
+TABLES<br />
+CONTAINER = LCONT.<br />
+ENDIF.<br />
+ENDCASE.<br />
+ENDFORM.<br />
+FORM TABLES_CONTAINER TABLES LCONT STRUCTURE SWCONT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USING&nbsp;NAME<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DIRECTION.<br />
+CASE NAME.<br />
+ENDCASE.<br />
+ENDFORM.<br />
+FORM SET_VARIABLES USING KEY VALUE.<br />
+&nbsp;&nbsp;CASE&nbsp;KEY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'%%DEBUGON'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEBUG&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'%%DEBUGOFF'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEBUG&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'%%DESTI'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DESTI&nbsp;=&nbsp;VALUE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'%%ATRAON'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATRA&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'%%ATRAOFF'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ATRA&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'%%UPPER'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;G_UPPER&nbsp;=&nbsp;VALUE.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+ENDFORM.<br />
+FORM GET_VARIABLES USING    KEY<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;VALUE.<br />
+&nbsp;&nbsp;CASE&nbsp;KEY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'%%DEBUG'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE&nbsp;=&nbsp;DEBUG.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'%%DESTI'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE&nbsp;=&nbsp;DESTI.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'%%ATRA'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE&nbsp;=&nbsp;ATRA.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'%%SUBRC'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE&nbsp;=&nbsp;RC.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'V%%SUBRC'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE&nbsp;=&nbsp;V_RC.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'%%TIME'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE&nbsp;=&nbsp;RUNTIME.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'%%UPPER'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE&nbsp;=&nbsp;G_UPPER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'%%EXCCL'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE&nbsp;=&nbsp;RESULTAT.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+ENDFORM.<br />
+FORM GET_EXC_CL CHANGING P_EXC_CL.<br />
+&nbsp;&nbsp;&nbsp;IF&nbsp;EX&nbsp;IS&nbsp;BOUND.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;P_EXC_CL&nbsp;=&nbsp;EX.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;P_EXC_CL.<br />
+&nbsp;&nbsp;&nbsp;ENDIF.<br />
+ENDFORM.<br />
+FORM PARAMETER_READ_INPUT USING NAME<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;KEY<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;VALUE.<br />
+&nbsp;&nbsp;CASE&nbsp;NAME.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'I_A'.<br />
+&nbsp;CATCH&nbsp;SYSTEM-EXCEPTIONS&nbsp;CONNE_IMPORT_WRONG_COMP_TYPE&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_OBJECT_TYPE&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_COMP_LENG&nbsp;=&nbsp;3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_FIELD_LENG&nbsp;=&nbsp;6<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_STRUCTURE&nbsp;&nbsp;=&nbsp;7<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_FIELD_TYPE&nbsp;=&nbsp;4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT_WRONG_END_POS&nbsp;=&nbsp;8<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT_ALIGNMENT_MISMATCH&nbsp;=&nbsp;5.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT&nbsp;%_II_A<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;DATABASE&nbsp;EUFUNC(FL)&nbsp;ID&nbsp;KEY.<br />
+&nbsp;ENDCATCH.<br />
+&nbsp;&nbsp;VALUE&nbsp;=&nbsp;%_II_A.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'I_B'.<br />
+&nbsp;CATCH&nbsp;SYSTEM-EXCEPTIONS&nbsp;CONNE_IMPORT_WRONG_COMP_TYPE&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_OBJECT_TYPE&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_COMP_LENG&nbsp;=&nbsp;3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_FIELD_LENG&nbsp;=&nbsp;6<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_STRUCTURE&nbsp;&nbsp;=&nbsp;7<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_FIELD_TYPE&nbsp;=&nbsp;4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT_WRONG_END_POS&nbsp;=&nbsp;8<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT_ALIGNMENT_MISMATCH&nbsp;=&nbsp;5.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT&nbsp;%_II_B<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;DATABASE&nbsp;EUFUNC(FL)&nbsp;ID&nbsp;KEY.<br />
+&nbsp;ENDCATCH.<br />
+&nbsp;&nbsp;VALUE&nbsp;=&nbsp;%_II_B.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+ENDFORM.<br />
+FORM PARAMETER_READ_OUTPUT USING NAME<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;KEY<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;VALUE.<br />
+&nbsp;&nbsp;CASE&nbsp;NAME.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'I_A'.<br />
+&nbsp;CATCH&nbsp;SYSTEM-EXCEPTIONS&nbsp;CONNE_IMPORT_WRONG_COMP_TYPE&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_OBJECT_TYPE&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_COMP_LENG&nbsp;=&nbsp;3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_FIELD_TYPE&nbsp;=&nbsp;4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_FIELD_LENG&nbsp;=&nbsp;6<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_STRUCTURE&nbsp;&nbsp;=&nbsp;7<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT_WRONG_END_POS&nbsp;=&nbsp;8<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT_ALIGNMENT_MISMATCH&nbsp;=&nbsp;5.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT&nbsp;%_II_A<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;DATABASE&nbsp;EUFUNC(FL)&nbsp;ID&nbsp;KEY.<br />
+&nbsp;ENDCATCH.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'I_B'.<br />
+&nbsp;CATCH&nbsp;SYSTEM-EXCEPTIONS&nbsp;CONNE_IMPORT_WRONG_COMP_TYPE&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_OBJECT_TYPE&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_COMP_LENG&nbsp;=&nbsp;3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_FIELD_TYPE&nbsp;=&nbsp;4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_FIELD_LENG&nbsp;=&nbsp;6<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_STRUCTURE&nbsp;&nbsp;=&nbsp;7<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT_WRONG_END_POS&nbsp;=&nbsp;8<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT_ALIGNMENT_MISMATCH&nbsp;=&nbsp;5.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT&nbsp;%_II_B<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;DATABASE&nbsp;EUFUNC(FL)&nbsp;ID&nbsp;KEY.<br />
+&nbsp;ENDCATCH.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'E_SUM'.<br />
+&nbsp;CATCH&nbsp;SYSTEM-EXCEPTIONS&nbsp;CONNE_IMPORT_WRONG_COMP_TYPE&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_OBJECT_TYPE&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_COMP_LENG&nbsp;=&nbsp;3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_FIELD_TYPE&nbsp;=&nbsp;4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_FIELD_LENG&nbsp;=&nbsp;6<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_STRUCTURE&nbsp;&nbsp;=&nbsp;7<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT_WRONG_END_POS&nbsp;=&nbsp;8<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT_ALIGNMENT_MISMATCH&nbsp;=&nbsp;5.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT&nbsp;%_VE_SUM<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;DATABASE&nbsp;EUFUNC(FL)&nbsp;ID&nbsp;KEY.<br />
+&nbsp;ENDCATCH.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+ENDFORM.<br />
+FORM PARAMETER_COMPARE USING NAME<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;VALUE.<br />
+&nbsp;&nbsp;CASE&nbsp;NAME.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'E_SUM'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;%_OE_SUM&nbsp;&lt;&gt;&nbsp;%_VE_SUM.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;VALUE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+ENDFORM.<br />
+FORM EXPORT_IMPORT_MEMORY USING SEL KEY STRUCTURE EXPORTKEY.<br />
+&nbsp;CASE&nbsp;SEL.<br />
+WHEN 'II'.<br />
+&nbsp;CATCH&nbsp;SYSTEM-EXCEPTIONS&nbsp;CONNE_IMPORT_WRONG_COMP_TYPE&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_OBJECT_TYPE&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_COMP_LENG&nbsp;=&nbsp;3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_FIELD_LENG&nbsp;=&nbsp;6<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_STRUCTURE&nbsp;&nbsp;=&nbsp;7<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_FIELD_TYPE&nbsp;=&nbsp;4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT_WRONG_END_POS&nbsp;=&nbsp;8<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT_ALIGNMENT_MISMATCH&nbsp;=&nbsp;5.<br />
+&nbsp;&nbsp;IMPORT<br />
+%_II_A<br />
+%_II_B<br />
+G_UPPER<br />
+FROM MEMORY ID KEY.<br />
+&nbsp;ENDCATCH.<br />
+WHEN 'IO'.<br />
+V_RC = RC.<br />
+%_VE_SUM = %_OE_SUM.<br />
+VEXCEPTION = OEXCEPTION.<br />
+&nbsp;&nbsp;EXPORT<br />
+%_II_A<br />
+%_II_B<br />
+%_VE_SUM<br />
+TIME1<br />
+V_RC<br />
+VEXCEPTION<br />
+G_UPPER<br />
+TO MEMORY ID KEY.<br />
+WHEN 'VI'.<br />
+&nbsp;CATCH&nbsp;SYSTEM-EXCEPTIONS&nbsp;CONNE_IMPORT_WRONG_COMP_TYPE&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_OBJECT_TYPE&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_COMP_LENG&nbsp;=&nbsp;3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_FIELD_LENG&nbsp;=&nbsp;6<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_STRUCTURE&nbsp;&nbsp;=&nbsp;7<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_FIELD_TYPE&nbsp;=&nbsp;4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT_WRONG_END_POS&nbsp;=&nbsp;8<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT_ALIGNMENT_MISMATCH&nbsp;=&nbsp;5.<br />
+&nbsp;&nbsp;IMPORT<br />
+%_VE_SUM<br />
+TIME1<br />
+V_RC<br />
+VEXCEPTION<br />
+G_UPPER<br />
+FROM MEMORY ID KEY.<br />
+&nbsp;ENDCATCH.<br />
+WHEN 'VO'.<br />
+V_RC = RC.<br />
+%_VE_SUM = %_OE_SUM.<br />
+VEXCEPTION = OEXCEPTION.<br />
+&nbsp;&nbsp;EXPORT<br />
+%_VE_SUM<br />
+TIME1<br />
+V_RC<br />
+VEXCEPTION<br />
+G_UPPER<br />
+TO MEMORY ID KEY.<br />
+WHEN 'IV'.<br />
+&nbsp;CATCH&nbsp;SYSTEM-EXCEPTIONS&nbsp;CONNE_IMPORT_WRONG_COMP_TYPE&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_OBJECT_TYPE&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_COMP_LENG&nbsp;=&nbsp;3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_FIELD_LENG&nbsp;=&nbsp;6<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_STRUCTURE&nbsp;&nbsp;=&nbsp;7<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_FIELD_TYPE&nbsp;=&nbsp;4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT_WRONG_END_POS&nbsp;=&nbsp;8<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT_ALIGNMENT_MISMATCH&nbsp;=&nbsp;5.<br />
+&nbsp;&nbsp;IMPORT<br />
+%_VE_SUM<br />
+TIME1<br />
+V_RC<br />
+VEXCEPTION<br />
+G_UPPER<br />
+FROM MEMORY ID KEY.<br />
+&nbsp;ENDCATCH.<br />
+RC = V_RC.<br />
+%_OE_SUM = %_VE_SUM.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+ENDFORM.<br />
+FORM EXPORT_IMPORT USING SEL KEY STRUCTURE D102N_EXPORTKEY.<br />
+&nbsp;CASE&nbsp;SEL.<br />
+WHEN 'II'.<br />
+&nbsp;CATCH&nbsp;SYSTEM-EXCEPTIONS&nbsp;CONNE_IMPORT_WRONG_COMP_TYPE&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_OBJECT_TYPE&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_COMP_LENG&nbsp;=&nbsp;3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_FIELD_LENG&nbsp;=&nbsp;6<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_STRUCTURE&nbsp;&nbsp;=&nbsp;7<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_FIELD_TYPE&nbsp;=&nbsp;4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT_WRONG_END_POS&nbsp;=&nbsp;8<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT_ALIGNMENT_MISMATCH&nbsp;=&nbsp;5.<br />
+&nbsp;&nbsp;IMPORT<br />
+%_II_A<br />
+%_II_B<br />
+G_UPPER<br />
+FROM DATABASE EUFUNC(FL) ID KEY ACCEPTING PADDING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IGNORING&nbsp;CONVERSION&nbsp;ERRORS.<br />
+&nbsp;ENDCATCH.<br />
+WHEN 'IO'.<br />
+V_RC = RC.<br />
+%_VE_SUM = %_OE_SUM.<br />
+VEXCEPTION = OEXCEPTION.<br />
+&nbsp;&nbsp;EXPORT<br />
+%_II_A<br />
+%_II_B<br />
+%_VE_SUM<br />
+TIME1<br />
+V_RC<br />
+VEXCEPTION<br />
+G_UPPER<br />
+TO DATABASE EUFUNC(FL) ID KEY.<br />
+WHEN 'VI'.<br />
+&nbsp;CATCH&nbsp;SYSTEM-EXCEPTIONS&nbsp;CONNE_IMPORT_WRONG_COMP_TYPE&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_OBJECT_TYPE&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_COMP_LENG&nbsp;=&nbsp;3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_FIELD_LENG&nbsp;=&nbsp;6<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_STRUCTURE&nbsp;&nbsp;=&nbsp;7<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_FIELD_TYPE&nbsp;=&nbsp;4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT_WRONG_END_POS&nbsp;=&nbsp;8<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT_ALIGNMENT_MISMATCH&nbsp;=&nbsp;5.<br />
+&nbsp;&nbsp;IMPORT<br />
+%_VE_SUM<br />
+TIME1<br />
+V_RC<br />
+VEXCEPTION<br />
+G_UPPER<br />
+FROM DATABASE EUFUNC(FL) ID KEY ACCEPTING PADDING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IGNORING&nbsp;CONVERSION&nbsp;ERRORS.<br />
+&nbsp;ENDCATCH.<br />
+WHEN 'VO'.<br />
+V_RC = RC.<br />
+%_VE_SUM = %_OE_SUM.<br />
+VEXCEPTION = OEXCEPTION.<br />
+&nbsp;&nbsp;EXPORT<br />
+%_VE_SUM<br />
+TIME1<br />
+V_RC<br />
+VEXCEPTION<br />
+G_UPPER<br />
+TO DATABASE EUFUNC(FL) ID KEY.<br />
+WHEN 'IV'.<br />
+&nbsp;CATCH&nbsp;SYSTEM-EXCEPTIONS&nbsp;CONNE_IMPORT_WRONG_COMP_TYPE&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_OBJECT_TYPE&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_COMP_LENG&nbsp;=&nbsp;3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_FIELD_LENG&nbsp;=&nbsp;6<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_STRUCTURE&nbsp;&nbsp;=&nbsp;7<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNE_IMPORT_WRONG_FIELD_TYPE&nbsp;=&nbsp;4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT_WRONG_END_POS&nbsp;=&nbsp;8<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORT_ALIGNMENT_MISMATCH&nbsp;=&nbsp;5.<br />
+&nbsp;&nbsp;IMPORT<br />
+%_VE_SUM<br />
+TIME1<br />
+V_RC<br />
+VEXCEPTION<br />
+G_UPPER<br />
+FROM DATABASE EUFUNC(FL) ID KEY ACCEPTING PADDING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IGNORING&nbsp;CONVERSION&nbsp;ERRORS.<br />
+&nbsp;ENDCATCH.<br />
+RC = V_RC.<br />
+%_OE_SUM = %_VE_SUM.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+ENDFORM.<br />
+FORM GET_EXCEPTION_DIFFERENCE<br />
+&nbsp;TABLES&nbsp;DIFFERENCES&nbsp;STRUCTURE&nbsp;UNTERSCHIED.<br />
+&nbsp;IF&nbsp;VEXCEPTION&nbsp;NE&nbsp;OEXCEPTION.<br />
+&nbsp;&nbsp;&nbsp;MOVE&nbsp;'EXCEPTION'&nbsp;TO&nbsp;DIFFERENCES-PARAMETER.<br />
+&nbsp;&nbsp;&nbsp;IF&nbsp;VEXCEPTION&nbsp;=&nbsp;SPACE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MOVE&nbsp;'-'&nbsp;TO&nbsp;DIFFERENCES-ALT.<br />
+&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MOVE&nbsp;VEXCEPTION&nbsp;TO&nbsp;DIFFERENCES-ALT.<br />
+&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;IF&nbsp;OEXCEPTION&nbsp;=&nbsp;SPACE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MOVE&nbsp;'-'&nbsp;TO&nbsp;DIFFERENCES-NEU.<br />
+&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MOVE&nbsp;OEXCEPTION&nbsp;TO&nbsp;DIFFERENCES-NEU.<br />
+&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;APPEND&nbsp;DIFFERENCES.<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDFORM.<br />
+FORM COMPARE_DATA<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TABLES&nbsp;DIFFERENCES&nbsp;STRUCTURE&nbsp;UNTERSCHIED<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USING&nbsp;FIELD<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;RETCODE.<br />
+&nbsp;DATA&nbsp;:&nbsp;SUBRC&nbsp;LIKE&nbsp;SY-SUBRC.<br />
+&nbsp;field-symbols:&nbsp;&lt;l_f1&gt;&nbsp;type&nbsp;x.<br />
+&nbsp;field-symbols:&nbsp;&lt;l_f2&gt;&nbsp;type&nbsp;x.<br />
+&nbsp;RETCODE&nbsp;=&nbsp;'='.<br />
+&nbsp;CLEAR&nbsp;DIFFERENCES.<br />
+&nbsp;CASE&nbsp;FIELD.<br />
+WHEN 'EXCEPTION'.<br />
+IF VEXCEPTION NE OEXCEPTION.<br />
+RETCODE = SPACE.<br />
+MOVE FIELD      TO DIFFERENCES-PARAMETER.<br />
+MOVE VEXCEPTION TO DIFFERENCES-ALT.<br />
+MOVE OEXCEPTION TO DIFFERENCES-NEU.<br />
+APPEND DIFFERENCES.<br />
+ENDIF.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+ENDFORM.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

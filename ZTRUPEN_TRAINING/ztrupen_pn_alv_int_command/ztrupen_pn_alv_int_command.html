@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>ZTRUPEN_PN_ALV_INT_COMMAND</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZTRUPEN_PN_ALV_INT_COMMAND</h2>
+<h3> Description: ZTRUPEN_PN_ALV_INT_command</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZTRUPEN_PN_ALV_INT_COMMAND<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZTRUPEN_PN_ALV_INT_COMMAND.<br />
+<br />
+type-pools: slis.<br />
+<br />
+data lv_matnr type matnr.<br />
+data : fcat    type slis_t_fieldcat_alv with header line,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_fcat&nbsp;type&nbsp;slis_fieldcat_alv.<br />
+<br />
+data: fcat1    type slis_t_fieldcat_alv,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_fcat1&nbsp;type&nbsp;slis_fieldcat_alv.<br />
+<br />
+select-options s_matnr for lv_matnr.<br />
+<br />
+types: begin of ty_mara,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matnr&nbsp;type&nbsp;matnr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mbrsh&nbsp;type&nbsp;mbrsh,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mtart&nbsp;type&nbsp;mtart,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end&nbsp;of&nbsp;ty_mara.<br />
+<br />
+data: imara   type  standard table of ty_mara,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wa_mara&nbsp;type&nbsp;ty_mara.<br />
+<br />
+<br />
+data : sucom type slis_formname value 'SUCOM'.<br />
+<br />
+start-of-selection.<br />
+<br />
+&nbsp;&nbsp;select&nbsp;matnr<br />
+&nbsp;&nbsp;mbrsh<br />
+&nbsp;&nbsp;mtart&nbsp;from&nbsp;mara<br />
+&nbsp;&nbsp;into&nbsp;table&nbsp;imara<br />
+&nbsp;&nbsp;where&nbsp;matnr&nbsp;in&nbsp;s_matnr.<br />
+<br />
+&nbsp;&nbsp;wa_fcat-seltext_l&nbsp;=&nbsp;'MATERIAL&nbsp;NUMBER'.<br />
+&nbsp;&nbsp;wa_fcat-col_pos&nbsp;=&nbsp;'1'.<br />
+&nbsp;&nbsp;wa_fcat-fieldname&nbsp;=&nbsp;'MATNR'.<br />
+&nbsp;&nbsp;wa_fcat-tabname&nbsp;=&nbsp;'IMARA'.<br />
+&nbsp;&nbsp;append&nbsp;wa_fcat&nbsp;to&nbsp;fcat.<br />
+&nbsp;&nbsp;clear&nbsp;wa_fcat.<br />
+<br />
+&nbsp;&nbsp;wa_fcat-seltext_l&nbsp;=&nbsp;'INDUSTRY&nbsp;SECTOR'.<br />
+&nbsp;&nbsp;wa_fcat-col_pos&nbsp;=&nbsp;'2'.<br />
+&nbsp;&nbsp;wa_fcat-fieldname&nbsp;=&nbsp;'MBRSH'.<br />
+&nbsp;&nbsp;wa_fcat-tabname&nbsp;=&nbsp;'IMARA'.<br />
+&nbsp;&nbsp;append&nbsp;wa_fcat&nbsp;to&nbsp;fcat.<br />
+&nbsp;&nbsp;clear&nbsp;wa_fcat.<br />
+<br />
+&nbsp;&nbsp;wa_fcat-seltext_l&nbsp;=&nbsp;'MATERIAL&nbsp;TYPE'.<br />
+&nbsp;&nbsp;wa_fcat-col_pos&nbsp;=&nbsp;'3'.<br />
+&nbsp;&nbsp;wa_fcat-fieldname&nbsp;=&nbsp;'MTART'.<br />
+&nbsp;&nbsp;wa_fcat-tabname&nbsp;=&nbsp;'IMARA'.<br />
+&nbsp;&nbsp;append&nbsp;wa_fcat&nbsp;to&nbsp;fcat.<br />
+&nbsp;&nbsp;clear&nbsp;wa_fcat.<br />
+<br />
+&nbsp;&nbsp;call&nbsp;function&nbsp;'REUSE_ALV_GRID_DISPLAY'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;exporting<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_callback_program&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;sy-repid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_callback_pf_status_set&nbsp;=&nbsp;'SET_PF1'&nbsp;&nbsp;"&nbsp;sub&nbsp;any&nbsp;name<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_callback_user_command&nbsp;&nbsp;=&nbsp;'ACT'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;sub&nbsp;ACTION&nbsp;&nbsp;any&nbsp;name<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_grid_title&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'DATA&nbsp;FORM&nbsp;MARA&nbsp;TABLE'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;it_fieldcat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;fcat[]<br />
+&nbsp;&nbsp;&nbsp;&nbsp;tables<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t_outtab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;imara.<br />
+&nbsp;&nbsp;if&nbsp;sy-subrc&nbsp;&lt;&gt;&nbsp;0.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;MESSAGE&nbsp;ID&nbsp;SY-MSGID&nbsp;TYPE&nbsp;SY-MSGTY&nbsp;NUMBER&nbsp;SY-MSGNO<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH&nbsp;SY-MSGV1&nbsp;SY-MSGV2&nbsp;SY-MSGV3&nbsp;SY-MSGV4.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;endif.<br />
+<br />
+form set_pf1 using i_rt_extab type slis_t_extab.<br />
+<br />
+&nbsp;&nbsp;set&nbsp;pf-status&nbsp;'TRUPEN_FPS'.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;&nbsp;dsip&nbsp;sE41&nbsp;NAME<br />
+<br />
+endform.                    "pf_status_set<br />
+<br />
+form ACT using i_sucom like sy-ucomm<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_selfield&nbsp;type&nbsp;slis_selfield.<br />
+&nbsp;&nbsp;case&nbsp;sy-ucomm.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;CASE&nbsp;sucom.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;when&nbsp;'DSIP'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;transaction&nbsp;'SE11'.<br />
+<br />
+&nbsp;&nbsp;endcase.<br />
+<br />
+endform.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

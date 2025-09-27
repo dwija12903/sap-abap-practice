@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>ZTRUPEN_PN_EXCEPTIONS</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZTRUPEN_PN_EXCEPTIONS</h2>
+<h3> Description: ZTRUPEN_PN_EXCEPTIONS</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZTRUPEN_PN_EXCEPTIONS<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZTRUPEN_PN_EXCEPTIONS.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*#1<br />
+***<br />
+***PARAMETERS&nbsp;p_num&nbsp;TYPE&nbsp;i.<br />
+***<br />
+***DATA:&nbsp;I&nbsp;TYPE&nbsp;I&nbsp;VALUE&nbsp;1.<br />
+***<br />
+***START-OF-SELECTION.<br />
+***<br />
+***I&nbsp;=&nbsp;p_num&nbsp;&nbsp;/&nbsp;0.<br />
+<br />
+<br />
+*********&nbsp;&nbsp;1.&nbsp;2<br />
+<br />
+*DATA:&nbsp;I&nbsp;TYPE&nbsp;I&nbsp;VALUE&nbsp;1.<br />
+*START-OF-SELECTION.<br />
+*<br />
+*CATCH&nbsp;system-EXCEPTIONS&nbsp;COMPUTE_INT_ZERODIVIDE&nbsp;=&nbsp;4.<br />
+*I&nbsp;=&nbsp;I&nbsp;/&nbsp;0.<br />
+*endcatch.<br />
+*<br />
+*IF&nbsp;sy-subrc&nbsp;=&nbsp;4.<br />
+*&nbsp;&nbsp;WRITE:/5&nbsp;'Division&nbsp;by&nbsp;zero!!!Check'.<br />
+*ENDIF.<br />
+<br />
+*******1.&nbsp;3<br />
+*DATA:&nbsp;I&nbsp;TYPE&nbsp;I&nbsp;VALUE&nbsp;1.<br />
+*<br />
+*START-OF-SELECTION.<br />
+*TRY.<br />
+*&nbsp;&nbsp;I&nbsp;=&nbsp;I&nbsp;/&nbsp;0.<br />
+*<br />
+*CATCH&nbsp;cx_sy_zerodivide.<br />
+*&nbsp;&nbsp;WRITE:/5&nbsp;'Divide&nbsp;by&nbsp;zero&nbsp;caught'.<br />
+*ENDTRY.<br />
+**<br />
+<br />
+<br />
+*#&nbsp;2<br />
+*<br />
+*DATA:&nbsp;I&nbsp;TYPE&nbsp;I&nbsp;VALUE&nbsp;1.<br />
+*<br />
+*START-OF-SELECTION.<br />
+*TRY.<br />
+*I&nbsp;=&nbsp;I&nbsp;/&nbsp;0.<br />
+*<br />
+*CATCH&nbsp;cx_sy_zerodivide.&nbsp;&nbsp;"&nbsp;sub&nbsp;class<br />
+*&nbsp;&nbsp;WRITE:/5&nbsp;'Div.&nbsp;by&nbsp;zero!'.<br />
+*<br />
+*CATCH&nbsp;cx_root.&nbsp;&nbsp;"&nbsp;super&nbsp;class<br />
+*&nbsp;&nbsp;WRITE:/5&nbsp;'Error&nbsp;trapped'.<br />
+********<br />
+****CATCH&nbsp;cx_sy_zerodivide.&nbsp;&nbsp;"&nbsp;sub&nbsp;class<br />
+****&nbsp;WRITE:/5&nbsp;'Div.&nbsp;by&nbsp;zero!'.<br />
+<br />
+****ENDTRY.<br />
+<br />
+<br />
+*#&nbsp;3<br />
+**<br />
+*<br />
+*START-OF-SELECTION.<br />
+*<br />
+*TRY.<br />
+*&nbsp;&nbsp;PERFORM&nbsp;sub_check_no&nbsp;USING&nbsp;5&nbsp;.<br />
+*CATCH&nbsp;cx_sy_zerodivide.<br />
+*&nbsp;&nbsp;WRITE:/5&nbsp;'Exceptions'&nbsp;.<br />
+*ENDTRY.<br />
+*<br />
+*FORM&nbsp;sub_check_no&nbsp;&nbsp;USING&nbsp;p_p_no&nbsp;RAISING&nbsp;cx_sy_zerodivide.<br />
+*&nbsp;&nbsp;p_p_no&nbsp;=&nbsp;p_p_no&nbsp;/&nbsp;0&nbsp;.<br />
+*<br />
+*ENDFORM.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;sub_check_no<br />
+<br />
+<br />
+*#&nbsp;4<br />
+*DATA&nbsp;:&nbsp;inum&nbsp;TYPE&nbsp;I&nbsp;.<br />
+*<br />
+*TRY.<br />
+*&nbsp;&nbsp;RAISE&nbsp;exception&nbsp;&nbsp;TYPE&nbsp;cx_sy_zerodivide.<br />
+*CATCH&nbsp;cx_sy_zerodivide.<br />
+*&nbsp;&nbsp;WRITE:/5&nbsp;'Exception&nbsp;caught'.<br />
+*ENDTRY.<br />
+**<br />
+<br />
+*<br />
+*<br />
+****#&nbsp;5<br />
+   </div>
+   <div class="code">
+DATA : inum     TYPE I VALUE 5,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_descrip&nbsp;&nbsp;TYPE&nbsp;string,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_progname&nbsp;LIKE&nbsp;sy-repid,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_lineno&nbsp;&nbsp;&nbsp;TYPE&nbsp;I.<br />
+DATA : eref TYPE REF TO cx_sy_zerodivide.<br />
+   </div>
+   <div class="codeComment">
+*CREATE&nbsp;OBJECT&nbsp;eref.<br />
+   </div>
+   <div class="code">
+TRY.<br />
+&nbsp;&nbsp;inum&nbsp;=&nbsp;inum&nbsp;/&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CATCH&nbsp;cx_sy_zerodivide&nbsp;INTO&nbsp;eref.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Utilizing&nbsp;methods/attributes&nbsp;using&nbsp;object&nbsp;of&nbsp;the&nbsp;exception&nbsp;classes<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;eref-&gt;get_text(<br />
+&nbsp;&nbsp;receiving&nbsp;result&nbsp;=&nbsp;lv_descrip&nbsp;).<br />
+&nbsp;&nbsp;WRITE:/5&nbsp;'Name&nbsp;of&nbsp;the&nbsp;error&nbsp;trapped&nbsp;is&nbsp;:&nbsp;'&nbsp;,&nbsp;lv_descrip.<br />
+<br />
+<br />
+&nbsp;&nbsp;eref-&gt;get_source_position(<br />
+&nbsp;&nbsp;IMPORTING&nbsp;program_name&nbsp;=&nbsp;lv_progname<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;source_line&nbsp;&nbsp;=&nbsp;lv_lineno&nbsp;).<br />
+<br />
+&nbsp;&nbsp;WRITE:/5&nbsp;'Error&nbsp;detected&nbsp;in&nbsp;program:'&nbsp;,&nbsp;&nbsp;lv_progname(25)&nbsp;,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'line&nbsp;number:'&nbsp;,&nbsp;&nbsp;lv_lineno.<br />
+<br />
+&nbsp;&nbsp;WRITE:/5&nbsp;eref-&gt;kernel_errid.<br />
+<br />
+<br />
+ENDTRY.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

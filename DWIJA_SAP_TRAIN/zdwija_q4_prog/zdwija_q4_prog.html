@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>ZDWIJA_Q4_PROG</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZDWIJA_Q4_PROG</h2>
+<h3> Description: M1 TEST Q4 PROGRAM</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZDWIJA_Q4_PROG<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZDWIJA_Q4_PROG NO STANDARD PAGE HEADING.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*=======DECALARATION======<br />
+   </div>
+   <div class="code">
+DATA: LV_PMTNR TYPE ZDP_QPMETHODE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WA_TAB&nbsp;TYPE&nbsp;ZDWIJA_Q4_STRUCT,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT_TAB&nbsp;TYPE&nbsp;ZDWIJA_Q4_TT.<br />
+<br />
+SELECT-OPTIONS S_PMTNR FOR LV_PMTNR.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*=======CALLING&nbsp;OF&nbsp;FUNCTION=========<br />
+   </div>
+   <div class="code">
+call function 'ZDP_Q4_FUN_MOD'<br />
+&nbsp;&nbsp;exporting<br />
+&nbsp;&nbsp;&nbsp;&nbsp;i_pmtnr_l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;S_PMTNR-LOW<br />
+&nbsp;&nbsp;&nbsp;&nbsp;i_pmtnr_h&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;S_PMTNR-HIGH<br />
+&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;E_TAB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;IT_TAB<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*=======PRINTING&nbsp;(DISPLAY)=====<br />
+   </div>
+   <div class="code">
+WRITE: 'YOUR REQUIRED INSPECTION METHOD DETAILS ARE AS FOLLOWS:'.<br />
+SKIP.<br />
+<br />
+uline.<br />
+&nbsp;&nbsp;write:&nbsp;/1&nbsp;sy-vline,&nbsp;'Row&nbsp;Number',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20&nbsp;sy-vline,'Inspection&nbsp;method',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;40&nbsp;sy-vline,'PLANT',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;60&nbsp;sy-vline,'STATUS',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;70&nbsp;SY-VLINE,&nbsp;'Inspector&nbsp;Qualification'.<br />
+&nbsp;&nbsp;uline.<br />
+<br />
+loop at It_tab into wa_tab.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;write:/1&nbsp;sy-vline,&nbsp;sy-tabix,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20&nbsp;sy-vline,&nbsp;wa_tab-pmtnr,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Inspection&nbsp;method<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;40&nbsp;sy-vline,&nbsp;wa_tab-werks,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Plant&nbsp;for&nbsp;Inspection&nbsp;Method<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;60&nbsp;sy-vline,&nbsp;wa_tab-loekz,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Status&nbsp;of&nbsp;Master&nbsp;Record<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;70&nbsp;SY-VLINE,&nbsp;wa_tab-prfql.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"Inspector&nbsp;Qualification<br />
+&nbsp;&nbsp;&nbsp;&nbsp;uline.<br />
+&nbsp;endloop.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

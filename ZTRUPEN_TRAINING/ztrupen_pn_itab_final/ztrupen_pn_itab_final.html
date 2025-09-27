@@ -1,0 +1,390 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>ZTRUPEN_PN_ITAB_FINAL</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZTRUPEN_PN_ITAB_FINAL</h2>
+<h3> Description: ITAB FINAL</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZTRUPEN_PN_ITAB_FINAL<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+report ztrupen_pn_itab_final NO STANDARD PAGE HEADING.<br />
+<br />
+include <a href ="ztrupen_pn_itab_final_top.html">ZTRUPEN_PN_ITAB_FINAL_TOP</a>.<br />
+<br />
+<br />
+select-options s_matnr for lv_matnr.<br />
+   </div>
+   <div class="codeComment">
+****BREAK-POINT.<br />
+   </div>
+   <div class="code">
+start-of-selection.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*****800&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;---&gt;&nbsp;810&nbsp;--&nbsp;RFC<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;select&nbsp;matnr&nbsp;mbrsh&nbsp;mtart&nbsp;matkl&nbsp;meins&nbsp;brgew&nbsp;ntgew<br />
+&nbsp;&nbsp;&nbsp;&nbsp;into&nbsp;table&nbsp;lt_tab<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;mara<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;where&nbsp;matnr&nbsp;in&nbsp;s_matnr.<br />
+<br />
+&nbsp;&nbsp;sort&nbsp;lt_tab&nbsp;by&nbsp;matnr&nbsp;ascending.<br />
+<br />
+   </div>
+   <div class="codeComment">
+****IF&nbsp;LT_TAB[]&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;if&nbsp;sy-subrc&nbsp;eq&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;write&nbsp;:/&nbsp;'Materaial&nbsp;Master&nbsp;records&nbsp;are&nbsp;found&nbsp;in&nbsp;mara&nbsp;table',&nbsp;sy-dbcnt.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+&nbsp;&nbsp;else.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;write&nbsp;:/&nbsp;'Materaial&nbsp;Master&nbsp;records&nbsp;are&nbsp;not&nbsp;found&nbsp;in&nbsp;mara&nbsp;table',&nbsp;sy-dbcnt.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+&nbsp;&nbsp;endif.<br />
+<br />
+skip 2.<br />
+<br />
+WRITE:/3 'Row Numb',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15&nbsp;'Mat&nbsp;Number',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;25&nbsp;'Mat&nbsp;Ind',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;40&nbsp;'Mat&nbsp;Type',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;56&nbsp;'Mat&nbsp;grp',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;64&nbsp;'Mat&nbsp;UOM',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;80&nbsp;'Mat&nbsp;Gross&nbsp;wt',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;100&nbsp;'Mat&nbsp;Net&nbsp;wt'.<br />
+ULINE.<br />
+<br />
+&nbsp;&nbsp;loop&nbsp;at&nbsp;lt_tab&nbsp;into&nbsp;wa_tab.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;write&nbsp;:/3&nbsp;sy-tabix,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;15&nbsp;wa_tab-matnr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;25&nbsp;wa_tab-mbrsh,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;40&nbsp;wa_tab-mtart,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;56&nbsp;wa_tab-matkl,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;64&nbsp;wa_tab-meins,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;80&nbsp;wa_tab-brgew,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;100&nbsp;wa_tab-ntgew.<br />
+<br />
+&nbsp;&nbsp;endloop.<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*************Demos*********<br />
+<br />
+<br />
+******REFRESH&nbsp;AND&nbsp;FREEE*********<br />
+*<br />
+*DATA:&nbsp;BEGIN&nbsp;OF&nbsp;line,&nbsp;&nbsp;"&nbsp;field&nbsp;strings<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col_1(10)&nbsp;TYPE&nbsp;c,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col_2(20)&nbsp;TYPE&nbsp;c,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;line.<br />
+*<br />
+*DATA&nbsp;itab&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;line.<br />
+*<br />
+*line-col_1&nbsp;=&nbsp;'CAPG'.<br />
+*line-col_2&nbsp;=&nbsp;'TECHNOLOGIES'.<br />
+*<br />
+*APPEND&nbsp;line&nbsp;TO&nbsp;itab.<br />
+*<br />
+*REFRESH&nbsp;itab.<br />
+*IF&nbsp;itab&nbsp;IS&nbsp;INITIAL.<br />
+*&nbsp;&nbsp;WRITE&nbsp;'INTERNAL&nbsp;TABLE&nbsp;IS&nbsp;EMPTY'.<br />
+*&nbsp;&nbsp;FREE&nbsp;itab.<br />
+*ENDIF.<br />
+**<br />
+*<br />
+<br />
+*<br />
+*<br />
+*<br />
+*<br />
+*<br />
+****************************INSERT&nbsp;SINGLE&nbsp;line*****************<br />
+*<br />
+*DATA:&nbsp;BEGIN&nbsp;OF&nbsp;line,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name(20)&nbsp;TYPE&nbsp;c,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;age&nbsp;&nbsp;&nbsp;TYPE&nbsp;i,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;weight&nbsp;&nbsp;&nbsp;TYPE&nbsp;p&nbsp;DECIMALS&nbsp;2,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;land(5)&nbsp;&nbsp;TYPE&nbsp;c,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;line.<br />
+*<br />
+**DATA&nbsp;itab&nbsp;LIKE&nbsp;STANDARD&nbsp;TABLE&nbsp;OF&nbsp;&nbsp;LINE.<br />
+*<br />
+*DATA&nbsp;itab&nbsp;LIKE&nbsp;SORTED&nbsp;TABLE&nbsp;OF&nbsp;line&nbsp;&nbsp;WITH&nbsp;NON-UNIQUE&nbsp;KEY&nbsp;name&nbsp;age&nbsp;weight&nbsp;land.<br />
+*<br />
+*&nbsp;line-name&nbsp;&nbsp;&nbsp;=&nbsp;'JOHAN'.<br />
+*line-age&nbsp;&nbsp;=&nbsp;35.<br />
+*&nbsp;line-weight&nbsp;=&nbsp;'80.00'.<br />
+*line-land&nbsp;=&nbsp;'IND'.<br />
+*INSERT&nbsp;line&nbsp;INTO&nbsp;TABLE&nbsp;itab.<br />
+*<br />
+*line-name&nbsp;&nbsp;&nbsp;=&nbsp;'PETER'.<br />
+*&nbsp;line-age&nbsp;&nbsp;=&nbsp;35.<br />
+*&nbsp;line-weight&nbsp;=&nbsp;'45.00'.<br />
+*&nbsp;line-land&nbsp;=&nbsp;'USA'.<br />
+*INSERT&nbsp;line&nbsp;INTO&nbsp;TABLE&nbsp;itab.<br />
+*<br />
+*line-name&nbsp;&nbsp;&nbsp;=&nbsp;'DAVID'.<br />
+*&nbsp;line-age&nbsp;&nbsp;=&nbsp;40.<br />
+*line-weight&nbsp;=&nbsp;'95.00'.<br />
+*&nbsp;line-land&nbsp;=&nbsp;'DE'.<br />
+*INSERT&nbsp;line&nbsp;INTO&nbsp;TABLE&nbsp;itab.<br />
+*<br />
+**SORT&nbsp;ITAB&nbsp;BY&nbsp;NAME.<br />
+*LOOP&nbsp;AT&nbsp;itab&nbsp;INTO&nbsp;line.<br />
+*&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;line-name,&nbsp;line-age,&nbsp;line-weight,&nbsp;line-land.<br />
+*ENDLOOP.<br />
+*<br />
+*<br />
+**<br />
+*<br />
+*<br />
+*<br />
+*<br />
+*<br />
+*<br />
+*<br />
+*<br />
+*<br />
+*<br />
+*<br />
+****************************INSERT&nbsp;MULTIPLE&nbsp;LINES********************<br />
+*<br />
+*DATA:&nbsp;BEGIN&nbsp;OF&nbsp;line,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col_1&nbsp;TYPE&nbsp;i,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col_2&nbsp;TYPE&nbsp;i,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;line.<br />
+*DATA&nbsp;itab&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;line.<br />
+*DO&nbsp;2&nbsp;TIMES.<br />
+*&nbsp;&nbsp;line-col_1&nbsp;=&nbsp;sy-index.<br />
+*&nbsp;&nbsp;line-col_2&nbsp;=&nbsp;sy-index&nbsp;**&nbsp;2.<br />
+*&nbsp;&nbsp;APPEND&nbsp;line&nbsp;TO&nbsp;itab.<br />
+*ENDDO.<br />
+*LOOP&nbsp;&nbsp;AT&nbsp;itab&nbsp;INTO&nbsp;line.<br />
+*&nbsp;&nbsp;line-col_1&nbsp;=&nbsp;3&nbsp;*&nbsp;sy-tabix.<br />
+*&nbsp;line-col_2&nbsp;=&nbsp;5&nbsp;*&nbsp;sy-tabix.<br />
+*&nbsp;&nbsp;INSERT&nbsp;line&nbsp;INTO&nbsp;itab.<br />
+*ENDLOOP.<br />
+*LOOP&nbsp;AT&nbsp;itab&nbsp;INTO&nbsp;line.<br />
+*&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;sy-tabix,&nbsp;line-col_1,&nbsp;line-col_2.<br />
+*ENDLOOP.<br />
+*<br />
+*<br />
+*<br />
+<br />
+<br />
+*******************Modify***************************************<br />
+*<br />
+*DATA:&nbsp;BEGIN&nbsp;OF&nbsp;line,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col1&nbsp;TYPE&nbsp;i,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col2&nbsp;TYPE&nbsp;i,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;line.<br />
+*<br />
+*DATA&nbsp;itab&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;line.<br />
+*DO&nbsp;3&nbsp;TIMES.<br />
+*&nbsp;&nbsp;line-col1&nbsp;=&nbsp;sy-index.<br />
+*&nbsp;&nbsp;line-col2&nbsp;=&nbsp;sy-index&nbsp;**&nbsp;2.<br />
+*&nbsp;&nbsp;APPEND&nbsp;line&nbsp;TO&nbsp;itab.<br />
+*ENDDO.<br />
+*LOOP&nbsp;AT&nbsp;itab&nbsp;INTO&nbsp;line.<br />
+*&nbsp;&nbsp;IF&nbsp;sy-tabix&nbsp;=&nbsp;2.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;line-col1&nbsp;=&nbsp;sy-tabix&nbsp;*&nbsp;10.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;line-col2&nbsp;=&nbsp;(&nbsp;sy-tabix&nbsp;*&nbsp;10&nbsp;)&nbsp;**&nbsp;2.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;itab&nbsp;FROM&nbsp;line.<br />
+*&nbsp;&nbsp;ENDIF.<br />
+*ENDLOOP.<br />
+*LOOP&nbsp;AT&nbsp;itab&nbsp;INTO&nbsp;line.<br />
+*&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;sy-tabix,&nbsp;line-col1,&nbsp;line-col2.<br />
+*ENDLOOP.<br />
+<br />
+<br />
+<br />
+***************************Delete******************************<br />
+*<br />
+*DATA:&nbsp;BEGIN&nbsp;OF&nbsp;line,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col1&nbsp;TYPE&nbsp;i,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col2&nbsp;TYPE&nbsp;i,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;line.<br />
+*DATA&nbsp;itab&nbsp;LIKE&nbsp;HASHED&nbsp;TABLE&nbsp;OF&nbsp;line&nbsp;WITH&nbsp;UNIQUE&nbsp;KEY&nbsp;col1.<br />
+*DO&nbsp;4&nbsp;TIMES.<br />
+*&nbsp;&nbsp;line-col1&nbsp;=&nbsp;sy-index.<br />
+*&nbsp;&nbsp;line-col2&nbsp;=&nbsp;sy-index&nbsp;**&nbsp;2.<br />
+*&nbsp;&nbsp;INSERT&nbsp;line&nbsp;INTO&nbsp;TABLE&nbsp;itab.<br />
+*ENDDO.<br />
+*line-col1&nbsp;=&nbsp;0.<br />
+*DELETE&nbsp;TABLE&nbsp;itab:&nbsp;FROM&nbsp;line,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH&nbsp;TABLE&nbsp;KEY&nbsp;col1&nbsp;=&nbsp;3.<br />
+*LOOP&nbsp;AT&nbsp;itab&nbsp;INTO&nbsp;line.<br />
+*&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;line-col1,&nbsp;line-col2.<br />
+*ENDLOOP.<br />
+<br />
+<br />
+******************************Collect*******************************<br />
+<br />
+*DATA:&nbsp;BEGIN&nbsp;OF&nbsp;line,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col_1(3)&nbsp;TYPE&nbsp;c,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col_2(2)&nbsp;TYPE&nbsp;n,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col_3&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;i,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;line.<br />
+*<br />
+*DATA&nbsp;itab&nbsp;LIKE&nbsp;SORTED&nbsp;TABLE&nbsp;OF&nbsp;line<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH&nbsp;NON-UNIQUE&nbsp;KEY&nbsp;col_1&nbsp;col_2.<br />
+*<br />
+*line-col_1&nbsp;=&nbsp;'CG'.&nbsp;line-col_2&nbsp;=&nbsp;'12'.&nbsp;line-col_3&nbsp;=&nbsp;3.<br />
+*COLLECT&nbsp;line&nbsp;INTO&nbsp;itab.<br />
+*WRITE&nbsp;/&nbsp;sy-tabix.<br />
+*<br />
+*line-col_1&nbsp;=&nbsp;'TECH'.&nbsp;line-col_2&nbsp;=&nbsp;'34'.&nbsp;line-col_3&nbsp;=&nbsp;5.<br />
+*COLLECT&nbsp;line&nbsp;INTO&nbsp;itab.<br />
+*WRITE&nbsp;/&nbsp;sy-tabix.<br />
+*<br />
+*line-col_1&nbsp;=&nbsp;'CG'.&nbsp;line-col_2&nbsp;=&nbsp;'12'.&nbsp;line-col_3&nbsp;=&nbsp;7.<br />
+*COLLECT&nbsp;line&nbsp;INTO&nbsp;itab.<br />
+*<br />
+*WRITE&nbsp;/&nbsp;sy-tabix.<br />
+*LOOP&nbsp;AT&nbsp;itab&nbsp;INTO&nbsp;line.<br />
+*&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;line-col_1,&nbsp;line-col_2,&nbsp;line-col_3.<br />
+*ENDLOOP.<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+*********************Field&nbsp;SYMBOLES**********<br />
+<br />
+<br />
+*&nbsp;#&nbsp;1<br />
+*&nbsp;&nbsp;DATA&nbsp;:&nbsp;F1(20)&nbsp;TYPE&nbsp;C.<br />
+*<br />
+*&nbsp;&nbsp;FIELD-SYMBOLS&nbsp;&lt;FS&gt;.<br />
+*<br />
+*&nbsp;&nbsp;F1&nbsp;=&nbsp;'Capgemini&nbsp;TECH'.<br />
+*<br />
+*&nbsp;&nbsp;ASSIGN&nbsp;F1&nbsp;TO&nbsp;&lt;FS&gt;.<br />
+*<br />
+*&nbsp;&nbsp;WRITE&nbsp;:&nbsp;&lt;FS&gt;.<br />
+*<br />
+<br />
+<br />
+**----------------------------------<br />
+**&nbsp;#&nbsp;2<br />
+**----------------------------------<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;data:&nbsp;BEGIN&nbsp;OF&nbsp;line,&nbsp;&nbsp;"&nbsp;field&nbsp;string<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col_1&nbsp;TYPE&nbsp;i&nbsp;,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;col_2&nbsp;TYPE&nbsp;i,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;line.<br />
+<br />
+&nbsp;&nbsp;DATA&nbsp;itab&nbsp;LIKE&nbsp;SORTED&nbsp;TABLE&nbsp;OF&nbsp;line&nbsp;WITH&nbsp;UNIQUE&nbsp;KEY&nbsp;col_1.<br />
+&nbsp;&nbsp;FIELD-SYMBOLS&nbsp;&lt;fs&gt;&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;itab.<br />
+<br />
+   </div>
+   <div class="codeComment">
+******&nbsp;&nbsp;sql<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;DO&nbsp;10&nbsp;TIMES.<br />
+&nbsp;&nbsp;&nbsp;line-col_1&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;sy-index.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;line-col_2&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;sy-index.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;line&nbsp;TO&nbsp;itab.<br />
+&nbsp;&nbsp;ENDDO.<br />
+   </div>
+   <div class="codeComment">
+*********&nbsp;&nbsp;10&nbsp;rows<br />
+*********&nbsp;&nbsp;loop&nbsp;at&nbsp;itab&nbsp;INTO&nbsp;wa_tab<br />
+<br />
+**********endloop.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;itab&nbsp;ASSIGNING&nbsp;&lt;fs&gt;&nbsp;INDEX&nbsp;9.<br />
+<br />
+&nbsp;&nbsp;WRITE:&nbsp;&nbsp;&nbsp;sy-subrc,&nbsp;sy-tabix.<br />
+&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;&lt;fs&gt;-col_1,&nbsp;&lt;fs&gt;-col_2.<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;S_MATNR&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>

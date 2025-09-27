@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+<title>Z0730_2</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: Z0730_2</h2>
+<h3> Description: Classical Reports with sub routines</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;Z0730_2<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+report z0730_2 no standard page heading message-id zdwija_msg line-count 25(3).<br />
+<br />
+include <a href ="z0730_2_incl.html">z0730_2_incl</a>. "Declaration of constant parameters.<br />
+<br />
+select-options s_matnr for lv_matnr.<br />
+<br />
+initialization. "event decalaration of variables.<br />
+&nbsp;&nbsp;perform&nbsp;sr1.<br />
+<br />
+at selection-screen on s_matnr. "event for input validation.<br />
+&nbsp;&nbsp;perform&nbsp;sr2.<br />
+<br />
+start-of-selection. "event for query excution that is to be shown in output screen.<br />
+&nbsp;&nbsp;perform&nbsp;sr3.<br />
+<br />
+end-of-selection. "event for output screen display.<br />
+&nbsp;&nbsp;perform&nbsp;sr6.<br />
+<br />
+top-of-page. "event for header.<br />
+&nbsp;&nbsp;perform&nbsp;sr4.<br />
+<br />
+end-of-page. "event for footer.<br />
+&nbsp;&nbsp;perform&nbsp;sr5.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*===============Sub-routines==================<br />
+   </div>
+   <div class="code">
+form sr1 .<br />
+<br />
+&nbsp;&nbsp;s_matnr-high&nbsp;=&nbsp;'100'.<br />
+&nbsp;&nbsp;s_matnr-low&nbsp;=&nbsp;'1'.<br />
+&nbsp;&nbsp;append&nbsp;s_matnr.<br />
+<br />
+endform.<br />
+<br />
+<br />
+form sr2 .<br />
+<br />
+&nbsp;&nbsp;select&nbsp;single&nbsp;matnr&nbsp;into&nbsp;lv_matnr<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;mara<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;where&nbsp;matnr&nbsp;in&nbsp;s_matnr.<br />
+<br />
+&nbsp;&nbsp;if&nbsp;sy-subrc&nbsp;eq&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;message&nbsp;s000.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;I002.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;else.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;E001.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;W003.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;A004.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;message&nbsp;x005.<br />
+&nbsp;&nbsp;endif.<br />
+<br />
+endform.<br />
+<br />
+form sr3 .<br />
+&nbsp;&nbsp;select&nbsp;matnr&nbsp;mbrsh&nbsp;mtart&nbsp;matkl&nbsp;meins&nbsp;brgew&nbsp;ntgew<br />
+&nbsp;&nbsp;into&nbsp;table&nbsp;lt_tab<br />
+&nbsp;&nbsp;from&nbsp;mara<br />
+&nbsp;&nbsp;where&nbsp;matnr&nbsp;in&nbsp;s_matnr.<br />
+endform.<br />
+<br />
+form sr4 .<br />
+<br />
+&nbsp;&nbsp;uline.<br />
+&nbsp;&nbsp;write:/1&nbsp;sy-vline,&nbsp;'Material&nbsp;Number',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;30&nbsp;sy-vline,'Industry&nbsp;Sector',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;50&nbsp;sy-vline,'Mat&nbsp;Type',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;70&nbsp;sy-vline,'mat&nbsp;grp',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;90&nbsp;sy-vline,'base&nbsp;unit&nbsp;of&nbsp;measure',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;110&nbsp;sy-vline,'gross&nbsp;weight',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;130&nbsp;sy-vline,'net&nbsp;weight'.<br />
+&nbsp;&nbsp;uline.<br />
+endform.<br />
+<br />
+form sr5 .<br />
+&nbsp;&nbsp;write:&nbsp;'page.no',sy-pagno,&nbsp;'date',sy-datum,&nbsp;'time',sy-uzeit.<br />
+endform.<br />
+<br />
+form sr6 .<br />
+&nbsp;&nbsp;loop&nbsp;at&nbsp;lt_tab&nbsp;into&nbsp;wa_tab.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;write:&nbsp;/1&nbsp;sy-vline,&nbsp;wa_tab-matnr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;30&nbsp;sy-vline,&nbsp;wa_tab-mbrsh,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;50&nbsp;sy-vline,&nbsp;wa_tab-mtart,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;70&nbsp;sy-vline,wa_tab-matkl,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;90&nbsp;sy-vline,&nbsp;wa_tab-meins,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;110&nbsp;sy-vline,&nbsp;wa_tab-brgew,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;130&nbsp;sy-vline,&nbsp;wa_tab-ntgew.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;uline.<br />
+&nbsp;&nbsp;endloop.<br />
+<br />
+<br />
+&nbsp;&nbsp;data&nbsp;lv_lines&nbsp;type&nbsp;i.<br />
+&nbsp;&nbsp;lv_lines&nbsp;=&nbsp;sy-linct&nbsp;-&nbsp;sy-linno.<br />
+&nbsp;&nbsp;skip&nbsp;lv_lines.<br />
+endform.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;ZDWIJA_MSG<br />
+*000&nbsp;&nbsp;&nbsp;"Records&nbsp;are&nbsp;accessed&nbsp;Successful"<br />
+*005&nbsp;&nbsp;&nbsp;"Exiting"<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 750</td>
+   </tr>
+</table>
+</body>
+</html>
